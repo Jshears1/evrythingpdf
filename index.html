@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iLovePDF - Online PDF Tools for PDF Lovers</title>
+<meta name="description" content="Every tool you need to work with PDFs in one place. Merge, split, compress, convert, rotate, watermark and more. 100% free.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
+    <div class="nav-links">
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="pdf-to-jpg.html">PDF to JPG</a>
+          <a href="jpg-to-pdf.html">JPG to PDF</a>
+          <a href="pdf-to-word.html">PDF to Word</a>
+          <a href="word-to-pdf.html">Word to PDF</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="rotate.html">Rotate PDF</a>
+          <a href="watermark.html">Watermark PDF</a>
+          <a href="page-numbers.html">Page Numbers</a>
+          <a href="protect.html">Protect PDF</a>
+          <a href="unlock.html">Unlock PDF</a>
+          <a href="organize.html">Organize PDF</a>
+          <a href="sign.html">Sign PDF</a>
+          <a href="edit.html">Edit PDF</a>
+        </div>
+      </div>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
+<section class="hero">
+  <h1>Every tool you need to work with PDFs in one place</h1>
+  <p>Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
+</section>
+<div class="cat-filter">
+  <button class="cat-btn active" data-filter="all">All</button>
+  <button class="cat-btn" data-filter="organize">Organize PDF</button>
+  <button class="cat-btn" data-filter="optimize">Optimize PDF</button>
+  <button class="cat-btn" data-filter="convert">Convert PDF</button>
+  <button class="cat-btn" data-filter="edit">Edit PDF</button>
+  <button class="cat-btn" data-filter="security">PDF Security</button>
+</div>
+<section class="tools-section">
+  <div class="tools-grid" id="toolsGrid">
+    
+  <a href="merge.html" class="tool-card" data-cat="organize">
+    <div class="card-icon" style="background:#fdecea;color:#e74c3c">🔗</div>
+    <h3>Merge PDF</h3>
+    <p>Combine PDFs in the order you want with the easiest PDF merger available.</p>
+  </a>
+  <a href="split.html" class="tool-card" data-cat="organize">
+    <div class="card-icon" style="background:#fdecea;color:#e74c3c">✂️</div>
+    <h3>Split PDF</h3>
+    <p>Separate one page or a whole set for easy conversion into independent PDF files.</p>
+  </a>
+  <a href="compress.html" class="tool-card" data-cat="optimize">
+    <div class="card-icon" style="background:#eafaf1;color:#27ae60">🗜️</div>
+    <h3>Compress PDF</h3>
+    <p>Reduce file size while optimizing for maximal PDF quality.</p>
+  </a>
+  <a href="pdf-to-jpg.html" class="tool-card" data-cat="convert">
+    <div class="card-icon" style="background:#fef9e7;color:#f39c12">🖼️</div>
+    <h3>PDF to JPG</h3>
+    <p>Convert each PDF page into a JPG or extract all images contained in a PDF.</p>
+  </a>
+  <a href="jpg-to-pdf.html" class="tool-card" data-cat="convert">
+    <div class="card-icon" style="background:#fef9e7;color:#f39c12">📷</div>
+    <h3>JPG to PDF</h3>
+    <p>Convert JPG images to PDF in seconds. Easily adjust orientation and margins.</p>
+  </a>
+  <a href="pdf-to-word.html" class="tool-card" data-cat="convert">
+    <div class="card-icon" style="background:#eaf4fc;color:#2980b9">📝</div>
+    <h3>PDF to Word</h3>
+    <p>Easily convert your PDF files into easy to edit DOC and DOCX documents.</p>
+  </a>
+  <a href="word-to-pdf.html" class="tool-card" data-cat="convert">
+    <div class="card-icon" style="background:#eaf4fc;color:#2980b9">📄</div>
+    <h3>Word to PDF</h3>
+    <p>Make DOC and DOCX files easy to read by converting them to PDF.</p>
+  </a>
+  <a href="edit.html" class="tool-card" data-cat="edit">
+    <div class="card-icon" style="background:#f4ecf7;color:#8e44ad">✏️</div>
+    <h3>Edit PDF</h3>
+    <p>Add text, images, shapes or freehand annotations to a PDF document. Edit size, font, and color.</p>
+  </a>
+  <a href="rotate.html" class="tool-card" data-cat="organize">
+    <div class="card-icon" style="background:#e8f8f5;color:#16a085">🔄</div>
+    <h3>Rotate PDF</h3>
+    <p>Rotate your PDFs the way you need them. You can even rotate multiple PDFs at once.</p>
+  </a>
+  <a href="watermark.html" class="tool-card" data-cat="edit">
+    <div class="card-icon" style="background:#f4ecf7;color:#8e44ad">💧</div>
+    <h3>Watermark PDF</h3>
+    <p>Stamp an image or text over your PDF in seconds. Choose the typography, transparency and position.</p>
+  </a>
+  <a href="page-numbers.html" class="tool-card" data-cat="edit">
+    <div class="card-icon" style="background:#f4ecf7;color:#8e44ad">🔢</div>
+    <h3>Page Numbers</h3>
+    <p>Add page numbers into PDFs with ease. Choose your positions, dimensions, and typography.</p>
+  </a>
+  <a href="protect.html" class="tool-card" data-cat="security">
+    <div class="card-icon" style="background:#fdecea;color:#e74c3c">🔒</div>
+    <h3>Protect PDF</h3>
+    <p>Protect PDF files with a password. Encrypt PDF documents to prevent unauthorized access.</p>
+  </a>
+  <a href="unlock.html" class="tool-card" data-cat="security">
+    <div class="card-icon" style="background:#fdecea;color:#e74c3c">🔓</div>
+    <h3>Unlock PDF</h3>
+    <p>Remove PDF password security, giving you the freedom to use your PDFs as you want.</p>
+  </a>
+  <a href="organize.html" class="tool-card" data-cat="organize">
+    <div class="card-icon" style="background:#fdecea;color:#e74c3c">📋</div>
+    <h3>Organize PDF</h3>
+    <p>Sort pages of your PDF file however you like. Delete PDF pages or add pages to your document.</p>
+  </a>
+  <a href="sign.html" class="tool-card" data-cat="edit">
+    <div class="card-icon" style="background:#eaf4fc;color:#2980b9">✍️</div>
+    <h3>Sign PDF</h3>
+    <p>Draw, type or upload your signature. Place it anywhere on your PDF document.</p>
+  </a>
+  <a href="pdf-to-png.html" class="tool-card" data-cat="convert">
+    <div class="card-icon" style="background:#fef9e7;color:#f39c12">🖼</div>
+    <h3>PDF to PNG</h3>
+    <p>Convert each PDF page into a high-quality PNG image instantly.</p>
+  </a>
+  </div>
+</section>
+<div class="ad-block" style="max-width:1200px;margin:0 auto 16px;padding:0 24px">
+  <!-- Google AdSense: Replace with your ad unit -->
+  <span>Advertisement</span>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <a href="edit.html">Edit PDF</a>
+      <a href="pdf-to-jpg.html">PDF to JPG</a>
+      <a href="jpg-to-pdf.html">JPG to PDF</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
+  </div>
+</footer>
+<script>
+  // Category filter
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.tool-card').forEach(card => {
+        card.style.display = (filter === 'all' || card.dataset.cat === filter) ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

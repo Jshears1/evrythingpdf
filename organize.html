@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organize PDF - iLovePDF</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="tool-page">
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
+    <div class="nav-links">
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="pdf-to-jpg.html">PDF to JPG</a>
+          <a href="jpg-to-pdf.html">JPG to PDF</a>
+          <a href="pdf-to-word.html">PDF to Word</a>
+          <a href="word-to-pdf.html">Word to PDF</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="rotate.html">Rotate PDF</a>
+          <a href="watermark.html">Watermark PDF</a>
+          <a href="page-numbers.html">Page Numbers</a>
+          <a href="protect.html">Protect PDF</a>
+          <a href="unlock.html">Unlock PDF</a>
+          <a href="organize.html">Organize PDF</a>
+          <a href="sign.html">Sign PDF</a>
+          <a href="edit.html">Edit PDF</a>
+        </div>
+      </div>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
+<div class="tool-hero" id="uploadZone">
+  <h1>Organize PDF</h1>
+  <p>Sort pages of your PDF file however you like. Delete or reorder pages easily.</p>
+  <div class="upload-area">
+    <button class="select-btn" id="selectBtn">Select PDF files</button>
+    <input type="file" id="fileInput" accept=".pdf"  hidden>
+  </div>
+  <p class="drop-hint">or drop files here</p>
+  <div class="error-box" id="errorBox"></div>
+</div>
+<div class="tool-body hidden" id="toolBody">
+  <div class="ad-block"><!-- AdSense placeholder --><span>Advertisement</span></div>
+  <div class="file-list" id="fileList"></div>
+  <div class="options-panel">
+  <h3>Page Thumbnails - Drag to reorder, click ✕ to delete</h3>
+  <div id="previewGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;min-height:80px"></div>
+</div>
+  <div class="progress-wrap hidden" id="progressWrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">Processing...</div>
+  </div>
+  <div class="success-box hidden" id="successBox">
+    <div class="success-icon">✅</div>
+    <h2>Done!</h2>
+    <p id="successMsg">Your file is ready.</p>
+    <a href="#" class="dl-btn" id="dlBtn">Download</a>
+    <button class="again-btn" onclick="location.reload()">Process another file</button>
+  </div>
+</div>
+<div class="action-bar hidden" id="actionBar">
+  <span class="action-bar-left" id="actionBarInfo">0 files selected</span>
+  <div style="display:flex;gap:12px;align-items:center">
+    <button class="add-more-btn" id="addMoreBtn">+ Add more files</button>
+    <button class="action-btn" id="actionBtn">Save Organized PDF</button>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <a href="edit.html">Edit PDF</a>
+      <a href="pdf-to-jpg.html">PDF to JPG</a>
+      <a href="jpg-to-pdf.html">JPG to PDF</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
+  </div>
+</footer>
+<script src="shared.js"></script>
+<script>
+
+let file = null;
+let pdfDoc = null;
+let pageOrder = [];
+const fileInput = document.getElementById('fileInput');
+const selectBtn = document.getElementById('selectBtn');
+const fileList = document.getElementById('fileList');
+const toolBody = document.getElementById('toolBody');
+const actionBar = document.getElementById('actionBar');
+const actionBtn = document.getElementById('actionBtn');
+const progressWrap = document.getElementById('progressWrap');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const successBox = document.getElementById('successBox');
+const errorBox = document.getElementById('errorBox');
+const uploadZone = document.getElementById('uploadZone');
+const previewGrid = document.getElementById('previewGrid');
+function showErr(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
+function hideErr() { errorBox.style.display = 'none'; }
+
+async function setFile(f) {
+  if (!f.name.toLowerCase().endsWith('.pdf')) { showErr('Please select a valid PDF file.'); return; }
+  hideErr(); file = f; fileList.innerHTML = '';
+  fileList.appendChild(makeFileItem(f, () => { file = null; toolBody.classList.add('hidden'); actionBar.classList.add('hidden'); previewGrid.innerHTML = ''; }));
+  toolBody.classList.remove('hidden'); actionBar.classList.remove('hidden');
+  document.getElementById('actionBarInfo').textContent = '1 file selected'; fileInput.value = '';
+  // Render page thumbnails
+  previewGrid.innerHTML = '<p style="color:#aaa">Loading page thumbnails...</p>';
+  const pdfjs = await getPDFJS();
+  const buf = await readAsBuffer(f);
+  pdfDoc = await pdfjs.getDocument({ data: buf }).promise;
+  const total = pdfDoc.numPages;
+  pageOrder = Array.from({length: total}, (_, i) => i + 1);
+  previewGrid.innerHTML = '';
+  for (let i = 1; i <= total; i++) {
+    const page = await pdfDoc.getPage(i);
+    const vp = page.getViewport({ scale: 0.5 });
+    const canvas = document.createElement('canvas');
+    canvas.width = vp.width; canvas.height = vp.height;
+    await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+    const card = document.createElement('div');
+    card.style.cssText = 'text-align:center;background:white;border-radius:8px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);cursor:grab;position:relative';
+    card.dataset.pageNum = i;
+    card.draggable = true;
+    const del = document.createElement('button');
+    del.textContent = '✕';
+    del.style.cssText = 'position:absolute;top:4px;right:4px;background:#e8212b;color:white;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;line-height:1';
+    del.onclick = () => { pageOrder.splice(pageOrder.indexOf(parseInt(card.dataset.pageNum)), 1); card.remove(); };
+    card.appendChild(canvas);
+    card.appendChild(del);
+    const label = document.createElement('div');
+    label.style.cssText = 'font-size:0.75rem;color:#888;margin-top:6px';
+    label.textContent = 'Page ' + i;
+    card.appendChild(label);
+    previewGrid.appendChild(card);
+  }
+  // Simple drag-to-reorder
+  let dragSrc = null;
+  previewGrid.addEventListener('dragstart', e => { dragSrc = e.target.closest('[data-page-num]'); });
+  previewGrid.addEventListener('dragover', e => { e.preventDefault(); const t = e.target.closest('[data-page-num]'); if (t && t !== dragSrc) t.style.outline = '2px solid #e8212b'; });
+  previewGrid.addEventListener('dragleave', e => { const t = e.target.closest('[data-page-num]'); if (t) t.style.outline = ''; });
+  previewGrid.addEventListener('drop', e => {
+    e.preventDefault();
+    const t = e.target.closest('[data-page-num]');
+    if (t && t !== dragSrc) {
+      t.style.outline = '';
+      previewGrid.insertBefore(dragSrc, t);
+    }
+  });
+}
+
+selectBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => { if (e.target.files[0]) setFile(e.target.files[0]); });
+setupDrop(uploadZone, files => { if (files[0]) setFile(files[0]); });
+
+actionBtn.addEventListener('click', async () => {
+  if (!file) return;
+  actionBtn.disabled = true; progressWrap.classList.remove('hidden');
+  try {
+    const { PDFDocument } = await getPDFLib();
+    const buf = await readAsBuffer(file);
+    const srcDoc = await PDFDocument.load(buf);
+    const newDoc = await PDFDocument.create();
+    // Get current order from DOM
+    const cards = Array.from(previewGrid.querySelectorAll('[data-page-num]'));
+    const order = cards.map(c => parseInt(c.dataset.pageNum) - 1);
+    showProgress(null, progressFill, progressText, 40, 'Reorganizing pages...');
+    const pages = await newDoc.copyPages(srcDoc, order);
+    pages.forEach(p => newDoc.addPage(p));
+    const bytes = await newDoc.save();
+    showProgress(null, progressFill, progressText, 100, 'Done!');
+    progressWrap.classList.add('hidden'); successBox.classList.remove('hidden'); actionBar.classList.add('hidden');
+    document.getElementById('successMsg').textContent = 'PDF reorganized with ' + order.length + ' pages.';
+    document.getElementById('dlBtn').onclick = () => downloadBytes(bytes, 'organized-' + Date.now() + '.pdf', 'application/pdf');
+  } catch(err) { showErr('Error: ' + err.message); actionBtn.disabled = false; progressWrap.classList.add('hidden'); }
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merge PDF files - iLovePDF</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="tool-page">
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
+    <div class="nav-links">
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="pdf-to-jpg.html">PDF to JPG</a>
+          <a href="jpg-to-pdf.html">JPG to PDF</a>
+          <a href="pdf-to-word.html">PDF to Word</a>
+          <a href="word-to-pdf.html">Word to PDF</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="rotate.html">Rotate PDF</a>
+          <a href="watermark.html">Watermark PDF</a>
+          <a href="page-numbers.html">Page Numbers</a>
+          <a href="protect.html">Protect PDF</a>
+          <a href="unlock.html">Unlock PDF</a>
+          <a href="organize.html">Organize PDF</a>
+          <a href="sign.html">Sign PDF</a>
+          <a href="edit.html">Edit PDF</a>
+        </div>
+      </div>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
+<div class="tool-hero" id="uploadZone">
+  <h1>Merge PDF files</h1>
+  <p>Combine PDFs in the order you want with the easiest PDF merger available.</p>
+  <div class="upload-area">
+    <button class="select-btn" id="selectBtn">Select PDF files</button>
+    <input type="file" id="fileInput" accept=".pdf" multiple hidden>
+  </div>
+  <p class="drop-hint">or drop files here</p>
+  <div class="error-box" id="errorBox"></div>
+</div>
+<div class="tool-body hidden" id="toolBody">
+  <div class="ad-block"><!-- AdSense placeholder --><span>Advertisement</span></div>
+  <div class="file-list" id="fileList"></div>
+  
+  <div class="progress-wrap hidden" id="progressWrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">Processing...</div>
+  </div>
+  <div class="success-box hidden" id="successBox">
+    <div class="success-icon">✅</div>
+    <h2>Done!</h2>
+    <p id="successMsg">Your file is ready.</p>
+    <a href="#" class="dl-btn" id="dlBtn">Download</a>
+    <button class="again-btn" onclick="location.reload()">Process another file</button>
+  </div>
+</div>
+<div class="action-bar hidden" id="actionBar">
+  <span class="action-bar-left" id="actionBarInfo">0 files selected</span>
+  <div style="display:flex;gap:12px;align-items:center">
+    <button class="add-more-btn" id="addMoreBtn">+ Add more files</button>
+    <button class="action-btn" id="actionBtn">Merge PDF</button>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <a href="edit.html">Edit PDF</a>
+      <a href="pdf-to-jpg.html">PDF to JPG</a>
+      <a href="jpg-to-pdf.html">JPG to PDF</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
+  </div>
+</footer>
+<script src="shared.js"></script>
+<script>
+
+let files = [];
+
+const fileInput = document.getElementById('fileInput');
+const selectBtn = document.getElementById('selectBtn');
+const addMoreBtn = document.getElementById('addMoreBtn');
+const fileList = document.getElementById('fileList');
+const toolBody = document.getElementById('toolBody');
+const actionBar = document.getElementById('actionBar');
+const actionBtn = document.getElementById('actionBtn');
+const actionBarInfo = document.getElementById('actionBarInfo');
+const progressWrap = document.getElementById('progressWrap');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const successBox = document.getElementById('successBox');
+const dlBtn = document.getElementById('dlBtn');
+const errorBox = document.getElementById('errorBox');
+const uploadZone = document.getElementById('uploadZone');
+
+function showErr(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
+function hideErr() { errorBox.style.display = 'none'; }
+
+function refreshUI() {
+  actionBarInfo.textContent = files.length + ' file' + (files.length !== 1 ? 's' : '') + ' selected';
+  fileInput.value = '';
+}
+
+function addFiles(newFiles) {
+  const pdfs = Array.from(newFiles).filter(f => f.name.toLowerCase().endsWith('.pdf'));
+  if (!pdfs.length) { showErr('Please select valid PDF files.'); return; }
+  hideErr();
+  pdfs.forEach(f => {
+    files.push(f);
+    const item = makeFileItem(f, () => { files.splice(files.indexOf(f), 1); refreshUI(); if(!files.length) { toolBody.classList.add('hidden'); actionBar.classList.add('hidden'); } });
+    fileList.appendChild(item);
+  });
+  toolBody.classList.remove('hidden');
+  actionBar.classList.remove('hidden');
+  refreshUI();
+}
+
+selectBtn.addEventListener('click', () => fileInput.click());
+addMoreBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => addFiles(e.target.files));
+setupDrop(uploadZone, addFiles);
+setupDrop(document.body, addFiles);
+
+actionBtn.addEventListener('click', async () => {
+  if (files.length < 2) { showErr('Please add at least 2 PDF files to merge.'); return; }
+  actionBtn.disabled = true;
+  progressWrap.classList.remove('hidden');
+  showProgress(null, progressFill, progressText, 10, 'Loading pdf-lib...');
+  try {
+    const { PDFDocument } = await getPDFLib();
+    const merged = await PDFDocument.create();
+    for (let i = 0; i < files.length; i++) {
+      showProgress(null, progressFill, progressText, 20 + (i/files.length)*60, 'Merging file ' + (i+1) + ' of ' + files.length + '...');
+      const buf = await readAsBuffer(files[i]);
+      const src = await PDFDocument.load(buf);
+      const pages = await merged.copyPages(src, src.getPageIndices());
+      pages.forEach(p => merged.addPage(p));
+    }
+    showProgress(null, progressFill, progressText, 90, 'Finalizing...');
+    const bytes = await merged.save();
+    showProgress(null, progressFill, progressText, 100, 'Done!');
+    progressWrap.classList.add('hidden');
+    successBox.classList.remove('hidden');
+    actionBar.classList.add('hidden');
+    document.getElementById('successMsg').textContent = 'Merged ' + files.length + ' files into one PDF.';
+    dlBtn.onclick = () => downloadBytes(bytes, 'merged-' + Date.now() + '.pdf', 'application/pdf');
+  } catch(err) {
+    showErr('Error: ' + err.message);
+    actionBtn.disabled = false;
+    progressWrap.classList.add('hidden');
+  }
+});
+
+</script>
+</body>
+</html>

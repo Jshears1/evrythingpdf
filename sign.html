@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign PDF - iLovePDF</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="tool-page">
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
+    <div class="nav-links">
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="pdf-to-jpg.html">PDF to JPG</a>
+          <a href="jpg-to-pdf.html">JPG to PDF</a>
+          <a href="pdf-to-word.html">PDF to Word</a>
+          <a href="word-to-pdf.html">Word to PDF</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="rotate.html">Rotate PDF</a>
+          <a href="watermark.html">Watermark PDF</a>
+          <a href="page-numbers.html">Page Numbers</a>
+          <a href="protect.html">Protect PDF</a>
+          <a href="unlock.html">Unlock PDF</a>
+          <a href="organize.html">Organize PDF</a>
+          <a href="sign.html">Sign PDF</a>
+          <a href="edit.html">Edit PDF</a>
+        </div>
+      </div>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
+<div class="tool-hero" id="uploadZone">
+  <h1>Sign PDF</h1>
+  <p>Draw, type or upload your signature. Place it anywhere on your PDF document.</p>
+  <div class="upload-area">
+    <button class="select-btn" id="selectBtn">Select PDF files</button>
+    <input type="file" id="fileInput" accept=".pdf"  hidden>
+  </div>
+  <p class="drop-hint">or drop files here</p>
+  <div class="error-box" id="errorBox"></div>
+</div>
+<div class="tool-body hidden" id="toolBody">
+  <div class="ad-block"><!-- AdSense placeholder --><span>Advertisement</span></div>
+  <div class="file-list" id="fileList"></div>
+  <div class="options-panel">
+  <h3>Draw Your Signature</h3>
+  <canvas id="sigCanvas" width="600" height="180" style="border:1.5px solid #ddd;border-radius:8px;background:white;touch-action:none;width:100%;max-width:600px;cursor:crosshair;display:block"></canvas>
+  <div style="margin-top:10px">
+    <button id="clearSig" class="add-more-btn">Clear Signature</button>
+  </div>
+  <p style="font-size:0.8rem;color:#aaa;margin-top:8px">Signature will be placed at the bottom-right of the last page.</p>
+</div>
+  <div class="progress-wrap hidden" id="progressWrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">Processing...</div>
+  </div>
+  <div class="success-box hidden" id="successBox">
+    <div class="success-icon">✅</div>
+    <h2>Done!</h2>
+    <p id="successMsg">Your file is ready.</p>
+    <a href="#" class="dl-btn" id="dlBtn">Download</a>
+    <button class="again-btn" onclick="location.reload()">Process another file</button>
+  </div>
+</div>
+<div class="action-bar hidden" id="actionBar">
+  <span class="action-bar-left" id="actionBarInfo">0 files selected</span>
+  <div style="display:flex;gap:12px;align-items:center">
+    <button class="add-more-btn" id="addMoreBtn">+ Add more files</button>
+    <button class="action-btn" id="actionBtn">Apply Signature</button>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <a href="edit.html">Edit PDF</a>
+      <a href="pdf-to-jpg.html">PDF to JPG</a>
+      <a href="jpg-to-pdf.html">JPG to PDF</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
+  </div>
+</footer>
+<script src="shared.js"></script>
+<script>
+
+let file = null;
+let signaturePad = null;
+const fileInput = document.getElementById('fileInput');
+const selectBtn = document.getElementById('selectBtn');
+const fileList = document.getElementById('fileList');
+const toolBody = document.getElementById('toolBody');
+const actionBar = document.getElementById('actionBar');
+const actionBtn = document.getElementById('actionBtn');
+const progressWrap = document.getElementById('progressWrap');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const successBox = document.getElementById('successBox');
+const errorBox = document.getElementById('errorBox');
+const uploadZone = document.getElementById('uploadZone');
+function showErr(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
+function hideErr() { errorBox.style.display = 'none'; }
+function setFile(f) {
+  if (!f.name.toLowerCase().endsWith('.pdf')) { showErr('Please select a valid PDF file.'); return; }
+  hideErr(); file = f; fileList.innerHTML = '';
+  fileList.appendChild(makeFileItem(f, () => { file = null; toolBody.classList.add('hidden'); actionBar.classList.add('hidden'); }));
+  toolBody.classList.remove('hidden'); actionBar.classList.remove('hidden');
+  document.getElementById('actionBarInfo').textContent = '1 file selected'; fileInput.value = '';
+  initSignaturePad();
+}
+selectBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => { if (e.target.files[0]) setFile(e.target.files[0]); });
+setupDrop(uploadZone, files => { if (files[0]) setFile(files[0]); });
+
+function initSignaturePad() {
+  // Load signature_pad
+  if (window.SignaturePad) { setupPad(); return; }
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.1.7/signature_pad.umd.min.js';
+  s.onload = setupPad;
+  document.head.appendChild(s);
+}
+function setupPad() {
+  const canvas = document.getElementById('sigCanvas');
+  if (!canvas) return;
+  signaturePad = new SignaturePad(canvas, { backgroundColor: 'rgb(255,255,255)' });
+}
+document.getElementById('clearSig')?.addEventListener('click', () => signaturePad?.clear());
+
+actionBtn.addEventListener('click', async () => {
+  if (!file) return;
+  if (!signaturePad || signaturePad.isEmpty()) { showErr('Please draw your signature first.'); return; }
+  actionBtn.disabled = true; progressWrap.classList.remove('hidden');
+  try {
+    const sigDataUrl = signaturePad.toDataURL('image/png');
+    const sigBase64 = sigDataUrl.split(',')[1];
+    const sigBytes = Uint8Array.from(atob(sigBase64), c => c.charCodeAt(0));
+    showProgress(null, progressFill, progressText, 20, 'Loading pdf-lib...');
+    const { PDFDocument } = await getPDFLib();
+    const buf = await readAsBuffer(file);
+    const doc = await PDFDocument.load(buf);
+    const sigImg = await doc.embedPng(sigBytes);
+    showProgress(null, progressFill, progressText, 60, 'Adding signature...');
+    const pages = doc.getPages();
+    const firstPage = pages[pages.length - 1];
+    const { width, height } = firstPage.getSize();
+    const sigW = 180, sigH = 70;
+    firstPage.drawImage(sigImg, { x: width - sigW - 40, y: 40, width: sigW, height: sigH });
+    const bytes = await doc.save();
+    showProgress(null, progressFill, progressText, 100, 'Done!');
+    progressWrap.classList.add('hidden'); successBox.classList.remove('hidden'); actionBar.classList.add('hidden');
+    document.getElementById('successMsg').textContent = 'Signature added to the last page of the PDF.';
+    document.getElementById('dlBtn').onclick = () => downloadBytes(bytes, 'signed-' + Date.now() + '.pdf', 'application/pdf');
+  } catch(err) { showErr('Error: ' + err.message); actionBtn.disabled = false; progressWrap.classList.add('hidden'); }
+});
+
+</script>
+</body>
+</html>

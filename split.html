@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Split PDF files - iLovePDF</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="tool-page">
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
+    <div class="nav-links">
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="pdf-to-jpg.html">PDF to JPG</a>
+          <a href="jpg-to-pdf.html">JPG to PDF</a>
+          <a href="pdf-to-word.html">PDF to Word</a>
+          <a href="word-to-pdf.html">Word to PDF</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
+        <div class="nav-drop-menu">
+          <a href="rotate.html">Rotate PDF</a>
+          <a href="watermark.html">Watermark PDF</a>
+          <a href="page-numbers.html">Page Numbers</a>
+          <a href="protect.html">Protect PDF</a>
+          <a href="unlock.html">Unlock PDF</a>
+          <a href="organize.html">Organize PDF</a>
+          <a href="sign.html">Sign PDF</a>
+          <a href="edit.html">Edit PDF</a>
+        </div>
+      </div>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
+<div class="tool-hero" id="uploadZone">
+  <h1>Split PDF files</h1>
+  <p>Separate one page or a whole set for easy conversion into independent PDF files.</p>
+  <div class="upload-area">
+    <button class="select-btn" id="selectBtn">Select PDF files</button>
+    <input type="file" id="fileInput" accept=".pdf"  hidden>
+  </div>
+  <p class="drop-hint">or drop files here</p>
+  <div class="error-box" id="errorBox"></div>
+</div>
+<div class="tool-body hidden" id="toolBody">
+  <div class="ad-block"><!-- AdSense placeholder --><span>Advertisement</span></div>
+  <div class="file-list" id="fileList"></div>
+  <div class="options-panel">
+  <h3>Split Mode</h3>
+  <div class="option-group">
+    <button class="option-chip active" data-mode="all">Extract all pages</button>
+    <button class="option-chip" data-mode="range">Custom page range</button>
+  </div>
+  <div id="rangeGroup" style="display:none;margin-top:16px">
+    <label style="font-size:0.875rem;font-weight:600;display:block;margin-bottom:6px">Pages (e.g. 1, 3-5, 7)</label>
+    <input id="pageRange" type="text" placeholder="1-3, 5, 7-9" style="width:100%;max-width:300px;padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:0.9rem">
+  </div>
+</div>
+  <div class="progress-wrap hidden" id="progressWrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">Processing...</div>
+  </div>
+  <div class="success-box hidden" id="successBox">
+    <div class="success-icon">✅</div>
+    <h2>Done!</h2>
+    <p id="successMsg">Your file is ready.</p>
+    <a href="#" class="dl-btn" id="dlBtn">Download</a>
+    <button class="again-btn" onclick="location.reload()">Process another file</button>
+  </div>
+</div>
+<div class="action-bar hidden" id="actionBar">
+  <span class="action-bar-left" id="actionBarInfo">0 files selected</span>
+  <div style="display:flex;gap:12px;align-items:center">
+    <button class="add-more-btn" id="addMoreBtn">+ Add more files</button>
+    <button class="action-btn" id="actionBtn">Split PDF</button>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <a href="edit.html">Edit PDF</a>
+      <a href="pdf-to-jpg.html">PDF to JPG</a>
+      <a href="jpg-to-pdf.html">JPG to PDF</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
+  </div>
+</footer>
+<script src="shared.js"></script>
+<script>
+
+let file = null;
+const fileInput = document.getElementById('fileInput');
+const selectBtn = document.getElementById('selectBtn');
+const fileList = document.getElementById('fileList');
+const toolBody = document.getElementById('toolBody');
+const actionBar = document.getElementById('actionBar');
+const actionBtn = document.getElementById('actionBtn');
+const progressWrap = document.getElementById('progressWrap');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const successBox = document.getElementById('successBox');
+const errorBox = document.getElementById('errorBox');
+const uploadZone = document.getElementById('uploadZone');
+
+function showErr(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
+function hideErr() { errorBox.style.display = 'none'; }
+
+function setFile(f) {
+  if (!f.name.toLowerCase().endsWith('.pdf')) { showErr('Please select a valid PDF file.'); return; }
+  hideErr(); file = f; fileList.innerHTML = '';
+  fileList.appendChild(makeFileItem(f, () => { file = null; toolBody.classList.add('hidden'); actionBar.classList.add('hidden'); }));
+  toolBody.classList.remove('hidden');
+  actionBar.classList.remove('hidden');
+  document.getElementById('actionBarInfo').textContent = '1 file selected';
+  fileInput.value = '';
+}
+
+selectBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => { if (e.target.files[0]) setFile(e.target.files[0]); });
+setupDrop(uploadZone, files => { if (files[0]) setFile(files[0]); });
+
+actionBtn.addEventListener('click', async () => {
+  if (!file) return;
+  actionBtn.disabled = true;
+  progressWrap.classList.remove('hidden');
+  try {
+    const mode = document.querySelector('.option-chip.active')?.dataset.mode || 'all';
+    const { PDFDocument } = await getPDFLib();
+    showProgress(null, progressFill, progressText, 20, 'Loading PDF...');
+    const buf = await readAsBuffer(file);
+    const srcDoc = await PDFDocument.load(buf);
+    const total = srcDoc.getPageCount();
+
+    if (mode === 'all') {
+      // Split each page into separate PDF
+      showProgress(null, progressFill, progressText, 40, 'Splitting into ' + total + ' pages...');
+      const results = [];
+      for (let i = 0; i < total; i++) {
+        const newDoc = await PDFDocument.create();
+        const [pg] = await newDoc.copyPages(srcDoc, [i]);
+        newDoc.addPage(pg);
+        const bytes = await newDoc.save();
+        results.push({ bytes, name: 'page-' + (i+1) + '.pdf' });
+        showProgress(null, progressFill, progressText, 40 + (i/total)*50, 'Processing page ' + (i+1) + '...');
+      }
+      showProgress(null, progressFill, progressText, 100, 'Done!');
+      progressWrap.classList.add('hidden');
+      successBox.classList.remove('hidden');
+      actionBar.classList.add('hidden');
+      document.getElementById('successMsg').textContent = 'Split into ' + total + ' separate PDFs. Downloading all...';
+      const dlBtn = document.getElementById('dlBtn');
+      dlBtn.style.display = 'none';
+      // Download all pages
+      for (let r of results) {
+        await new Promise(res => setTimeout(res, 200));
+        downloadBytes(r.bytes, r.name, 'application/pdf');
+      }
+    } else {
+      // Extract range
+      const rangeVal = document.getElementById('pageRange')?.value || '1';
+      const pages = parsePageRange(rangeVal, total);
+      if (!pages.length) { showErr('Invalid page range.'); actionBtn.disabled = false; progressWrap.classList.add('hidden'); return; }
+      const newDoc = await PDFDocument.create();
+      const copied = await newDoc.copyPages(srcDoc, pages.map(p => p-1));
+      copied.forEach(p => newDoc.addPage(p));
+      const bytes = await newDoc.save();
+      showProgress(null, progressFill, progressText, 100, 'Done!');
+      progressWrap.classList.add('hidden');
+      successBox.classList.remove('hidden');
+      actionBar.classList.add('hidden');
+      document.getElementById('successMsg').textContent = 'Extracted ' + pages.length + ' page(s).';
+      document.getElementById('dlBtn').onclick = () => downloadBytes(bytes, 'split-' + Date.now() + '.pdf', 'application/pdf');
+    }
+  } catch(err) {
+    showErr('Error: ' + err.message);
+    actionBtn.disabled = false;
+    progressWrap.classList.add('hidden');
+  }
+});
+
+function parsePageRange(str, total) {
+  const pages = new Set();
+  str.split(',').forEach(part => {
+    part = part.trim();
+    if (part.includes('-')) {
+      const [a, b] = part.split('-').map(Number);
+      for (let i = a; i <= Math.min(b, total); i++) if (i >= 1) pages.add(i);
+    } else {
+      const n = parseInt(part);
+      if (n >= 1 && n <= total) pages.add(n);
+    }
+  });
+  return Array.from(pages).sort((a,b) => a-b);
+}
+
+// Mode switch
+document.querySelectorAll('.option-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.option-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    document.getElementById('rangeGroup').style.display = chip.dataset.mode === 'range' ? 'block' : 'none';
+  });
+});
+
+</script>
+</body>
+</html>
