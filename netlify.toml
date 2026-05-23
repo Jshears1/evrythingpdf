@@ -1,8 +1,47 @@
 [build]
   publish = "."
 
+[[redirects]]
+  from = "/organize"
+  to = "/reorder"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/edit-pdf"
+  to = "/edit-text"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/edit"
+  to = "/edit-text"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/unlock-pdf"
+  to = "/unlock"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
