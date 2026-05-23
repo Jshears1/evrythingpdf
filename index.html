@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EvrythingPDF – Free Online PDF Tools | Merge, Split, Compress & More</title>
+  <meta name="description" content="Free online PDF tools: merge, split, compress, convert, sign, edit, rotate PDFs and more. No installation needed. Fast, secure, and 100% free.">
+  <meta name="keywords" content="free pdf tools, merge pdf, split pdf, compress pdf, convert pdf, sign pdf, edit pdf, pdf to word, word to pdf, rotate pdf, unlock pdf, pdf editor online">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="EvrythingPDF">
+  <link rel="canonical" href="https://www.evrythingpdf.com/">
+  <!-- Open Graph -->
+  <meta property="og:title" content="EvrythingPDF – Free Online PDF Tools">
+  <meta property="og:description" content="Merge, split, compress, convert, sign and edit PDFs online for free. No signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.evrythingpdf.com/">
+  <meta property="og:image" content="https://www.evrythingpdf.com/og-image.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EvrythingPDF – Free Online PDF Tools">
+  <meta name="twitter:description" content="Merge, split, compress, convert, sign and edit PDFs online for free.">
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "EvrythingPDF",
+    "url": "https://www.evrythingpdf.com",
+    "description": "Free online PDF tools to merge, split, compress, convert, sign and edit PDFs.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {"@type": "Offer","price": "0","priceCurrency": "USD"}
+  }
+  </script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="EvrythingPDF Home">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="8" fill="#e53935"/>
+          <path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/>
+          <path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/>
+          <path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/>
+          <text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text>
+        </svg>
+        <span class="logo-text">EvrythingPDF</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#tools" class="nav-link">Tools</a>
+        <a href="merge.html" class="nav-link">Merge</a>
+        <a href="split.html" class="nav-link">Split</a>
+        <a href="compress.html" class="nav-link">Compress</a>
+        <a href="convert.html" class="nav-link">Convert</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Toggle menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#tools">Tools</a>
+      <a href="merge.html">Merge PDF</a>
+      <a href="split.html">Split PDF</a>
+      <a href="compress.html">Compress PDF</a>
+      <a href="convert.html">Convert PDF</a>
+      <a href="#about">About</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Every PDF Tool You Need,<br><span class="hero-accent">Completely Free</span></h1>
+      <p class="hero-subtitle">Merge, split, compress, convert, rotate, unlock and more — all in your browser. No signup. No watermarks. No limits.</p>
+      <div class="hero-upload" id="heroUpload">
+        <div class="upload-box" id="uploadBox" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="triggerUpload()">
+          <div class="upload-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 4L24 32M24 4L16 12M24 4L32 12" stroke="#e53935" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 36v4a2 2 0 002 2h28a2 2 0 002-2v-4" stroke="#e53935" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <p class="upload-title">Drop your PDF here</p>
+          <p class="upload-sub">or <span class="upload-link">click to browse</span></p>
+          <p class="upload-formats">Supports PDF, DOCX, DOC, PNG, JPG</p>
+          <input type="file" id="mainFileInput" accept=".pdf,.docx,.doc,.png,.jpg,.jpeg" style="display:none" onchange="handleFileSelect(event)">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Banner Top -->
+  <div class="ad-container ad-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Tools Grid -->
+  <section class="tools-section" id="tools">
+    <div class="container">
+      <h2 class="section-title">All PDF Tools</h2>
+      <p class="section-sub">Professional-grade PDF tools, all free and running directly in your browser.</p>
+      <div class="tools-grid">
+        <!-- Organize -->
+        <div class="tool-category">
+          <h3 class="category-title">Organize</h3>
+          <div class="tool-cards">
+            <a href="merge.html" class="tool-card" aria-label="Merge PDF">
+              <div class="tool-icon merge-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6H3v12h5M16 6h5v12h-5M12 3v18M8 8l4-4 4 4M8 16l4 4 4-4"/></svg>
+              </div>
+              <span class="tool-name">Merge PDF</span>
+              <span class="tool-desc">Combine multiple PDFs</span>
+            </a>
+            <a href="split.html" class="tool-card" aria-label="Split PDF">
+              <div class="tool-icon split-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M8 8l-4-4-4 4M16 8l4-4 4 4M8 16l-4 4-4-4M16 16l4 4 4-4"/><rect x="2" y="3" width="8" height="18" rx="1"/><rect x="14" y="3" width="8" height="18" rx="1"/></svg>
+              </div>
+              <span class="tool-name">Split PDF</span>
+              <span class="tool-desc">Extract pages from PDF</span>
+            </a>
+            <a href="rotate.html" class="tool-card" aria-label="Rotate PDF">
+              <div class="tool-icon rotate-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+              </div>
+              <span class="tool-name">Rotate PDF</span>
+              <span class="tool-desc">Rotate pages any angle</span>
+            </a>
+            <a href="reorder.html" class="tool-card" aria-label="Reorder Pages">
+              <div class="tool-icon reorder-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="9" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              </div>
+              <span class="tool-name">Reorder Pages</span>
+              <span class="tool-desc">Rearrange PDF pages</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Edit -->
+        <div class="tool-category">
+          <h3 class="category-title">Edit</h3>
+          <div class="tool-cards">
+            <a href="edit-text.html" class="tool-card" aria-label="Edit Text">
+              <div class="tool-icon edit-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </div>
+              <span class="tool-name">Edit Text</span>
+              <span class="tool-desc">Modify PDF text</span>
+            </a>
+            <a href="add-text.html" class="tool-card" aria-label="Add Text">
+              <div class="tool-icon addtext-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              </div>
+              <span class="tool-name">Add Text</span>
+              <span class="tool-desc">Insert text anywhere</span>
+            </a>
+            <a href="add-image.html" class="tool-card" aria-label="Add Image">
+              <div class="tool-icon addimg-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              </div>
+              <span class="tool-name">Add Image</span>
+              <span class="tool-desc">Insert images into PDF</span>
+            </a>
+            <a href="draw.html" class="tool-card" aria-label="Draw on PDF">
+              <div class="tool-icon draw-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+              </div>
+              <span class="tool-name">Draw</span>
+              <span class="tool-desc">Annotate & draw on PDF</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Convert -->
+        <div class="tool-category">
+          <h3 class="category-title">Convert</h3>
+          <div class="tool-cards">
+            <a href="pdf-to-word.html" class="tool-card" aria-label="PDF to Word">
+              <div class="tool-icon convert-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>
+              </div>
+              <span class="tool-name">PDF to Word</span>
+              <span class="tool-desc">Convert PDF to DOCX</span>
+            </a>
+            <a href="word-to-pdf.html" class="tool-card" aria-label="Word to PDF">
+              <div class="tool-icon convert2-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h2l2 4 2-8 2 4h2"/></svg>
+              </div>
+              <span class="tool-name">Word to PDF</span>
+              <span class="tool-desc">Convert DOCX to PDF</span>
+            </a>
+            <a href="pdf-to-jpg.html" class="tool-card" aria-label="PDF to JPG">
+              <div class="tool-icon img-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              </div>
+              <span class="tool-name">PDF to JPG</span>
+              <span class="tool-desc">Extract images from PDF</span>
+            </a>
+            <a href="jpg-to-pdf.html" class="tool-card" aria-label="JPG to PDF">
+              <div class="tool-icon img2-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><rect x="6" y="12" width="6" height="5" rx="1"/><path d="M8 12v-2a2 2 0 114 0v2"/></svg>
+              </div>
+              <span class="tool-name">JPG to PDF</span>
+              <span class="tool-desc">Images to PDF document</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Security -->
+        <div class="tool-category">
+          <h3 class="category-title">Security</h3>
+          <div class="tool-cards">
+            <a href="sign.html" class="tool-card" aria-label="Sign PDF">
+              <div class="tool-icon sign-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
+              </div>
+              <span class="tool-name">Sign PDF</span>
+              <span class="tool-desc">Add your signature</span>
+            </a>
+            <a href="unlock.html" class="tool-card" aria-label="Unlock PDF">
+              <div class="tool-icon unlock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 019.9-1"/></svg>
+              </div>
+              <span class="tool-name">Unlock PDF</span>
+              <span class="tool-desc">Remove PDF passwords</span>
+            </a>
+            <a href="add-password.html" class="tool-card" aria-label="Add Password">
+              <div class="tool-icon lock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              </div>
+              <span class="tool-name">Add Password</span>
+              <span class="tool-desc">Protect your PDF</span>
+            </a>
+            <a href="compress.html" class="tool-card" aria-label="Compress PDF">
+              <div class="tool-icon compress-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/><path d="M3 6l3 3 3-3M15 6l3 3 3-3M3 18l3-3 3 3M15 18l3-3 3 3"/></svg>
+              </div>
+              <span class="tool-name">Compress PDF</span>
+              <span class="tool-desc">Reduce file size</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- More Tools -->
+        <div class="tool-category">
+          <h3 class="category-title">More Tools</h3>
+          <div class="tool-cards">
+            <a href="page-numbers.html" class="tool-card" aria-label="Add Page Numbers">
+              <div class="tool-icon pagenum-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/><circle cx="17" cy="15" r="2"/></svg>
+              </div>
+              <span class="tool-name">Page Numbers</span>
+              <span class="tool-desc">Add numbering to pages</span>
+            </a>
+            <a href="watermark.html" class="tool-card" aria-label="Add Watermark">
+              <div class="tool-icon watermark-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><text x="5" y="16" font-size="8" fill="currentColor" opacity="0.5">DRAFT</text></svg>
+              </div>
+              <span class="tool-name">Watermark</span>
+              <span class="tool-desc">Add text watermarks</span>
+            </a>
+            <a href="pdf-to-word.html" class="tool-card" aria-label="Convert PDF">
+              <div class="tool-icon pdf-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+              </div>
+              <span class="tool-name">Convert</span>
+              <span class="tool-desc">All format conversions</span>
+            </a>
+            <a href="viewer.html" class="tool-card" aria-label="PDF Viewer">
+              <div class="tool-icon viewer-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </div>
+              <span class="tool-name">PDF Viewer</span>
+              <span class="tool-desc">View any PDF online</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Banner Mid -->
+  <div class="ad-container ad-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX" data-ad-slot="0987654321" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="section-title">Why Choose EvrythingPDF?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>100% Secure</h3>
+          <p>All processing happens in your browser. Your files never leave your device.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Lightning Fast</h3>
+          <p>Powered by modern WebAssembly technology for instant processing.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🆓</div>
+          <h3>Always Free</h3>
+          <p>No hidden fees, no watermarks, no signup required. Free forever.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>Works Everywhere</h3>
+          <p>Available on any device — Windows, Mac, Linux, iOS, Android.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>All Formats</h3>
+          <p>Support for PDF, DOCX, DOC, PNG, JPG and more file formats.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3>No Installation</h3>
+          <p>Runs entirely in your browser. No software to download or install.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-section">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Choose Your Tool</h3>
+          <p>Select the PDF tool you need from our comprehensive collection above.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Upload Your File</h3>
+          <p>Drag & drop your PDF or click to browse and select your file.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Process & Download</h3>
+          <p>Click process and instantly download your modified PDF for free.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Tools SEO Section -->
+  <section class="seo-section">
+    <div class="container">
+      <h2 class="section-title">Popular PDF Tools</h2>
+      <div class="seo-grid">
+        <div class="seo-card">
+          <h3><a href="merge.html">Merge PDF Files Online</a></h3>
+          <p>Combine two or more PDF documents into a single file instantly. Our free PDF merger lets you drag and drop files in any order before merging them into one cohesive document.</p>
+        </div>
+        <div class="seo-card">
+          <h3><a href="split.html">Split PDF Online Free</a></h3>
+          <p>Extract specific pages or split your PDF into multiple documents. Choose exact pages, page ranges, or split every page into a separate PDF file with our free tool.</p>
+        </div>
+        <div class="seo-card">
+          <h3><a href="compress.html">Compress PDF File Size</a></h3>
+          <p>Reduce your PDF file size without losing quality. Our intelligent compression algorithm shrinks PDFs by up to 90% while maintaining readability and visual fidelity.</p>
+        </div>
+        <div class="seo-card">
+          <h3><a href="pdf-to-word.html">Convert PDF to Word</a></h3>
+          <p>Transform your PDF documents into fully editable Microsoft Word files. Our converter preserves formatting, fonts, images, and layout with impressive accuracy.</p>
+        </div>
+        <div class="seo-card">
+          <h3><a href="sign.html">Sign PDF Documents Online</a></h3>
+          <p>Add your signature to any PDF document without printing. Draw, type, or upload your signature and place it exactly where you need it on the document.</p>
+        </div>
+        <div class="seo-card">
+          <h3><a href="unlock.html">Unlock Password Protected PDF</a></h3>
+          <p>Remove password protection from PDF files you own. Instantly unlock encrypted PDFs to enable editing, printing, and copying without restrictions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Is EvrythingPDF really free? <span>+</span></button>
+          <div class="faq-a"><p>Yes! All PDF tools on EvrythingPDF are completely free to use. There are no hidden fees, no watermarks on your documents, and no file limits for basic operations. We're supported by non-intrusive advertising.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Is my data safe and private? <span>+</span></button>
+          <div class="faq-a"><p>Absolutely. Most of our tools process files directly in your browser using JavaScript and WebAssembly, meaning your files never leave your device. For server-side tools, files are deleted immediately after processing and are never stored or shared.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Do I need to create an account? <span>+</span></button>
+          <div class="faq-a"><p>No account is required! All tools work without signing up. Simply visit the tool page, upload your file, and download the result. It's that simple.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What file formats are supported? <span>+</span></button>
+          <div class="faq-a"><p>We primarily work with PDF files, but also support DOCX, DOC (Microsoft Word), PNG, JPG, and JPEG formats for conversion tools. More formats are being added regularly.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Are there any file size limits? <span>+</span></button>
+          <div class="faq-a"><p>For browser-based tools, file size is limited only by your device's available memory. For optimal performance, we recommend files under 100MB. Server-side processing tools support files up to 50MB.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Does it work on mobile devices? <span>+</span></button>
+          <div class="faq-a"><p>Yes! EvrythingPDF is fully responsive and works on smartphones and tablets running iOS or Android. The interface adapts to your screen size for a smooth mobile experience.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Banner Bottom -->
+  <div class="ad-container ad-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX" data-ad-slot="1122334455" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" id="about">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg>
+            <span class="logo-text">EvrythingPDF</span>
+          </a>
+          <p class="footer-tagline">Free PDF tools for everyone.<br>Fast, secure, and always free.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="merge.html">Merge PDF</a></li>
+            <li><a href="split.html">Split PDF</a></li>
+            <li><a href="compress.html">Compress PDF</a></li>
+            <li><a href="rotate.html">Rotate PDF</a></li>
+            <li><a href="sign.html">Sign PDF</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Convert</h4>
+          <ul>
+            <li><a href="pdf-to-word.html">PDF to Word</a></li>
+            <li><a href="word-to-pdf.html">Word to PDF</a></li>
+            <li><a href="pdf-to-jpg.html">PDF to JPG</a></li>
+            <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+            <li><a href="convert.html">All Converters</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Security</h4>
+          <ul>
+            <li><a href="unlock.html">Unlock PDF</a></li>
+            <li><a href="add-password.html">Add Password</a></li>
+            <li><a href="sign.html">E-Sign PDF</a></li>
+            <li><a href="watermark.html">Watermark</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 EvrythingPDF.com — Free PDF Tools Online. All rights reserved.</p>
+        <p class="footer-legal">All file processing is performed in your browser. We do not store your files.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

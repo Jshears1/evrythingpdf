@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Watermark to PDF Free Online – EvrythingPDF</title>
+  <meta name="description" content="Add text or image watermarks to PDF documents online for free. Customize position, opacity, size and color. No signup needed.">
+  <meta name="keywords" content="add watermark to pdf, pdf watermark free online, text watermark pdf, stamp pdf">
+  <link rel="canonical" href="https://www.evrythingpdf.com/watermark.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a></nav></div></header>
+  <section class="tool-hero">
+    <h1 class="tool-hero-title">Add Watermark to PDF</h1>
+    <p class="tool-hero-desc">Stamp a text watermark on all pages of your PDF. Customize text, position, rotation and opacity. Free and instant.</p>
+  </section>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <h3>Drop your PDF here</h3>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+    </div>
+    <div id="wmOptions" style="display:none">
+      <div class="options-panel"><h4>Watermark Settings</h4>
+        <div class="option-row"><label class="option-label">Text</label><input type="text" class="option-input" id="wmText" value="CONFIDENTIAL" style="width:240px"></div>
+        <div class="option-row"><label class="option-label">Font size</label><input type="number" class="option-input" id="wmSize" value="48" style="width:80px"></div>
+        <div class="option-row"><label class="option-label">Opacity</label><input type="range" id="wmOpacity" min="0.05" max="0.5" step="0.05" value="0.15" style="width:180px"> <span id="opacityVal">15%</span></div>
+        <div class="option-row"><label class="option-label">Rotation</label>
+          <select class="option-select" id="wmRotation"><option value="45">45°</option><option value="0">0° (horizontal)</option><option value="90">90° (vertical)</option></select>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="addWatermark()">Add Watermark</button>
+        <button class="btn-secondary" onclick="resetWM()">Change File</button>
+      </div>
+    </div>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Processing...</p></div>
+    <div class="result-box" id="resultBox"><h3>✅ Watermark Added!</h3><p>Watermark applied to all pages.</p>
+      <button class="btn-primary" onclick="downloadWM()">⬇ Download Watermarked PDF</button></div>
+  </div>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+  <script src="app.js"></script>
+  <script>
+    let pdfFile=null, wmBytes=null;
+    document.getElementById('wmOpacity').addEventListener('input',function(){document.getElementById('opacityVal').textContent=Math.round(this.value*100)+'%';});
+    initDropZone('dropZone','fileInput',function(files){pdfFile=files[0];document.getElementById('wmOptions').style.display='block';});
+    async function addWatermark(){
+      if(!pdfFile) return;
+      document.getElementById('progressWrapper').style.display='block';
+      const fill=document.getElementById('progressFill'); fill.style.width='30%';
+      try{
+        const {PDFDocument,rgb,degrees,StandardFonts}=PDFLib;
+        const bytes=await pdfFile.arrayBuffer();
+        const doc=await PDFDocument.load(bytes);
+        const font=await doc.embedFont(StandardFonts.HelveticaBold);
+        const text=document.getElementById('wmText').value||'WATERMARK';
+        const size=parseInt(document.getElementById('wmSize').value)||48;
+        const opacity=parseFloat(document.getElementById('wmOpacity').value)||0.15;
+        const rot=parseInt(document.getElementById('wmRotation').value)||45;
+        fill.style.width='60%';
+        doc.getPages().forEach(page=>{
+          const {width,height}=page.getSize();
+          page.drawText(text,{x:width/2-font.widthOfTextAtSize(text,size)/2,y:height/2-size/2,size,font,color:rgb(0.5,0.5,0.5),opacity,rotate:degrees(rot)});
+        });
+        wmBytes=await doc.save(); fill.style.width='100%';
+        document.getElementById('resultBox').style.display='block';
+        showToast('Watermark added!','success');
+      }catch(e){showToast('Error: '+e.message,'error');}
+    }
+    function downloadWM(){
+      const blob=new Blob([wmBytes],{type:'application/pdf'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='watermarked.pdf'; a.click();
+    }
+    function resetWM(){pdfFile=null;wmBytes=null;document.getElementById('wmOptions').style.display='none';document.getElementById('resultBox').style.display='none';}
+  </script>
+</body></html>
