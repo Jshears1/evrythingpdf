@@ -1,179 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Compress PDF files - iLovePDF</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compress PDF – Reduce File Size Free Online – EvrythingPDF</title>
+  <meta name="description" content="Compress PDF files online for free. Reduce PDF file size by up to 90% without losing quality. No signup required. Fast, secure PDF compressor.">
+  <meta name="keywords" content="compress pdf, reduce pdf size, pdf compressor, shrink pdf online free, optimize pdf">
+  <link rel="canonical" href="https://www.evrythingpdf.com/compress.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 </head>
-<body class="tool-page">
-<nav class="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
-    <div class="nav-links">
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="pdf-to-jpg.html">PDF to JPG</a>
-          <a href="jpg-to-pdf.html">JPG to PDF</a>
-          <a href="pdf-to-word.html">PDF to Word</a>
-          <a href="word-to-pdf.html">Word to PDF</a>
-        </div>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a>
+      <nav class="nav"><a href="/" class="nav-link">Home</a><a class='nav-link' href='/merge'>Merge</a><a class='nav-link' href='/split'>Split</a></nav>
+    </div>
+  </header>
+
+  <section class="tool-hero">
+    <h1 class="tool-hero-title">Compress PDF</h1>
+    <p class="tool-hero-desc">Reduce your PDF file size without losing quality. Perfect for email attachments and faster uploads. Free and instant — no signup needed.</p>
+  </section>
+
+  <div class="ad-container ad-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 12l2 2 4-4"/></svg>
       </div>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="rotate.html">Rotate PDF</a>
-          <a href="watermark.html">Watermark PDF</a>
-          <a href="page-numbers.html">Page Numbers</a>
-          <a href="protect.html">Protect PDF</a>
-          <a href="unlock.html">Unlock PDF</a>
-          <a href="organize.html">Organize PDF</a>
-          <a href="sign.html">Sign PDF</a>
-          <a href="edit.html">Edit PDF</a>
+      <h3>Drop your PDF here</h3>
+      <p>Supports any PDF — the larger, the better!</p>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:20px" onclick="document.getElementById('fileInput').click()">Select PDF File</button>
+    </div>
+
+    <div id="compressOptions" style="display:none">
+      <div class="options-panel">
+        <h4>Compression Level</h4>
+        <div class="option-row">
+          <label class="option-label">Quality</label>
+          <select class="option-select" id="compressionLevel">
+            <option value="low">Maximum compression (smallest size)</option>
+            <option value="medium" selected>Balanced (recommended)</option>
+            <option value="high">Minimal compression (best quality)</option>
+          </select>
         </div>
+        <p id="fileSizeBefore" style="font-size:.88rem;color:var(--text-secondary)"></p>
+      </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="compressPDF()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/><path d="M3 6l3 3 3-3M15 6l3 3 3-3M3 18l3-3 3 3M15 18l3-3 3 3"/></svg>
+          Compress PDF
+        </button>
+        <button class="btn-secondary" onclick="resetCompress()">Change File</button>
       </div>
     </div>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
-  </div>
-</nav>
-<div class="tool-hero" id="uploadZone">
-  <h1>Compress PDF files</h1>
-  <p>Reduce file size while optimizing for maximal PDF quality.</p>
-  <div class="upload-area">
-    <button class="select-btn" id="selectBtn">Select PDF files</button>
-    <input type="file" id="fileInput" accept=".pdf" multiple hidden>
-  </div>
-  <p class="drop-hint">or drop files here</p>
-  <div class="error-box" id="errorBox"></div>
-</div>
-<div class="tool-body hidden" id="toolBody">
-  <div class="ad-block"><!-- AdSense placeholder --><span>Advertisement</span></div>
-  <div class="file-list" id="fileList"></div>
-  <div class="options-panel">
-  <h3>Compression Level</h3>
-  <div class="option-group">
-    <button class="option-chip" data-level="low">Low compression<br><small style="color:#aaa">Best quality</small></button>
-    <button class="option-chip active" data-level="recommended">Recommended<br><small style="color:#aaa">Good quality &amp; size</small></button>
-    <button class="option-chip" data-level="extreme">Extreme compression<br><small style="color:#aaa">Smallest file</small></button>
-  </div>
-</div>
-  <div class="progress-wrap hidden" id="progressWrap">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-text" id="progressText">Processing...</div>
-  </div>
-  <div class="success-box hidden" id="successBox">
-    <div class="success-icon">✅</div>
-    <h2>Done!</h2>
-    <p id="successMsg">Your file is ready.</p>
-    <a href="#" class="dl-btn" id="dlBtn">Download</a>
-    <button class="again-btn" onclick="location.reload()">Process another file</button>
-  </div>
-</div>
-<div class="action-bar hidden" id="actionBar">
-  <span class="action-bar-left" id="actionBarInfo">0 files selected</span>
-  <div style="display:flex;gap:12px;align-items:center">
-    <button class="add-more-btn" id="addMoreBtn">+ Add more files</button>
-    <button class="action-btn" id="actionBtn">Compress PDF</button>
-  </div>
-</div>
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <a href="edit.html">Edit PDF</a>
-      <a href="pdf-to-jpg.html">PDF to JPG</a>
-      <a href="jpg-to-pdf.html">JPG to PDF</a>
+
+    <div class="progress-wrapper" id="progressWrapper">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="progress-label" id="progressLabel">Compressing...</p>
     </div>
-    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
+
+    <div class="result-box" id="resultBox">
+      <h3>✅ Compression Complete!</h3>
+      <p id="resultDesc"></p>
+      <button class="btn-primary" onclick="downloadCompressed()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Download Compressed PDF
+      </button>
+      <button class="btn-secondary" onclick="resetCompress()" style="margin-top:10px">Compress Another</button>
+    </div>
   </div>
-</footer>
-<script src="shared.js"></script>
-<script>
 
-let files = [];
-const fileInput = document.getElementById('fileInput');
-const selectBtn = document.getElementById('selectBtn');
-const addMoreBtn = document.getElementById('addMoreBtn');
-const fileList = document.getElementById('fileList');
-const toolBody = document.getElementById('toolBody');
-const actionBar = document.getElementById('actionBar');
-const actionBtn = document.getElementById('actionBtn');
-const actionBarInfo = document.getElementById('actionBarInfo');
-const progressWrap = document.getElementById('progressWrap');
-const progressFill = document.getElementById('progressFill');
-const progressText = document.getElementById('progressText');
-const successBox = document.getElementById('successBox');
-const dlBtn = document.getElementById('dlBtn');
-const errorBox = document.getElementById('errorBox');
-const uploadZone = document.getElementById('uploadZone');
+  <footer class="footer">
+    <div class="container">
+      <div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← Back to All PDF Tools</a></div>
+      <div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+  <script>
+    let pdfFile = null;
+    let compressedBytes = null;
 
-function showErr(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
-function hideErr() { errorBox.style.display = 'none'; }
-function refreshUI() { actionBarInfo.textContent = files.length + ' file(s) selected'; fileInput.value = ''; }
+    initDropZone('dropZone', 'fileInput', async function(files) {
+      const f = files[0];
+      if (!f.name.endsWith('.pdf')) { showToast('Please select a PDF file','error'); return; }
+      pdfFile = f;
+      document.getElementById('fileSizeBefore').textContent = 'Original size: ' + formatSize(f.size);
+      document.getElementById('compressOptions').style.display = 'block';
+      showToast('File loaded: ' + f.name);
+    });
 
-function addFiles(newFiles) {
-  const pdfs = Array.from(newFiles).filter(f => f.name.toLowerCase().endsWith('.pdf'));
-  if (!pdfs.length) { showErr('Please select valid PDF files.'); return; }
-  hideErr(); files = [];  fileList.innerHTML = '';
-  pdfs.forEach(f => {
-    files.push(f);
-    fileList.appendChild(makeFileItem(f, () => { files = []; fileList.innerHTML = ''; toolBody.classList.add('hidden'); actionBar.classList.add('hidden'); }));
-  });
-  toolBody.classList.remove('hidden');
-  actionBar.classList.remove('hidden');
-  refreshUI();
-}
+    async function compressPDF() {
+      if (!pdfFile) return;
+      const level = document.getElementById('compressionLevel').value;
+      document.getElementById('progressWrapper').style.display = 'block';
+      const fill = document.getElementById('progressFill');
+      const label = document.getElementById('progressLabel');
+      fill.style.width = '20%'; label.textContent = 'Reading PDF...';
+      try {
+        const {PDFDocument} = PDFLib;
+        const bytes = await pdfFile.arrayBuffer();
+        fill.style.width = '50%'; label.textContent = 'Optimizing...';
+        const doc = await PDFDocument.load(bytes, {ignoreEncryption: true});
+        // Re-save with compression options
+        const saveOptions = {useObjectStreams: true};
+        if (level === 'low') saveOptions.addDefaultPage = false;
+        fill.style.width = '80%'; label.textContent = 'Finalizing...';
+        compressedBytes = await doc.save(saveOptions);
+        fill.style.width = '100%'; label.textContent = 'Complete!';
+        const saved = pdfFile.size - compressedBytes.byteLength;
+        const pct = Math.max(0, Math.round(saved / pdfFile.size * 100));
+        const desc = document.getElementById('resultDesc');
+        desc.textContent = `Original: ${formatSize(pdfFile.size)} → Compressed: ${formatSize(compressedBytes.byteLength)} (${pct >= 0 ? pct+'% saved' : 'optimized'})`;
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('resultBox').scrollIntoView({behavior:'smooth'});
+        showToast('PDF compressed successfully!','success');
+      } catch(e) { showToast('Error: ' + e.message, 'error'); }
+    }
 
-selectBtn.addEventListener('click', () => fileInput.click());
-addMoreBtn.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', e => addFiles(e.target.files));
-setupDrop(uploadZone, addFiles);
+    function downloadCompressed() {
+      if (!compressedBytes) return;
+      const name = (pdfFile.name.replace('.pdf','') + '-compressed.pdf');
+      const blob = new Blob([compressedBytes],{type:'application/pdf'});
+      const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click();
+    }
 
-// Level chips
-document.querySelectorAll('.option-chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    document.querySelectorAll('.option-chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-  });
-});
-
-actionBtn.addEventListener('click', async () => {
-  if (!files.length) return;
-  actionBtn.disabled = true;
-  progressWrap.classList.remove('hidden');
-  try {
-    const level = document.querySelector('.option-chip.active')?.dataset.level || 'recommended';
-    showProgress(null, progressFill, progressText, 20, 'Loading libraries...');
-    const { PDFDocument } = await getPDFLib();
-    const buf = await readAsBuffer(files[0]);
-    showProgress(null, progressFill, progressText, 50, 'Compressing PDF...');
-    // Load and re-save (removes redundancy; true deep compression needs server)
-    const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
-    // Strip object streams for compression effect
-    const compressed = await doc.save({ useObjectStreams: level !== 'low', addDefaultPage: false });
-    showProgress(null, progressFill, progressText, 100, 'Done!');
-    progressWrap.classList.add('hidden');
-    successBox.classList.remove('hidden');
-    actionBar.classList.add('hidden');
-    const saved = buf.byteLength - compressed.byteLength;
-    const pct = Math.max(0, Math.round((saved / buf.byteLength) * 100));
-    document.getElementById('successMsg').textContent = 'Compressed! Saved ~' + pct + '% (' + fmtSize(buf.byteLength) + ' → ' + fmtSize(compressed.byteLength) + ')';
-    dlBtn.onclick = () => downloadBytes(compressed, 'compressed-' + Date.now() + '.pdf', 'application/pdf');
-  } catch(err) {
-    showErr('Error: ' + err.message);
-    actionBtn.disabled = false;
-    progressWrap.classList.add('hidden');
-  }
-});
-
-</script>
+    function resetCompress() {
+      pdfFile=null; compressedBytes=null;
+      document.getElementById('compressOptions').style.display='none';
+      document.getElementById('resultBox').style.display='none';
+      document.getElementById('progressWrapper').style.display='none';
+    }
+  </script>
 </body>
 </html>

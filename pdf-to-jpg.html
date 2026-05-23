@@ -1,203 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF to JPG - iLovePDF</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to JPG Converter Free Online – EvrythingPDF</title>
+  <meta name="description" content="Convert PDF pages to JPG images online for free. Extract high-quality images from any PDF. No signup, no watermarks.">
+  <meta name="keywords" content="pdf to jpg, pdf to image converter free, extract images from pdf, pdf to png">
+  <link rel="canonical" href="https://www.evrythingpdf.com/pdf-to-jpg.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </head>
-<body class="tool-page">
-<nav class="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
-    <div class="nav-links">
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="pdf-to-jpg.html">PDF to JPG</a>
-          <a href="jpg-to-pdf.html">JPG to PDF</a>
-          <a href="pdf-to-word.html">PDF to Word</a>
-          <a href="word-to-pdf.html">Word to PDF</a>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a></nav></div></header>
+  <section class="tool-hero">
+    <h1 class="tool-hero-title">PDF to JPG</h1>
+    <p class="tool-hero-desc">Convert PDF pages to high-quality JPG images. Each page becomes a separate image file. Free and instant.</p>
+  </section>
+  <div class="ad-container ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <h3>Drop your PDF here</h3><p>Each page will be converted to a separate JPG image</p>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+    </div>
+    <div id="convOptions" style="display:none">
+      <div class="options-panel"><h4>Image Options</h4>
+        <div class="option-row"><label class="option-label">Quality</label>
+          <select class="option-select" id="quality"><option value="0.95">High (95%)</option><option value="0.85" selected>Medium (85%)</option><option value="0.7">Low (70%)</option></select>
+        </div>
+        <div class="option-row"><label class="option-label">Scale</label>
+          <select class="option-select" id="scale"><option value="2">2x (High-res)</option><option value="1.5" selected>1.5x (Standard)</option><option value="1">1x (Small)</option></select>
         </div>
       </div>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="rotate.html">Rotate PDF</a>
-          <a href="watermark.html">Watermark PDF</a>
-          <a href="page-numbers.html">Page Numbers</a>
-          <a href="protect.html">Protect PDF</a>
-          <a href="unlock.html">Unlock PDF</a>
-          <a href="organize.html">Organize PDF</a>
-          <a href="sign.html">Sign PDF</a>
-          <a href="edit.html">Edit PDF</a>
-        </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="convertToJpg()">Convert to JPG</button>
+        <button class="btn-secondary" onclick="resetConv()">Change File</button>
       </div>
     </div>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
-  </div>
-</nav>
-<div class="tool-hero" id="uploadZone">
-  <h1>PDF to JPG</h1>
-  <p>Convert each PDF page into a JPG or extract all images contained in a PDF.</p>
-  <div class="upload-area">
-    <button class="select-btn" id="selectBtn">Select PDF files</button>
-    <input type="file" id="fileInput" accept=".pdf"  hidden>
-  </div>
-  <p class="drop-hint">or drop files here</p>
-  <div class="error-box" id="errorBox"></div>
-</div>
-<div class="tool-body hidden" id="toolBody">
-  <div class="ad-block"><!-- AdSense placeholder --><span>Advertisement</span></div>
-  <div class="file-list" id="fileList"></div>
-  <div class="options-panel">
-  <h3>Output Format</h3>
-  <div class="option-group">
-    <button class="option-chip active" data-fmt="jpg">JPG</button>
-    <button class="option-chip" data-fmt="png">PNG</button>
-  </div>
-  <h3 style="margin-top:16px">Image Quality</h3>
-  <div class="range-wrap">
-    <input type="range" id="qualityRange" min="10" max="100" value="80">
-    <span class="range-val" id="qualityVal">80%</span>
-  </div>
-</div>
-  <div class="progress-wrap hidden" id="progressWrap">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-text" id="progressText">Processing...</div>
-  </div>
-  <div class="success-box hidden" id="successBox">
-    <div class="success-icon">✅</div>
-    <h2>Done!</h2>
-    <p id="successMsg">Your file is ready.</p>
-    <a href="#" class="dl-btn" id="dlBtn">Download</a>
-    <button class="again-btn" onclick="location.reload()">Process another file</button>
-  </div>
-</div>
-<div class="action-bar hidden" id="actionBar">
-  <span class="action-bar-left" id="actionBarInfo">0 files selected</span>
-  <div style="display:flex;gap:12px;align-items:center">
-    <button class="add-more-btn" id="addMoreBtn">+ Add more files</button>
-    <button class="action-btn" id="actionBtn">Convert to JPG</button>
-  </div>
-</div>
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <a href="edit.html">Edit PDF</a>
-      <a href="pdf-to-jpg.html">PDF to JPG</a>
-      <a href="jpg-to-pdf.html">JPG to PDF</a>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Converting...</p></div>
+    <div id="imageResults" style="display:none;margin-top:24px">
+      <h3 style="margin-bottom:16px">✅ Conversion Complete!</h3>
+      <div id="imageGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px"></div>
+      <div class="action-bar" style="margin-top:24px">
+        <button class="btn-primary" onclick="downloadAll()">⬇ Download All Images</button>
+      </div>
     </div>
-    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
   </div>
-</footer>
-<script src="shared.js"></script>
-<script>
-
-let file = null;
-const fileInput = document.getElementById('fileInput');
-const selectBtn = document.getElementById('selectBtn');
-const fileList = document.getElementById('fileList');
-const toolBody = document.getElementById('toolBody');
-const actionBar = document.getElementById('actionBar');
-const actionBtn = document.getElementById('actionBtn');
-const progressWrap = document.getElementById('progressWrap');
-const progressFill = document.getElementById('progressFill');
-const progressText = document.getElementById('progressText');
-const successBox = document.getElementById('successBox');
-const errorBox = document.getElementById('errorBox');
-const uploadZone = document.getElementById('uploadZone');
-
-function showErr(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
-function hideErr() { errorBox.style.display = 'none'; }
-
-function setFile(f) {
-  if (!f.name.toLowerCase().endsWith('.pdf')) { showErr('Please select a valid PDF file.'); return; }
-  hideErr(); file = f; fileList.innerHTML = '';
-  fileList.appendChild(makeFileItem(f, () => { file = null; toolBody.classList.add('hidden'); actionBar.classList.add('hidden'); }));
-  toolBody.classList.remove('hidden');
-  actionBar.classList.remove('hidden');
-  document.getElementById('actionBarInfo').textContent = '1 file selected';
-  fileInput.value = '';
-}
-
-selectBtn.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', e => { if (e.target.files[0]) setFile(e.target.files[0]); });
-setupDrop(uploadZone, files => { if (files[0]) setFile(files[0]); });
-
-actionBtn.addEventListener('click', async () => {
-  if (!file) return;
-  actionBtn.disabled = true;
-  progressWrap.classList.remove('hidden');
-  try {
-    const fmt = document.querySelector('.option-chip.active')?.dataset.fmt || 'jpg';
-    const quality = parseInt(document.getElementById('qualityRange')?.value || 80) / 100;
-    showProgress(null, progressFill, progressText, 10, 'Loading PDF.js...');
-    const pdfjsLib = await getPDFJS();
-    const buf = await readAsBuffer(file);
-    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-    const total = pdf.numPages;
-    showProgress(null, progressFill, progressText, 20, 'Converting ' + total + ' page(s)...');
-    successBox.classList.remove('hidden');
-    actionBar.classList.add('hidden');
-    progressWrap.classList.add('hidden');
-    document.getElementById('successMsg').textContent = 'Converting ' + total + ' page(s) to ' + fmt.toUpperCase() + '...';
-    document.getElementById('dlBtn').style.display = 'none';
-
-    const container = document.createElement('div');
-    container.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-top:24px';
-    successBox.appendChild(container);
-
-    for (let i = 1; i <= total; i++) {
-      const page = await pdf.getPage(i);
-      const vp = page.getViewport({ scale: 2 });
-      const canvas = document.createElement('canvas');
-      canvas.width = vp.width; canvas.height = vp.height;
-      await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
-      const mime = fmt === 'jpg' ? 'image/jpeg' : 'image/png';
-      const dataUrl = canvas.toDataURL(mime, quality);
-      
-      // Show thumbnail
-      const thumb = document.createElement('div');
-      thumb.style.cssText = 'text-align:center';
-      const img = document.createElement('img');
-      img.src = dataUrl;
-      img.style.cssText = 'max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)';
-      const a = document.createElement('a');
-      a.href = dataUrl; a.download = 'page-' + i + '.' + fmt;
-      a.style.cssText = 'display:block;margin-top:8px;font-size:0.8rem;color:#e8212b;font-weight:600';
-      a.textContent = 'Download page ' + i;
-      thumb.appendChild(img); thumb.appendChild(a);
-      container.appendChild(thumb);
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    let pdfFile=null; let imgURLs=[];
+    initDropZone('dropZone','fileInput',function(files){
+      pdfFile=files[0]; document.getElementById('convOptions').style.display='block'; showToast('Loaded: '+files[0].name);
+    });
+    async function convertToJpg(){
+      if(!pdfFile) return;
+      const quality=parseFloat(document.getElementById('quality').value);
+      const scale=parseFloat(document.getElementById('scale').value);
+      document.getElementById('progressWrapper').style.display='block';
+      const fill=document.getElementById('progressFill');
+      imgURLs=[];
+      const bytes=await pdfFile.arrayBuffer();
+      const pdf=await pdfjsLib.getDocument({data:bytes}).promise;
+      const grid=document.getElementById('imageGrid'); grid.innerHTML='';
+      for(let i=1;i<=pdf.numPages;i++){
+        fill.style.width=((i/pdf.numPages)*90)+'%';
+        const page=await pdf.getPage(i);
+        const vp=page.getViewport({scale});
+        const canvas=document.createElement('canvas');
+        canvas.width=vp.width; canvas.height=vp.height;
+        await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
+        const url=canvas.toDataURL('image/jpeg',quality);
+        imgURLs.push({url,name:'page-'+i+'.jpg'});
+        const wrapper=document.createElement('div');
+        wrapper.style.cssText='text-align:center;';
+        wrapper.innerHTML=`<img src="${url}" style="width:100%;border:1px solid var(--border);border-radius:8px;cursor:pointer" title="Page ${i}" onclick="downloadSingle('${url}','page-${i}.jpg')">
+          <p style="font-size:.8rem;margin-top:6px;color:var(--text-muted)">Page ${i}</p>`;
+        grid.appendChild(wrapper);
+      }
+      fill.style.width='100%';
+      document.getElementById('imageResults').style.display='block';
+      document.getElementById('imageResults').scrollIntoView({behavior:'smooth'});
+      showToast('Converted '+pdf.numPages+' pages!','success');
     }
-    document.getElementById('successMsg').textContent = 'Converted ' + total + ' page(s) to ' + fmt.toUpperCase() + '. Click each to download.';
-  } catch(err) {
-    showErr('Error: ' + err.message);
-    actionBtn.disabled = false;
-    progressWrap.classList.add('hidden');
-  }
-});
-
-// format chips
-document.querySelectorAll('.option-chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    document.querySelectorAll('.option-chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-  });
-});
-// quality range
-const qualRange = document.getElementById('qualityRange');
-const qualVal = document.getElementById('qualityVal');
-if (qualRange) qualRange.addEventListener('input', () => qualVal.textContent = qualRange.value + '%');
-
-</script>
-</body>
-</html>
+    function downloadSingle(url,name){const a=document.createElement('a');a.href=url;a.download=name;a.click();}
+    function downloadAll(){imgURLs.forEach(({url,name})=>downloadSingle(url,name));}
+    function resetConv(){pdfFile=null;imgURLs=[];document.getElementById('convOptions').style.display='none';document.getElementById('imageResults').style.display='none';}
+  </script>
+</body></html>

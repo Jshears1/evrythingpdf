@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free PDF Viewer Online – View PDF in Browser – EvrythingPDF</title>
+  <meta name="description" content="View any PDF file online for free. No download required. Fast, secure PDF viewer that runs entirely in your browser.">
+  <meta name="keywords" content="pdf viewer online free, view pdf online, open pdf online, pdf reader browser">
+  <link rel="canonical" href="https://www.evrythingpdf.com/viewer.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <style>
+    #pdfCanvas{max-width:100%;box-shadow:var(--shadow);border-radius:8px;}
+    .viewer-nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;padding:16px;background:var(--bg-secondary);border-radius:8px;margin:16px 0;}
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a><a class='nav-link' href='/merge'>Merge</a></nav></div></header>
+  <section class="tool-hero">
+    <h1 class="tool-hero-title">PDF Viewer</h1>
+    <p class="tool-hero-desc">Open and view any PDF directly in your browser. Navigate pages, zoom in/out, and more. No download needed.</p>
+  </section>
+  <div class="ad-container ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <h3>Drop a PDF to view</h3><p>or click to browse</p>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Open PDF</button>
+    </div>
+    <div id="viewerContainer" style="display:none">
+      <div class="viewer-nav">
+        <button class="btn-secondary" onclick="prevPage()" id="prevBtn" disabled>← Prev</button>
+        <span id="pageInfo" style="font-size:.9rem;font-weight:500"></span>
+        <button class="btn-secondary" onclick="nextPage()" id="nextBtn" disabled>Next →</button>
+        <button class="btn-secondary" onclick="zoomOut()">− Zoom</button>
+        <span id="zoomLabel" style="font-size:.88rem;color:var(--text-muted)">100%</span>
+        <button class="btn-secondary" onclick="zoomIn()">+ Zoom</button>
+        <button class="btn-primary" onclick="downloadCurrent()">⬇ Download</button>
+      </div>
+      <div style="text-align:center"><canvas id="pdfCanvas"></canvas></div>
+    </div>
+  </div>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    let pdfDoc=null, curPage=1, curScale=1.0, pdfFile=null;
+    initDropZone('dropZone','fileInput',async function(files){
+      pdfFile=files[0];
+      const bytes=await files[0].arrayBuffer();
+      pdfDoc=await pdfjsLib.getDocument({data:bytes}).promise;
+      curPage=1; curScale=1.0;
+      document.getElementById('viewerContainer').style.display='block';
+      document.getElementById('dropZone').style.display='none';
+      renderPage();
+    });
+    async function renderPage(){
+      const page=await pdfDoc.getPage(curPage);
+      const vp=page.getViewport({scale:curScale*(window.devicePixelRatio||1)});
+      const canvas=document.getElementById('pdfCanvas');
+      const ctx=canvas.getContext('2d');
+      canvas.height=vp.height; canvas.width=vp.width;
+      canvas.style.width=Math.round(vp.width/(window.devicePixelRatio||1))+'px';
+      canvas.style.height=Math.round(vp.height/(window.devicePixelRatio||1))+'px';
+      await page.render({canvasContext:ctx,viewport:vp}).promise;
+      document.getElementById('pageInfo').textContent='Page '+curPage+' of '+pdfDoc.numPages;
+      document.getElementById('prevBtn').disabled=curPage<=1;
+      document.getElementById('nextBtn').disabled=curPage>=pdfDoc.numPages;
+      document.getElementById('zoomLabel').textContent=Math.round(curScale*100)+'%';
+    }
+    function prevPage(){if(curPage>1){curPage--;renderPage();}}
+    function nextPage(){if(curPage<pdfDoc.numPages){curPage++;renderPage();}}
+    function zoomIn(){curScale=Math.min(curScale+0.25,3);renderPage();}
+    function zoomOut(){curScale=Math.max(curScale-0.25,0.25);renderPage();}
+    function downloadCurrent(){
+      if(!pdfFile) return;
+      const a=document.createElement('a'); a.href=URL.createObjectURL(pdfFile); a.download=pdfFile.name; a.click();
+    }
+  </script>
+</body></html>

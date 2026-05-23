@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.evrythingpdf.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.evrythingpdf.com/merge.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.evrythingpdf.com/split.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.evrythingpdf.com/compress.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.evrythingpdf.com/sign.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.evrythingpdf.com/rotate.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.evrythingpdf.com/unlock.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.evrythingpdf.com/add-password.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.evrythingpdf.com/jpg-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.evrythingpdf.com/pdf-to-jpg.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.evrythingpdf.com/pdf-to-word.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.evrythingpdf.com/word-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.evrythingpdf.com/viewer.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.evrythingpdf.com/reorder.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.evrythingpdf.com/page-numbers.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.evrythingpdf.com/watermark.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.evrythingpdf.com/about.html</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.evrythingpdf.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.evrythingpdf.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+</urlset>

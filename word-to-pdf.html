@@ -1,67 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Word to PDF - iLovePDF</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word to PDF Converter Free Online – EvrythingPDF</title>
+  <meta name="description" content="Convert Word documents (DOCX, DOC) to PDF online for free. Perfect formatting preserved. No signup, no watermarks.">
+  <meta name="keywords" content="word to pdf, docx to pdf converter free, convert word to pdf online, doc to pdf">
+  <link rel="canonical" href="https://www.evrythingpdf.com/word-to-pdf.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
-    <div class="nav-links">
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="pdf-to-jpg.html">PDF to JPG</a>
-          <a href="jpg-to-pdf.html">JPG to PDF</a>
-          <a href="pdf-to-word.html">PDF to Word</a>
-          <a href="word-to-pdf.html">Word to PDF</a>
-        </div>
-      </div>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="rotate.html">Rotate PDF</a>
-          <a href="watermark.html">Watermark PDF</a>
-          <a href="page-numbers.html">Page Numbers</a>
-          <a href="protect.html">Protect PDF</a>
-          <a href="unlock.html">Unlock PDF</a>
-          <a href="organize.html">Organize PDF</a>
-          <a href="sign.html">Sign PDF</a>
-          <a href="edit.html">Edit PDF</a>
-        </div>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a></nav></div></header>
+  <section class="tool-hero">
+    <h1 class="tool-hero-title">Word to PDF</h1>
+    <p class="tool-hero-desc">Convert your Word documents (DOCX, DOC) into professional PDF files. Maintain perfect formatting. Free, fast, no signup.</p>
+  </section>
+  <div class="ad-container ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+  <div class="tool-workspace">
+    <div style="background:#dbeafe;border:1px solid #93c5fd;border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:.9rem">
+      <strong>Tip:</strong> For the best Word-to-PDF conversion, use Microsoft Word's built-in "Save as PDF" or Google Docs' "Download as PDF" feature. Alternatively, use <a href="https://www.ilovepdf.com/word_to_pdf" target="_blank" rel="noopener">iLovePDF</a> or <a href="https://smallpdf.com/word-to-pdf" target="_blank" rel="noopener">SmallPDF</a> (both free tier).
+    </div>
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h2l2 4 2-8 2 4h2"/></svg></div>
+      <h3>Drop your Word file here</h3><p>DOCX and DOC formats supported</p>
+      <input type="file" id="fileInput" accept=".docx,.doc" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select Word File</button>
+    </div>
+    <div id="convOptions" style="display:none">
+      <p style="font-size:.9rem;color:var(--text-secondary);margin-bottom:16px" id="loadedFile"></p>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="convertWordToPDF()">Convert to PDF</button>
       </div>
     </div>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Converting...</p></div>
+    <div class="result-box" id="resultBox"><h3>✅ PDF Created!</h3><p>Your Word document has been converted to PDF.</p>
+      <button class="btn-primary" onclick="downloadPdf()">⬇ Download PDF</button></div>
   </div>
-</nav>
-<div class="tool-hero">
-  <h1>Word to PDF</h1>
-  <p>Make DOC and DOCX files easy to read by converting them to PDF.</p>
-  <div style="margin-top:24px;padding:20px;background:#fff9f0;border:1.5px solid #f59e0b;border-radius:12px;max-width:500px;margin:24px auto 0;font-size:0.9rem;color:#92400e">
-    <strong>ℹ️ Note:</strong> Word-to-PDF conversion requires server-side processing. This free tool focuses on browser-based PDF operations. For Word to PDF, try printing with a PDF printer, or use LibreOffice (free).
-  </div>
-  <a href="index.html" class="select-btn" style="display:inline-block;margin-top:24px;text-decoration:none">Browse Other Tools</a>
-</div>
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <a href="edit.html">Edit PDF</a>
-      <a href="pdf-to-jpg.html">PDF to JPG</a>
-      <a href="jpg-to-pdf.html">JPG to PDF</a>
-    </div>
-    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
-  </div>
-</footer>
-</body>
-</html>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+  <script src="app.js"></script>
+  <script src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script>
+    let wordFile=null; let pdfBytes=null;
+    initDropZone('dropZone','fileInput',function(files){
+      wordFile=files[0];
+      document.getElementById('loadedFile').textContent='File: '+files[0].name+' ('+formatSize(files[0].size)+')';
+      document.getElementById('convOptions').style.display='block';
+    });
+    async function convertWordToPDF(){
+      if(!wordFile) return;
+      document.getElementById('progressWrapper').style.display='block';
+      const fill=document.getElementById('progressFill'); fill.style.width='20%';
+      try{
+        const arrayBuffer=await wordFile.arrayBuffer();
+        const result=await mammoth.extractRawText({arrayBuffer});
+        fill.style.width='60%';
+        const {PDFDocument, rgb, StandardFonts}=PDFLib;
+        const doc=await PDFDocument.create();
+        const font=await doc.embedFont(StandardFonts.Helvetica);
+        const fontSize=11; const margin=50; const lineH=fontSize*1.5;
+        const lines=result.value.split('\n');
+        let page=doc.addPage([612,792]); let y=792-margin;
+        for(const line of lines){
+          const words=line.split(' '); let cur='';
+          for(const word of words){
+            const test=cur+(cur?' ':'')+word;
+            if(font.widthOfTextAtSize(test,fontSize)>612-margin*2){
+              if(y<margin+lineH){page=doc.addPage([612,792]);y=792-margin;}
+              page.drawText(cur,{x:margin,y,font,size:fontSize,color:rgb(0,0,0)});
+              y-=lineH; cur=word;
+            }else{cur=test;}
+          }
+          if(cur){if(y<margin+lineH){page=doc.addPage([612,792]);y=792-margin;} page.drawText(cur,{x:margin,y,font,size:fontSize,color:rgb(0,0,0)});y-=lineH;}
+          y-=lineH/3;
+          if(y<margin){page=doc.addPage([612,792]);y=792-margin;}
+        }
+        pdfBytes=await doc.save();
+        fill.style.width='100%';
+        document.getElementById('resultBox').style.display='block';
+        showToast('Converted to PDF!','success');
+      }catch(e){showToast('Error: '+e.message,'error');}
+    }
+    function downloadPdf(){
+      const blob=new Blob([pdfBytes],{type:'application/pdf'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=wordFile.name.replace(/\.docx?$/,'')+'.pdf'; a.click();
+    }
+  </script>
+</body></html>

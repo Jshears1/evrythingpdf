@@ -1,164 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JPG to PDF - iLovePDF</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JPG to PDF Converter Free Online – EvrythingPDF</title>
+  <meta name="description" content="Convert JPG, PNG, and other images to PDF online for free. Combine multiple images into one PDF. No signup. Fast and secure.">
+  <meta name="keywords" content="jpg to pdf, png to pdf, image to pdf converter free online, convert photo to pdf">
+  <link rel="canonical" href="https://www.evrythingpdf.com/jpg-to-pdf.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </head>
-<body class="tool-page">
-<nav class="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
-    <div class="nav-links">
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="pdf-to-jpg.html">PDF to JPG</a>
-          <a href="jpg-to-pdf.html">JPG to PDF</a>
-          <a href="pdf-to-word.html">PDF to Word</a>
-          <a href="word-to-pdf.html">Word to PDF</a>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a><a class='nav-link' href='/merge'>Merge</a></nav></div></header>
+  <section class="tool-hero">
+    <h1 class="tool-hero-title">JPG to PDF</h1>
+    <p class="tool-hero-desc">Convert your JPG, PNG, or other images into a PDF document. Add multiple images to create a multi-page PDF. Free, fast, and private.</p>
+  </section>
+  <div class="ad-container ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <h3>Drop images here</h3><p>JPG, PNG, GIF, BMP, WebP supported</p>
+      <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select Images</button>
+    </div>
+    <div class="files-list" id="filesList" style="display:none"></div>
+    <div id="imgOptions" style="display:none">
+      <div class="options-panel"><h4>PDF Options</h4>
+        <div class="option-row"><label class="option-label">Page size</label>
+          <select class="option-select" id="pageSize"><option value="fit">Fit to image</option><option value="a4">A4 (210×297mm)</option><option value="letter">Letter (8.5×11in)</option></select>
+        </div>
+        <div class="option-row"><label class="option-label">Orientation</label>
+          <select class="option-select" id="orientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select>
+        </div>
+        <div class="option-row"><label class="option-label">Output name</label>
+          <input type="text" class="option-input" id="outputName" value="images.pdf" style="width:180px">
         </div>
       </div>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="rotate.html">Rotate PDF</a>
-          <a href="watermark.html">Watermark PDF</a>
-          <a href="page-numbers.html">Page Numbers</a>
-          <a href="protect.html">Protect PDF</a>
-          <a href="unlock.html">Unlock PDF</a>
-          <a href="organize.html">Organize PDF</a>
-          <a href="sign.html">Sign PDF</a>
-          <a href="edit.html">Edit PDF</a>
-        </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="convertToPDF()">Convert to PDF</button>
+        <button class="btn-secondary" onclick="clearImages()">Clear All</button>
       </div>
     </div>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
-  </div>
-</nav>
-<div class="tool-hero" id="uploadZone">
-  <h1>JPG to PDF</h1>
-  <p>Convert JPG images to PDF in seconds. Easily adjust orientation and margins.</p>
-  <div class="upload-area">
-    <button class="select-btn" id="selectBtn">Select PDF files</button>
-    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.gif,.webp,.bmp" multiple hidden>
-  </div>
-  <p class="drop-hint">or drop files here</p>
-  <div class="error-box" id="errorBox"></div>
-</div>
-<div class="tool-body hidden" id="toolBody">
-  <div class="ad-block"><!-- AdSense placeholder --><span>Advertisement</span></div>
-  <div class="file-list" id="fileList"></div>
-  <div class="options-panel">
-  <h3>Page Orientation</h3>
-  <div class="option-group">
-    <button class="option-chip active" data-orient="portrait">Portrait</button>
-    <button class="option-chip" data-orient="landscape">Landscape</button>
-  </div>
-</div>
-  <div class="progress-wrap hidden" id="progressWrap">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-text" id="progressText">Processing...</div>
-  </div>
-  <div class="success-box hidden" id="successBox">
-    <div class="success-icon">✅</div>
-    <h2>Done!</h2>
-    <p id="successMsg">Your file is ready.</p>
-    <a href="#" class="dl-btn" id="dlBtn">Download</a>
-    <button class="again-btn" onclick="location.reload()">Process another file</button>
-  </div>
-</div>
-<div class="action-bar hidden" id="actionBar">
-  <span class="action-bar-left" id="actionBarInfo">0 files selected</span>
-  <div style="display:flex;gap:12px;align-items:center">
-    <button class="add-more-btn" id="addMoreBtn">+ Add more files</button>
-    <button class="action-btn" id="actionBtn">Convert to PDF</button>
-  </div>
-</div>
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <a href="edit.html">Edit PDF</a>
-      <a href="pdf-to-jpg.html">PDF to JPG</a>
-      <a href="jpg-to-pdf.html">JPG to PDF</a>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Converting...</p></div>
+    <div class="result-box" id="resultBox"><h3>✅ Conversion Complete!</h3><p id="resultDesc">Images converted to PDF.</p>
+      <button class="btn-primary" onclick="downloadPDF()">⬇ Download PDF</button>
+      <button class="btn-secondary" onclick="clearImages()" style="margin-top:10px">Convert More</button>
     </div>
-    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
   </div>
-</footer>
-<script src="shared.js"></script>
-<script>
-
-let files = [];
-const fileInput = document.getElementById('fileInput');
-const selectBtn = document.getElementById('selectBtn');
-const addMoreBtn = document.getElementById('addMoreBtn');
-const fileList = document.getElementById('fileList');
-const toolBody = document.getElementById('toolBody');
-const actionBar = document.getElementById('actionBar');
-const actionBtn = document.getElementById('actionBtn');
-const actionBarInfo = document.getElementById('actionBarInfo');
-const progressWrap = document.getElementById('progressWrap');
-const progressFill = document.getElementById('progressFill');
-const progressText = document.getElementById('progressText');
-const successBox = document.getElementById('successBox');
-const errorBox = document.getElementById('errorBox');
-const uploadZone = document.getElementById('uploadZone');
-function showErr(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
-function hideErr() { errorBox.style.display = 'none'; }
-function refreshUI() { actionBarInfo.textContent = files.length + ' image(s) selected'; fileInput.value = ''; }
-function addFiles(newFiles) {
-  const imgs = Array.from(newFiles).filter(f => /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(f.name));
-  if (!imgs.length) { showErr('Please select image files (JPG, PNG, etc.)'); return; }
-  hideErr();
-  imgs.forEach(f => {
-    files.push(f);
-    fileList.appendChild(makeFileItem(f, () => { files.splice(files.indexOf(f), 1); refreshUI(); if(!files.length) { toolBody.classList.add('hidden'); actionBar.classList.add('hidden'); } }));
-  });
-  toolBody.classList.remove('hidden'); actionBar.classList.remove('hidden'); refreshUI();
-}
-selectBtn.addEventListener('click', () => fileInput.click());
-addMoreBtn.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', e => addFiles(e.target.files));
-setupDrop(uploadZone, addFiles);
-actionBtn.addEventListener('click', async () => {
-  if (!files.length) return;
-  actionBtn.disabled = true; progressWrap.classList.remove('hidden');
-  try {
-    showProgress(null, progressFill, progressText, 10, 'Loading pdf-lib...');
-    const { PDFDocument } = await getPDFLib();
-    const doc = await PDFDocument.create();
-    const orientation = document.querySelector('.option-chip.active')?.dataset.orient || 'portrait';
-    for (let i = 0; i < files.length; i++) {
-      showProgress(null, progressFill, progressText, 20 + (i/files.length)*70, 'Adding image ' + (i+1) + '...');
-      const buf = await readAsBuffer(files[i]);
-      const isJpg = /\.jpe?g$/i.test(files[i].name);
-      const img = isJpg ? await doc.embedJpg(buf) : await doc.embedPng(buf);
-      const dims = img.scaleToFit(595, 842);
-      const page = doc.addPage(orientation === 'portrait' ? [595, 842] : [842, 595]);
-      const { width, height } = page.getSize();
-      const scaled = img.scaleToFit(width - 40, height - 40);
-      page.drawImage(img, { x: (width - scaled.width)/2, y: (height - scaled.height)/2, width: scaled.width, height: scaled.height });
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+  <script src="app.js"></script>
+  <script>
+    let images=[], pdfBytes=null;
+    initDropZone('dropZone','fileInput',function(files){
+      files.filter(f=>f.type.startsWith('image/')).forEach(f=>{ images.push(f); renderList(); });
+    });
+    function renderList(){
+      const list=document.getElementById('filesList');
+      list.innerHTML=''; images.forEach((f,i)=>{
+        const d=document.createElement('div'); d.className='file-item';
+        const url=URL.createObjectURL(f);
+        d.innerHTML=`<img src="${url}" style="width:40px;height:40px;object-fit:cover;border-radius:4px"><span class="file-item-name">${f.name}</span><span class="file-item-size">${formatSize(f.size)}</span><button class="file-item-remove" onclick="removeImg(${i})">✕</button>`;
+        list.appendChild(d);
+      });
+      list.style.display=images.length?'flex':'none';
+      document.getElementById('imgOptions').style.display=images.length?'block':'none';
     }
-    showProgress(null, progressFill, progressText, 100, 'Done!');
-    const bytes = await doc.save();
-    progressWrap.classList.add('hidden'); successBox.classList.remove('hidden'); actionBar.classList.add('hidden');
-    document.getElementById('successMsg').textContent = 'Converted ' + files.length + ' image(s) to PDF.';
-    document.getElementById('dlBtn').onclick = () => downloadBytes(bytes, 'images-' + Date.now() + '.pdf', 'application/pdf');
-  } catch(err) { showErr('Error: ' + err.message); actionBtn.disabled = false; progressWrap.classList.add('hidden'); }
-});
-document.querySelectorAll('.option-chip').forEach(chip => {
-  chip.addEventListener('click', () => { document.querySelectorAll('.option-chip').forEach(c => c.classList.remove('active')); chip.classList.add('active'); });
-});
-
-</script>
-</body>
-</html>
+    function removeImg(i){images.splice(i,1);renderList();}
+    function clearImages(){images=[];pdfBytes=null;renderList();document.getElementById('resultBox').style.display='none';document.getElementById('progressWrapper').style.display='none';}
+    async function convertToPDF(){
+      if(!images.length) return;
+      const {PDFDocument}=PDFLib;
+      const doc=await PDFDocument.create();
+      const fill=document.getElementById('progressFill');
+      document.getElementById('progressWrapper').style.display='block';
+      for(let i=0;i<images.length;i++){
+        fill.style.width=((i/images.length)*90)+'%';
+        const imgData=await images[i].arrayBuffer();
+        const isJpeg=images[i].type==='image/jpeg';
+        const emb=isJpeg?await doc.embedJpg(imgData):await doc.embedPng(imgData);
+        const {width,height}=emb;
+        const pageSize=document.getElementById('pageSize').value;
+        const orient=document.getElementById('orientation').value;
+        let pw=width,ph=height;
+        if(pageSize==='a4'){pw=595;ph=842;}
+        else if(pageSize==='letter'){pw=612;ph=792;}
+        if(orient==='landscape'&&ph>pw){[pw,ph]=[ph,pw];}
+        const page=doc.addPage([pw,ph]);
+        const scale=Math.min(pw/width,ph/height);
+        page.drawImage(emb,{x:(pw-width*scale)/2,y:(ph-height*scale)/2,width:width*scale,height:height*scale});
+      }
+      fill.style.width='100%';
+      pdfBytes=await doc.save();
+      document.getElementById('resultDesc').textContent=`${images.length} image(s) converted to PDF (${formatSize(pdfBytes.byteLength)})`;
+      document.getElementById('resultBox').style.display='block';
+      document.getElementById('resultBox').scrollIntoView({behavior:'smooth'});
+      showToast('Converted successfully!','success');
+    }
+    function downloadPDF(){
+      if(!pdfBytes) return;
+      const name=document.getElementById('outputName').value||'images.pdf';
+      const blob=new Blob([pdfBytes],{type:'application/pdf'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click();
+    }
+  </script>
+</body></html>

@@ -1,171 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Page Numbers - iLovePDF</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Page Numbers to PDF Free Online – EvrythingPDF</title>
+  <meta name="description" content="Add page numbers to your PDF online for free. Choose position, font size, style and starting number. No signup needed.">
+  <meta name="keywords" content="add page numbers to pdf, pdf page numbering, number pdf pages free online">
+  <link rel="canonical" href="https://www.evrythingpdf.com/page-numbers.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </head>
-<body class="tool-page">
-<nav class="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></a>
-    <div class="nav-links">
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">Convert PDF &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="pdf-to-jpg.html">PDF to JPG</a>
-          <a href="jpg-to-pdf.html">JPG to PDF</a>
-          <a href="pdf-to-word.html">PDF to Word</a>
-          <a href="word-to-pdf.html">Word to PDF</a>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a></nav></div></header>
+  <section class="tool-hero">
+    <h1 class="tool-hero-title">Add Page Numbers to PDF</h1>
+    <p class="tool-hero-desc">Automatically add page numbers to your PDF document. Choose position, starting number, and format. Free and instant.</p>
+  </section>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg></div>
+      <h3>Drop your PDF here</h3><p>or click to browse</p>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+    </div>
+    <div id="numOptions" style="display:none">
+      <div class="options-panel"><h4>Page Number Settings</h4>
+        <div class="option-row"><label class="option-label">Position</label>
+          <select class="option-select" id="position"><option value="bottom-center">Bottom center</option><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="top-center">Top center</option><option value="top-right">Top right</option></select>
+        </div>
+        <div class="option-row"><label class="option-label">Start from</label>
+          <input type="number" class="option-input" id="startNum" value="1" min="0" style="width:80px">
+        </div>
+        <div class="option-row"><label class="option-label">Font size</label>
+          <input type="number" class="option-input" id="fontSize" value="10" min="6" max="24" style="width:80px">
+        </div>
+        <div class="option-row"><label class="option-label">Format</label>
+          <select class="option-select" id="format"><option value="n">1, 2, 3...</option><option value="pg">Page 1, Page 2...</option><option value="nofN">1 of N, 2 of N...</option></select>
         </div>
       </div>
-      <div class="nav-dropdown">
-        <a href="#" class="nav-drop-trigger">All PDF Tools &#9660;</a>
-        <div class="nav-drop-menu">
-          <a href="rotate.html">Rotate PDF</a>
-          <a href="watermark.html">Watermark PDF</a>
-          <a href="page-numbers.html">Page Numbers</a>
-          <a href="protect.html">Protect PDF</a>
-          <a href="unlock.html">Unlock PDF</a>
-          <a href="organize.html">Organize PDF</a>
-          <a href="sign.html">Sign PDF</a>
-          <a href="edit.html">Edit PDF</a>
-        </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="addPageNumbers()">Add Page Numbers</button>
+        <button class="btn-secondary" onclick="resetNum()">Change File</button>
       </div>
     </div>
-    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Processing...</p></div>
+    <div class="result-box" id="resultBox"><h3>✅ Page Numbers Added!</h3><p id="resultDesc">Page numbers added successfully.</p>
+      <button class="btn-primary" onclick="downloadNumbered()">⬇ Download PDF</button></div>
   </div>
-</nav>
-<div class="tool-hero" id="uploadZone">
-  <h1>Add Page Numbers</h1>
-  <p>Add page numbers into PDFs with ease. Choose your positions, dimensions, and typography.</p>
-  <div class="upload-area">
-    <button class="select-btn" id="selectBtn">Select PDF files</button>
-    <input type="file" id="fileInput" accept=".pdf"  hidden>
-  </div>
-  <p class="drop-hint">or drop files here</p>
-  <div class="error-box" id="errorBox"></div>
-</div>
-<div class="tool-body hidden" id="toolBody">
-  <div class="ad-block"><!-- AdSense placeholder --><span>Advertisement</span></div>
-  <div class="file-list" id="fileList"></div>
-  <div class="options-panel">
-  <h3>Position</h3>
-  <div class="option-group">
-    <button class="option-chip" data-pos="top-left">Top Left</button>
-    <button class="option-chip" data-pos="top-center">Top Center</button>
-    <button class="option-chip" data-pos="top-right">Top Right</button>
-    <button class="option-chip" data-pos="bottom-left">Bottom Left</button>
-    <button class="option-chip active" data-pos="bottom-center">Bottom Center</button>
-    <button class="option-chip" data-pos="bottom-right">Bottom Right</button>
-  </div>
-  <h3 style="margin-top:16px">Start From</h3>
-  <input id="startNum" type="number" value="1" min="1" style="width:100px;padding:8px 12px;border:1.5px solid #ddd;border-radius:8px;font-size:0.9rem">
-</div>
-  <div class="progress-wrap hidden" id="progressWrap">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-text" id="progressText">Processing...</div>
-  </div>
-  <div class="success-box hidden" id="successBox">
-    <div class="success-icon">✅</div>
-    <h2>Done!</h2>
-    <p id="successMsg">Your file is ready.</p>
-    <a href="#" class="dl-btn" id="dlBtn">Download</a>
-    <button class="again-btn" onclick="location.reload()">Process another file</button>
-  </div>
-</div>
-<div class="action-bar hidden" id="actionBar">
-  <span class="action-bar-left" id="actionBarInfo">0 files selected</span>
-  <div style="display:flex;gap:12px;align-items:center">
-    <button class="add-more-btn" id="addMoreBtn">+ Add more files</button>
-    <button class="action-btn" id="actionBtn">Add Page Numbers</button>
-  </div>
-</div>
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo"><span class="logo-i">I</span><span class="logo-heart">&#10084;</span><span class="logo-pdf">PDF</span></div>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="merge.html">Merge PDF</a>
-      <a href="split.html">Split PDF</a>
-      <a href="compress.html">Compress PDF</a>
-      <a href="edit.html">Edit PDF</a>
-      <a href="pdf-to-jpg.html">PDF to JPG</a>
-      <a href="jpg-to-pdf.html">JPG to PDF</a>
-    </div>
-    <p class="footer-copy">&copy; 2025 iLovePDF Clone &mdash; Free PDF tools for everyone. No sign up required.</p>
-  </div>
-</footer>
-<script src="shared.js"></script>
-<script>
-
-let file = null;
-const fileInput = document.getElementById('fileInput');
-const selectBtn = document.getElementById('selectBtn');
-const fileList = document.getElementById('fileList');
-const toolBody = document.getElementById('toolBody');
-const actionBar = document.getElementById('actionBar');
-const actionBtn = document.getElementById('actionBtn');
-const progressWrap = document.getElementById('progressWrap');
-const progressFill = document.getElementById('progressFill');
-const progressText = document.getElementById('progressText');
-const successBox = document.getElementById('successBox');
-const errorBox = document.getElementById('errorBox');
-const uploadZone = document.getElementById('uploadZone');
-function showErr(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
-function hideErr() { errorBox.style.display = 'none'; }
-function setFile(f) {
-  if (!f.name.toLowerCase().endsWith('.pdf')) { showErr('Please select a valid PDF file.'); return; }
-  hideErr(); file = f; fileList.innerHTML = '';
-  fileList.appendChild(makeFileItem(f, () => { file = null; toolBody.classList.add('hidden'); actionBar.classList.add('hidden'); }));
-  toolBody.classList.remove('hidden'); actionBar.classList.remove('hidden');
-  document.getElementById('actionBarInfo').textContent = '1 file selected'; fileInput.value = '';
-}
-selectBtn.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', e => { if (e.target.files[0]) setFile(e.target.files[0]); });
-setupDrop(uploadZone, files => { if (files[0]) setFile(files[0]); });
-document.querySelectorAll('.option-chip').forEach(chip => {
-  chip.addEventListener('click', () => { document.querySelectorAll('.option-chip').forEach(c => c.classList.remove('active')); chip.classList.add('active'); });
-});
-actionBtn.addEventListener('click', async () => {
-  if (!file) return;
-  actionBtn.disabled = true; progressWrap.classList.remove('hidden');
-  try {
-    const pos = document.querySelector('.option-chip.active')?.dataset.pos || 'bottom-center';
-    const startNum = parseInt(document.getElementById('startNum')?.value || 1);
-    showProgress(null, progressFill, progressText, 20, 'Loading pdf-lib...');
-    const { PDFDocument, rgb } = await getPDFLib();
-    const buf = await readAsBuffer(file);
-    const doc = await PDFDocument.load(buf);
-    const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
-    const pages = doc.getPages();
-    showProgress(null, progressFill, progressText, 60, 'Adding page numbers...');
-    pages.forEach((page, idx) => {
-      const { width, height } = page.getSize();
-      const num = String(startNum + idx);
-      const size = 12;
-      const tw = font.widthOfTextAtSize(num, size);
-      const margin = 24;
-      let x = width/2 - tw/2, y = margin;
-      if (pos === 'top-center') y = height - margin - size;
-      else if (pos === 'bottom-left') { x = margin; y = margin; }
-      else if (pos === 'bottom-right') { x = width - margin - tw; y = margin; }
-      else if (pos === 'top-left') { x = margin; y = height - margin - size; }
-      else if (pos === 'top-right') { x = width - margin - tw; y = height - margin - size; }
-      page.drawText(num, { x, y, size, font, color: PDFLib.rgb(0,0,0) });
-    });
-    const bytes = await doc.save();
-    showProgress(null, progressFill, progressText, 100, 'Done!');
-    progressWrap.classList.add('hidden'); successBox.classList.remove('hidden'); actionBar.classList.add('hidden');
-    document.getElementById('successMsg').textContent = 'Page numbers added to ' + pages.length + ' pages.';
-    document.getElementById('dlBtn').onclick = () => downloadBytes(bytes, 'numbered-' + Date.now() + '.pdf', 'application/pdf');
-  } catch(err) { showErr('Error: ' + err.message); actionBtn.disabled = false; progressWrap.classList.add('hidden'); }
-});
-
-</script>
-</body>
-</html>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+  <script src="app.js"></script>
+  <script>
+    let pdfFile=null, numberedBytes=null;
+    initDropZone('dropZone','fileInput',function(files){pdfFile=files[0];document.getElementById('numOptions').style.display='block';});
+    async function addPageNumbers(){
+      if(!pdfFile) return;
+      document.getElementById('progressWrapper').style.display='block';
+      const fill=document.getElementById('progressFill'); fill.style.width='30%';
+      try{
+        const {PDFDocument,rgb,StandardFonts}=PDFLib;
+        const bytes=await pdfFile.arrayBuffer();
+        const doc=await PDFDocument.load(bytes);
+        const font=await doc.embedFont(StandardFonts.Helvetica);
+        const pages=doc.getPages(); const total=pages.length;
+        const pos=document.getElementById('position').value;
+        const startN=parseInt(document.getElementById('startNum').value)||1;
+        const fSize=parseInt(document.getElementById('fontSize').value)||10;
+        const fmt=document.getElementById('format').value;
+        fill.style.width='60%';
+        pages.forEach((page,i)=>{
+          const {width,height}=page.getSize();
+          const n=i+startN;
+          let text=fmt==='n'?String(n):fmt==='pg'?'Page '+n:'Page '+n+' of '+(total+startN-1);
+          const tw=font.widthOfTextAtSize(text,fSize);
+          let x,y;
+          if(pos.includes('center')) x=(width-tw)/2;
+          else if(pos.includes('right')) x=width-tw-30;
+          else x=30;
+          if(pos.includes('bottom')) y=20;
+          else y=height-30;
+          page.drawText(text,{x,y,size:fSize,font,color:rgb(0.3,0.3,0.3)});
+        });
+        numberedBytes=await doc.save();
+        fill.style.width='100%';
+        document.getElementById('resultDesc').textContent='Page numbers added to '+total+' pages.';
+        document.getElementById('resultBox').style.display='block';
+        showToast('Page numbers added!','success');
+      }catch(e){showToast('Error: '+e.message,'error');}
+    }
+    function downloadNumbered(){
+      const blob=new Blob([numberedBytes],{type:'application/pdf'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='numbered.pdf'; a.click();
+    }
+    function resetNum(){pdfFile=null;numberedBytes=null;document.getElementById('numOptions').style.display='none';document.getElementById('resultBox').style.display='none';}
+  </script>
+</body></html>

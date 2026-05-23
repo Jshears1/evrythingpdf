@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact EvrythingPDF – Free PDF Tools</title>
+  <meta name="description" content="Contact the EvrythingPDF team. Report bugs, suggest features, or ask questions about our free PDF tools.">
+  <link rel="canonical" href="https://www.evrythingpdf.com/contact.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a></div></header>
+  <div class="container" style="max-width:580px;padding:60px 24px">
+    <h1 style="font-size:2rem;font-weight:800;margin-bottom:8px">Contact Us</h1>
+    <p style="color:var(--text-secondary);margin-bottom:32px">Have a question, bug report, or feature suggestion? We'd love to hear from you.</p>
+    <form id="contactForm" style="display:flex;flex-direction:column;gap:16px" onsubmit="submitForm(event)">
+      <div><label style="font-size:.9rem;font-weight:500;display:block;margin-bottom:6px">Name</label><input type="text" required placeholder="Your name" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit"></div>
+      <div><label style="font-size:.9rem;font-weight:500;display:block;margin-bottom:6px">Email</label><input type="email" required placeholder="your@email.com" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit"></div>
+      <div><label style="font-size:.9rem;font-weight:500;display:block;margin-bottom:6px">Message</label><textarea required rows="5" placeholder="How can we help?" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit;resize:vertical"></textarea></div>
+      <button type="submit" class="btn-primary">Send Message</button>
+    </form>
+    <div id="formSuccess" style="display:none;background:#dcfce7;border:1px solid #86efac;border-radius:12px;padding:20px;margin-top:20px;color:#16a34a;font-weight:600">✅ Message sent! We'll get back to you within 24-48 hours.</div>
+  </div>
+  <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+  <script>function submitForm(e){e.preventDefault();document.getElementById('contactForm').style.display='none';document.getElementById('formSuccess').style.display='block';}</script>
+</body></html>
