@@ -40,7 +40,6 @@ function routeFile(file) {
     jpeg: 'jpg-to-pdf.html'
   };
   const page = routes[ext] || 'viewer.html';
-  // Store file for the tool page
   sessionStorage.setItem('pendingFile', JSON.stringify({name: file.name, size: file.size, type: file.type}));
   window.location.href = page + '?file=' + encodeURIComponent(file.name);
 }
@@ -49,7 +48,6 @@ function routeFile(file) {
 function toggleFaq(btn) {
   const answer = btn.nextElementSibling;
   const isOpen = answer.classList.contains('open');
-  // Close all
   document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
   document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
   if (!isOpen) {
