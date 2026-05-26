@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://www.evrythingpdf.com/sitemap.xml
+Sitemap: https://evrythingpdf.com/sitemap.xml
 
 # Block any upload temp directories if they exist
 Disallow: /uploads/

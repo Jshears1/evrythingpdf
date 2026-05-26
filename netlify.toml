@@ -26,12 +26,273 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+# Canonical domain: redirect www → non-www
+[[redirects]]
+  from = "https://www.evrythingpdf.com/*"
+  to = "https://evrythingpdf.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.evrythingpdf.com/*"
+  to = "https://evrythingpdf.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "http://evrythingpdf.com/*"
-  to = "https://www.evrythingpdf.com/:splat"
+  to = "https://evrythingpdf.com/:splat"
+  status = 301
+  force = true
+
+# Clean URLs: redirect .html → slug (301)
+[[redirects]]
+  from = "/merge.html"
+  to = "/merge"
   status = 301
 
 [[redirects]]
-  from = "https://evrythingpdf.com/*"
-  to = "https://www.evrythingpdf.com/:splat"
+  from = "/split.html"
+  to = "/split"
   status = 301
+
+[[redirects]]
+  from = "/compress.html"
+  to = "/compress"
+  status = 301
+
+[[redirects]]
+  from = "/sign.html"
+  to = "/sign"
+  status = 301
+
+[[redirects]]
+  from = "/rotate.html"
+  to = "/rotate"
+  status = 301
+
+[[redirects]]
+  from = "/unlock.html"
+  to = "/unlock"
+  status = 301
+
+[[redirects]]
+  from = "/add-password.html"
+  to = "/add-password"
+  status = 301
+
+[[redirects]]
+  from = "/jpg-to-pdf.html"
+  to = "/jpg-to-pdf"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-to-jpg.html"
+  to = "/pdf-to-jpg"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-to-word.html"
+  to = "/pdf-to-word"
+  status = 301
+
+[[redirects]]
+  from = "/word-to-pdf.html"
+  to = "/word-to-pdf"
+  status = 301
+
+[[redirects]]
+  from = "/viewer.html"
+  to = "/viewer"
+  status = 301
+
+[[redirects]]
+  from = "/reorder.html"
+  to = "/reorder"
+  status = 301
+
+[[redirects]]
+  from = "/page-numbers.html"
+  to = "/page-numbers"
+  status = 301
+
+[[redirects]]
+  from = "/watermark.html"
+  to = "/watermark"
+  status = 301
+
+[[redirects]]
+  from = "/add-image.html"
+  to = "/add-image"
+  status = 301
+
+[[redirects]]
+  from = "/add-text.html"
+  to = "/add-text"
+  status = 301
+
+[[redirects]]
+  from = "/edit-text.html"
+  to = "/edit-text"
+  status = 301
+
+[[redirects]]
+  from = "/draw.html"
+  to = "/draw"
+  status = 301
+
+[[redirects]]
+  from = "/convert.html"
+  to = "/convert"
+  status = 301
+
+[[redirects]]
+  from = "/about.html"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/contact"
+  status = 301
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/privacy"
+  status = 301
+
+[[redirects]]
+  from = "/terms.html"
+  to = "/terms"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-editor-tool.html"
+  to = "/pdf-editor-tool"
+  status = 301
+
+# Serve clean URLs → actual .html files (rewrite, no URL change)
+[[redirects]]
+  from = "/merge"
+  to = "/merge.html"
+  status = 200
+
+[[redirects]]
+  from = "/split"
+  to = "/split.html"
+  status = 200
+
+[[redirects]]
+  from = "/compress"
+  to = "/compress.html"
+  status = 200
+
+[[redirects]]
+  from = "/sign"
+  to = "/sign.html"
+  status = 200
+
+[[redirects]]
+  from = "/rotate"
+  to = "/rotate.html"
+  status = 200
+
+[[redirects]]
+  from = "/unlock"
+  to = "/unlock.html"
+  status = 200
+
+[[redirects]]
+  from = "/add-password"
+  to = "/add-password.html"
+  status = 200
+
+[[redirects]]
+  from = "/jpg-to-pdf"
+  to = "/jpg-to-pdf.html"
+  status = 200
+
+[[redirects]]
+  from = "/pdf-to-jpg"
+  to = "/pdf-to-jpg.html"
+  status = 200
+
+[[redirects]]
+  from = "/pdf-to-word"
+  to = "/pdf-to-word.html"
+  status = 200
+
+[[redirects]]
+  from = "/word-to-pdf"
+  to = "/word-to-pdf.html"
+  status = 200
+
+[[redirects]]
+  from = "/viewer"
+  to = "/viewer.html"
+  status = 200
+
+[[redirects]]
+  from = "/reorder"
+  to = "/reorder.html"
+  status = 200
+
+[[redirects]]
+  from = "/page-numbers"
+  to = "/page-numbers.html"
+  status = 200
+
+[[redirects]]
+  from = "/watermark"
+  to = "/watermark.html"
+  status = 200
+
+[[redirects]]
+  from = "/add-image"
+  to = "/add-image.html"
+  status = 200
+
+[[redirects]]
+  from = "/add-text"
+  to = "/add-text.html"
+  status = 200
+
+[[redirects]]
+  from = "/edit-text"
+  to = "/edit-text.html"
+  status = 200
+
+[[redirects]]
+  from = "/draw"
+  to = "/draw.html"
+  status = 200
+
+[[redirects]]
+  from = "/convert"
+  to = "/convert.html"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/pdf-editor-tool"
+  to = "/pdf-editor-tool.html"
+  status = 200
