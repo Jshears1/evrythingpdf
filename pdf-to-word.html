@@ -15,9 +15,9 @@
   <meta name="keywords" content="pdf to word, pdf to docx converter free, convert pdf to word online, pdf word converter">
   <link rel="canonical" href="https://evrythingpdf.com/pdf-to-word">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7338860226113687" crossorigin="anonymous"></script>
-
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert a PDF to Word?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF, click Convert, and download the .docx file ready to edit in Microsoft Word or Google Docs."}},{"@type":"Question","name":"Does PDF-to-Word conversion preserve formatting?","acceptedAnswer":{"@type":"Answer","text":"For most text-based PDFs, yes. Complex multi-column layouts or scanned documents may need minor cleanup after conversion."}},{"@type":"Question","name":"Is PDF to Word conversion free?","acceptedAnswer":{"@type":"Answer","text":"Yes \u2014 completely free with no signup required."}}]}</script>
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7338860226113687" crossorigin="anonymous"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert a PDF to Word?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF, click Convert, and download the .docx file ready to edit in Microsoft Word or Google Docs."}},{"@type":"Question","name":"Does PDF-to-Word conversion preserve formatting?","acceptedAnswer":{"@type":"Answer","text":"For most text-based PDFs, yes. Headings, paragraphs, and bold text are detected automatically. Complex multi-column layouts or scanned documents may need minor cleanup after conversion."}},{"@type":"Question","name":"Is PDF to Word conversion free?","acceptedAnswer":{"@type":"Answer","text":"Yes — completely free with no signup required."}}]}</script>
   <!-- Open Graph -->
   <meta property="og:title" content="PDF to Word Converter Free Online – EvrythingPDF">
   <meta property="og:description" content="Convert PDF to Word (.docx) online for free. Preserve formatting and edit your document in Word or Google Docs.">
@@ -34,62 +34,237 @@
   <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a></nav></div></header>
   <section class="tool-hero">
     <h1 class="tool-hero-title">PDF to Word</h1>
-    <p class="tool-hero-desc">Convert your PDF documents to editable Microsoft Word (DOCX) files. Preserves layout, fonts, and formatting. Free and instant.</p>
+    <p class="tool-hero-desc">Convert your PDF documents to editable Microsoft Word (DOCX) files. Headings, paragraphs, and bold text are detected automatically. Free and instant.</p>
   </section>
   <div class="tool-workspace">
-    <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:.9rem">
-      <strong>Note:</strong> Full PDF to Word conversion with layout preservation requires server-side processing. This tool extracts text content from your PDF into a structured DOCX format. For complex layouts, consider <a href="https://www.freepdfconvert.com" target="_blank" rel="noopener">FreePDFConvert</a> (free tier available).
-    </div>
     <div class="drop-zone" id="dropZone">
       <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div>
-      <h3>Drop your PDF here</h3><p>Extracts text content to DOCX format</p>
+      <h3>Drop your PDF here</h3>
+      <p>Creates a real .docx file with detected headings &amp; paragraphs</p>
       <input type="file" id="fileInput" accept=".pdf" style="display:none">
       <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
     </div>
     <div id="convOptions" style="display:none">
+      <p style="font-size:.9rem;color:var(--text-secondary);margin-bottom:16px" id="loadedFile"></p>
       <div class="action-bar">
         <button class="btn-primary" onclick="convertToWord()">Convert to Word</button>
         <button class="btn-secondary" onclick="resetConv()">Change File</button>
       </div>
     </div>
-    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Extracting text...</p></div>
-    <div class="result-box" id="resultBox"><h3>✅ Conversion Complete!</h3><p id="resultDesc">Text extracted from PDF.</p>
-      <button class="btn-primary" onclick="downloadWord()">⬇ Download DOCX</button></div>
+    <div class="progress-wrapper" id="progressWrapper" style="display:none">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="progress-label" id="progressLabel">Loading...</p>
+    </div>
+    <div class="result-box" id="resultBox" style="display:none">
+      <h3>&#10003; Conversion Complete!</h3>
+      <p id="resultDesc">Your PDF has been converted to DOCX.</p>
+      <button class="btn-primary" onclick="downloadWord()">&#8595; Download DOCX</button>
+    </div>
   </div>
-  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">&#8592; All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
+
   <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script src="https://unpkg.com/docx@8.5.0/build/index.umd.min.js"></script>
   <script src="app.js"></script>
   <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-    let pdfFile=null; let docContent='';
-    initDropZone('dropZone','fileInput',function(files){pdfFile=files[0];document.getElementById('convOptions').style.display='block';});
-    async function convertToWord(){
-      document.getElementById('progressWrapper').style.display='block';
-      const fill=document.getElementById('progressFill'); fill.style.width='20%';
-      const bytes=await pdfFile.arrayBuffer();
-      const pdf=await pdfjsLib.getDocument({data:bytes}).promise;
-      docContent=''; fill.style.width='40%';
-      for(let i=1;i<=pdf.numPages;i++){
-        const page=await pdf.getPage(i);
-        const tc=await page.getTextContent();
-        docContent+='--- Page '+i+' ---\n';
-        tc.items.forEach(item=>docContent+=item.str+(item.hasEOL?'\n':''));
-        docContent+='\n\n';
-        fill.style.width=(40+((i/pdf.numPages)*50))+'%';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+
+    let pdfFile = null;
+    let docxBlob = null;
+
+    initDropZone('dropZone', 'fileInput', function(files) {
+      pdfFile = files[0];
+      document.getElementById('loadedFile').textContent = 'File: ' + files[0].name + ' (' + formatSize(files[0].size) + ')';
+      document.getElementById('convOptions').style.display = 'block';
+    });
+
+    async function convertToWord() {
+      if (!pdfFile) return;
+      const fill = document.getElementById('progressFill');
+      const label = document.getElementById('progressLabel');
+      document.getElementById('progressWrapper').style.display = 'block';
+      document.getElementById('resultBox').style.display = 'none';
+
+      try {
+        fill.style.width = '10%';
+        label.textContent = 'Loading PDF...';
+
+        const bytes = await pdfFile.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+        const numPages = pdf.numPages;
+
+        fill.style.width = '20%';
+        label.textContent = 'Analyzing document structure...';
+
+        // Extract all text items from all pages
+        const allPages = [];
+        for (let i = 1; i <= numPages; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({scale: 1});
+          const tc = await page.getTextContent();
+
+          const items = tc.items
+            .filter(item => item.str && item.str.trim().length > 0)
+            .map(item => {
+              const t = item.transform;
+              // Effective font size from transform matrix (scaleX component)
+              const fontSize = Math.max(Math.abs(t[0]), Math.abs(t[3])) || 12;
+              const isBoldHint = /bold|black|heavy/i.test(item.fontName || '');
+              return {
+                str: item.str,
+                x: t[4],
+                y: t[5],
+                fontSize,
+                isBold: isBoldHint,
+                hasEOL: !!item.hasEOL
+              };
+            });
+
+          allPages.push({pageNum: i, items, pageHeight: viewport.height});
+          fill.style.width = (20 + (i / numPages) * 30) + '%';
+        }
+
+        label.textContent = 'Building DOCX structure...';
+        fill.style.width = '55%';
+
+        // Compute median font size across the whole document
+        const allSizes = allPages.flatMap(p => p.items.map(it => it.fontSize)).filter(s => s > 0);
+        allSizes.sort((a, b) => a - b);
+        const medianSize = allSizes[Math.floor(allSizes.length / 2)] || 12;
+
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel, PageBreak } = window.docx;
+        const docParagraphs = [];
+
+        for (const {pageNum, items} of allPages) {
+          if (pageNum > 1) {
+            docParagraphs.push(new Paragraph({children: [new PageBreak()]}));
+          }
+          if (!items.length) continue;
+
+          // Sort top-to-bottom (PDF Y is bottom-up so sort descending), then left-to-right
+          items.sort((a, b) => (b.y - a.y) || (a.x - b.x));
+
+          // Group into lines: items within 2pt of each other in Y are on the same line
+          const lines = [];
+          let currentLine = null;
+
+          for (const item of items) {
+            if (!currentLine || Math.abs(item.y - currentLine.baseY) > 2) {
+              currentLine = {baseY: item.y, items: []};
+              lines.push(currentLine);
+            }
+            currentLine.items.push(item);
+          }
+
+          // Sort items within each line by X
+          for (const line of lines) {
+            line.items.sort((a, b) => a.x - b.x);
+          }
+
+          // Compute median line gap to detect paragraph breaks
+          const gaps = [];
+          for (let i = 1; i < lines.length; i++) {
+            gaps.push(Math.abs(lines[i - 1].baseY - lines[i].baseY));
+          }
+          gaps.sort((a, b) => a - b);
+          const medianGap = gaps[Math.floor(gaps.length / 2)] || 14;
+          const paraBreakThreshold = medianGap * 1.6;
+
+          // Accumulate lines into paragraphs, flushing when gap is large
+          let pendingLines = [];
+
+          const flushParagraph = () => {
+            if (!pendingLines.length) return;
+
+            const lineTexts = pendingLines.map(l => l.items.map(it => it.str).join(''));
+            const text = lineTexts.join(' ').replace(/\s+/g, ' ').trim();
+            if (!text) { pendingLines = []; return; }
+
+            const allItems = pendingLines.flatMap(l => l.items);
+            const avgSize = allItems.reduce((s, it) => s + it.fontSize, 0) / allItems.length;
+            const isBold = allItems.some(it => it.isBold);
+            const sizeRatio = avgSize / medianSize;
+
+            // Half-point sizing: docx uses half-points (multiply pt by 2)
+            const halfPt = Math.round(Math.max(avgSize, 8) * 2);
+
+            if (sizeRatio >= 1.8) {
+              docParagraphs.push(new Paragraph({
+                heading: HeadingLevel.HEADING_1,
+                children: [new TextRun({text, bold: true, size: halfPt})],
+                spacing: {before: 300, after: 150}
+              }));
+            } else if (sizeRatio >= 1.45) {
+              docParagraphs.push(new Paragraph({
+                heading: HeadingLevel.HEADING_2,
+                children: [new TextRun({text, bold: true, size: halfPt})],
+                spacing: {before: 240, after: 120}
+              }));
+            } else if (sizeRatio >= 1.2) {
+              docParagraphs.push(new Paragraph({
+                heading: HeadingLevel.HEADING_3,
+                children: [new TextRun({text, bold: true, size: halfPt})],
+                spacing: {before: 180, after: 90}
+              }));
+            } else {
+              docParagraphs.push(new Paragraph({
+                children: [new TextRun({text, bold: isBold, size: halfPt})],
+                spacing: {before: 60, after: 60}
+              }));
+            }
+
+            pendingLines = [];
+          };
+
+          for (let i = 0; i < lines.length; i++) {
+            pendingLines.push(lines[i]);
+            if (i < lines.length - 1) {
+              const gap = Math.abs(lines[i].baseY - lines[i + 1].baseY);
+              if (gap > paraBreakThreshold) flushParagraph();
+            }
+          }
+          flushParagraph();
+        }
+
+        fill.style.width = '80%';
+        label.textContent = 'Generating DOCX file...';
+
+        const doc = new Document({
+          sections: [{properties: {}, children: docParagraphs}]
+        });
+
+        docxBlob = await Packer.toBlob(doc);
+
+        fill.style.width = '100%';
+        label.textContent = 'Complete!';
+
+        document.getElementById('resultDesc').textContent =
+          'Converted ' + numPages + ' page' + (numPages !== 1 ? 's' : '') + ' to DOCX with structure detection.';
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('resultBox').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+        showToast('Converted to DOCX!', 'success');
+
+      } catch (e) {
+        showToast('Error: ' + e.message, 'error');
+        document.getElementById('progressWrapper').style.display = 'none';
       }
-      // Create a simple RTF/plain text document
-      // For true DOCX we'd need docx.js library
-      fill.style.width='100%';
-      document.getElementById('resultDesc').textContent='Extracted text from '+pdf.numPages+' pages.';
-      document.getElementById('resultBox').style.display='block';
-      showToast('Extraction complete!','success');
     }
-    function downloadWord(){
-      // Create plain text file (real DOCX needs docx.js)
-      const blob=new Blob([docContent],{type:'text/plain'});
-      const name=pdfFile.name.replace('.pdf','.txt');
-      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click();
+
+    function downloadWord() {
+      if (!docxBlob) return;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(docxBlob);
+      a.download = pdfFile.name.replace(/\.pdf$/i, '.docx');
+      a.click();
     }
-    function resetConv(){pdfFile=null;document.getElementById('convOptions').style.display='none';document.getElementById('resultBox').style.display='none';}
+
+    function resetConv() {
+      pdfFile = null;
+      docxBlob = null;
+      document.getElementById('convOptions').style.display = 'none';
+      document.getElementById('resultBox').style.display = 'none';
+      document.getElementById('progressWrapper').style.display = 'none';
+    }
   </script>
-</body></html>
+</body>
+</html>
