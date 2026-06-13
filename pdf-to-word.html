@@ -1,95 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2TCJVQ6KR"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-K2TCJVQ6KR');
-  </script>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PDF to Word Converter Free Online – EvrythingPDF</title>
-  <meta name="description" content="Convert PDF to Word (DOCX) online for free. Preserve formatting, fonts, and layout. No signup needed. Fast and accurate PDF to Word conversion.">
-  <meta name="keywords" content="pdf to word, pdf to docx converter free, convert pdf to word online, pdf word converter">
-  <link rel="canonical" href="https://evrythingpdf.com/pdf-to-word">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7338860226113687" crossorigin="anonymous"></script>
+  <meta name="description" content="Convert PDF to Word (DOCX) online for free. Preserve formatting, fonts, and layout. No signup needed. Fast and accurate PDF to Word conversion." />
+  <meta name="keywords" content="pdf to word, pdf to docx converter free, convert pdf to word online, pdf word converter" />
+  <meta property="og:title" content="PDF to Word Converter Free Online – EvrythingPDF" />
+  <meta property="og:description" content="Convert PDF to Word (.docx) online for free. Preserve formatting and edit your document in Word or Google Docs." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://evrythingpdf.com/pdf-to-word" />
+  <meta property="og:image" content="https://evrythingpdf.com/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PDF to Word Converter Free Online – EvrythingPDF" />
+  <meta name="twitter:description" content="Convert PDF to Word (.docx) online for free. Preserve formatting and edit your document in Word or Google Docs." />
+  <link rel="canonical" href="https://evrythingpdf.com/pdf-to-word" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert a PDF to Word?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF, click Convert, and download the .docx file ready to edit in Microsoft Word or Google Docs."}},{"@type":"Question","name":"Does PDF-to-Word conversion preserve formatting?","acceptedAnswer":{"@type":"Answer","text":"For most text-based PDFs, yes. Complex multi-column layouts or scanned documents may need minor cleanup after conversion."}},{"@type":"Question","name":"Is PDF to Word conversion free?","acceptedAnswer":{"@type":"Answer","text":"Yes \u2014 completely free with no signup required."}}]}</script>
-  <!-- Open Graph -->
-  <meta property="og:title" content="PDF to Word Converter Free Online – EvrythingPDF">
-  <meta property="og:description" content="Convert PDF to Word (.docx) online for free. Preserve formatting and edit your document in Word or Google Docs.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://evrythingpdf.com/pdf-to-word">
-  <meta property="og:image" content="https://evrythingpdf.com/og-image.png">
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="PDF to Word Converter Free Online – EvrythingPDF">
-  <meta name="twitter:description" content="Convert PDF to Word (.docx) online for free. Preserve formatting and edit your document in Word or Google Docs.">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PDF to Word Converter Free Online","description":"Convert PDF to Word (.docx) online for free. Preserve formatting and edit your document in Word or Google Docs.","url":"https://evrythingpdf.com/pdf-to-word","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --border: #2a2d3a;
+      --accent: #4f8ef7;
+      --accent-hover: #3a7ae8;
+      --success: #22c55e;
+      --error: #ef4444;
+      --text: #e8eaf0;
+      --muted: #7b8099;
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-back {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--text); }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1.5rem;
+      gap: 2rem;
+    }
+
+    .page-header {
+      text-align: center;
+      max-width: 560px;
+    }
+
+    .page-header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* TOOL CARD */
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* DROP ZONE */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.drag-over {
+      border-color: var(--accent);
+      background: rgba(79, 142, 247, 0.05);
+    }
+
+    .drop-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .drop-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .drop-zone h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .drop-zone p {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* FILE SELECTED STATE */
+    .file-info {
+      display: none;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(79, 142, 247, 0.08);
+      border: 1px solid rgba(79, 142, 247, 0.2);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+
+    .file-info.visible { display: flex; }
+
+    .file-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .file-details { flex: 1; min-width: 0; }
+
+    .file-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-size {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .btn-change {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-change:hover { color: var(--text); border-color: var(--text); }
+
+    /* CONVERT BUTTON */
+    .btn-convert {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-convert:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* PROGRESS */
+    .progress-area {
+      display: none;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .progress-area.visible { display: flex; }
+
+    .progress-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar-track {
+      height: 6px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-bar-fill.indeterminate {
+      width: 40%;
+      animation: slide 1.4s ease-in-out infinite;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(350%); }
+    }
+
+    /* SUCCESS */
+    .success-area {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .success-area.visible { display: flex; }
+
+    .success-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(34, 197, 94, 0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .success-area h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .success-area p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .btn-download {
+      background: var(--success);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.8rem 2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.2s;
+    }
+
+    .btn-download:hover { opacity: 0.88; }
+
+    .btn-convert-another {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-convert-another:hover { color: var(--text); border-color: var(--text); }
+
+    /* ERROR */
+    .error-area {
+      display: none;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 0.88rem;
+      color: #fca5a5;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .error-area.visible { display: flex; }
+
+    /* INFO PILLS */
+    .info-pills {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pill {
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 0.3rem 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 480px) {
+      .tool-card { padding: 1.5rem; }
+      nav { padding: 1rem; }
+    }
+  </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a></nav></div></header>
-  <section class="tool-hero">
-    <h1 class="tool-hero-title">PDF to Word</h1>
-    <p class="tool-hero-desc">Convert your PDF documents to editable Microsoft Word (DOCX) files. Preserves layout, fonts, and formatting. Free and instant.</p>
-  </section>
-  <div class="tool-workspace">
-    <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:.9rem">
-      <strong>Note:</strong> Full PDF to Word conversion with layout preservation requires server-side processing. This tool extracts text content from your PDF into a structured DOCX format. For complex layouts, consider <a href="https://www.freepdfconvert.com" target="_blank" rel="noopener">FreePDFConvert</a> (free tier available).
+
+  <nav>
+    <a href="https://evrythingpdf.com/" class="nav-logo">
+      <span>PDF</span>EvrythingPDF
+    </a>
+    <a href="https://evrythingpdf.com/" class="nav-back">← All Tools</a>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <h1>PDF to Word</h1>
+      <p>Convert PDF documents to fully editable DOCX files. Preserves layout, fonts, tables, and formatting using server-side conversion.</p>
     </div>
-    <div class="drop-zone" id="dropZone">
-      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div>
-      <h3>Drop your PDF here</h3><p>Extracts text content to DOCX format</p>
-      <input type="file" id="fileInput" accept=".pdf" style="display:none">
-      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
-    </div>
-    <div id="convOptions" style="display:none">
-      <div class="action-bar">
-        <button class="btn-primary" onclick="convertToWord()">Convert to Word</button>
-        <button class="btn-secondary" onclick="resetConv()">Change File</button>
+
+    <div class="tool-card">
+
+      <!-- DROP ZONE -->
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept=".pdf,application/pdf" />
+        <span class="drop-icon">📄</span>
+        <h3>Drop your PDF here</h3>
+        <p>or click to browse &nbsp;·&nbsp; Max 50MB</p>
       </div>
+
+      <!-- FILE INFO -->
+      <div class="file-info" id="fileInfo">
+        <span class="file-icon">📄</span>
+        <div class="file-details">
+          <div class="file-name" id="fileName">document.pdf</div>
+          <div class="file-size" id="fileSize">0 KB</div>
+        </div>
+        <button class="btn-change" id="btnChange">Change</button>
+      </div>
+
+      <!-- ERROR -->
+      <div class="error-area" id="errorArea">
+        <span>⚠️</span>
+        <span id="errorMsg">Something went wrong. Please try again.</span>
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="progress-area" id="progressArea">
+        <div class="progress-label">
+          <span id="progressLabel">Uploading…</span>
+          <span id="progressPct"></span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill indeterminate" id="progressBar"></div>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-area" id="successArea">
+        <div class="success-icon">✅</div>
+        <h3>Conversion Complete</h3>
+        <p>Your DOCX file is ready to download.</p>
+        <a class="btn-download" id="btnDownload" href="#" download>⬇ Download DOCX</a>
+        <button class="btn-convert-another" id="btnAnother">Convert another file</button>
+      </div>
+
+      <!-- CONVERT BUTTON -->
+      <button class="btn-convert" id="btnConvert" disabled>
+        Convert to Word
+      </button>
+
     </div>
-    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Extracting text...</p></div>
-    <div class="result-box" id="resultBox"><h3>✅ Conversion Complete!</h3><p id="resultDesc">Text extracted from PDF.</p>
-      <button class="btn-primary" onclick="downloadWord()">⬇ Download DOCX</button></div>
-  </div>
-  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
-  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
-  <script src="app.js"></script>
+
+    <div class="info-pills">
+      <span class="pill">🔒 Files deleted after conversion</span>
+      <span class="pill">⚡ Server-side conversion</span>
+      <span class="pill">🆓 Free · No signup</span>
+    </div>
+
+  </main>
+
+  <footer>
+    © 2026 EvrythingPDF.com — Free PDF Tools Online
+  </footer>
+
   <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-    let pdfFile=null; let docContent='';
-    initDropZone('dropZone','fileInput',function(files){pdfFile=files[0];document.getElementById('convOptions').style.display='block';});
-    async function convertToWord(){
-      document.getElementById('progressWrapper').style.display='block';
-      const fill=document.getElementById('progressFill'); fill.style.width='20%';
-      const bytes=await pdfFile.arrayBuffer();
-      const pdf=await pdfjsLib.getDocument({data:bytes}).promise;
-      docContent=''; fill.style.width='40%';
-      for(let i=1;i<=pdf.numPages;i++){
-        const page=await pdf.getPage(i);
-        const tc=await page.getTextContent();
-        docContent+='--- Page '+i+' ---\n';
-        tc.items.forEach(item=>docContent+=item.str+(item.hasEOL?'\n':''));
-        docContent+='\n\n';
-        fill.style.width=(40+((i/pdf.numPages)*50))+'%';
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const btnChange = document.getElementById('btnChange');
+    const btnConvert = document.getElementById('btnConvert');
+    const progressArea = document.getElementById('progressArea');
+    const progressLabel = document.getElementById('progressLabel');
+    const progressBar = document.getElementById('progressBar');
+    const successArea = document.getElementById('successArea');
+    const btnDownload = document.getElementById('btnDownload');
+    const btnAnother = document.getElementById('btnAnother');
+    const errorArea = document.getElementById('errorArea');
+    const errorMsg = document.getElementById('errorMsg');
+
+    let selectedFile = null;
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function setFile(file) {
+      if (!file || file.type !== 'application/pdf') {
+        showError('Please select a valid PDF file.');
+        return;
       }
-      // Create a simple RTF/plain text document
-      // For true DOCX we'd need docx.js library
-      fill.style.width='100%';
-      document.getElementById('resultDesc').textContent='Extracted text from '+pdf.numPages+' pages.';
-      document.getElementById('resultBox').style.display='block';
-      showToast('Extraction complete!','success');
+      if (file.size > 50 * 1024 * 1024) {
+        showError('File is too large. Maximum size is 50MB.');
+        return;
+      }
+      selectedFile = file;
+      fileName.textContent = file.name;
+      fileSize.textContent = formatBytes(file.size);
+      dropZone.style.display = 'none';
+      fileInfo.classList.add('visible');
+      btnConvert.disabled = false;
+      hideError();
+      successArea.classList.remove('visible');
     }
-    function downloadWord(){
-      // Create plain text file (real DOCX needs docx.js)
-      const blob=new Blob([docContent],{type:'text/plain'});
-      const name=pdfFile.name.replace('.pdf','.txt');
-      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click();
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorArea.classList.add('visible');
     }
-    function resetConv(){pdfFile=null;document.getElementById('convOptions').style.display='none';document.getElementById('resultBox').style.display='none';}
+
+    function hideError() {
+      errorArea.classList.remove('visible');
+    }
+
+    function reset() {
+      selectedFile = null;
+      fileInput.value = '';
+      dropZone.style.display = '';
+      fileInfo.classList.remove('visible');
+      successArea.classList.remove('visible');
+      progressArea.classList.remove('visible');
+      btnConvert.disabled = true;
+      btnConvert.style.display = '';
+      hideError();
+    }
+
+    // File input
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files[0]) setFile(fileInput.files[0]);
+    });
+
+    // Drag and drop
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+    });
+
+    btnChange.addEventListener('click', reset);
+    btnAnother.addEventListener('click', reset);
+
+    // Convert
+    btnConvert.addEventListener('click', async () => {
+      if (!selectedFile) return;
+
+      hideError();
+      btnConvert.style.display = 'none';
+      progressArea.classList.add('visible');
+      progressLabel.textContent = 'Uploading…';
+
+      const form = new FormData();
+      form.append('file', selectedFile);
+
+      try {
+        progressLabel.textContent = 'Converting — this takes 10–30 seconds…';
+
+        const res = await fetch('/api/convert-pdf-to-word', {
+          method: 'POST',
+          body: form,
+        });
+
+        if (!res.ok) {
+          let detail = '';
+          try {
+            const json = await res.json();
+            detail = json.error || json.detail || '';
+          } catch {}
+          throw new Error(detail || `Server error (${res.status})`);
+        }
+
+        progressLabel.textContent = 'Downloading…';
+
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const outName = selectedFile.name.replace(/\.pdf$/i, '.docx');
+
+        btnDownload.href = url;
+        btnDownload.download = outName;
+
+        progressArea.classList.remove('visible');
+        successArea.classList.add('visible');
+
+      } catch (err) {
+        progressArea.classList.remove('visible');
+        btnConvert.style.display = '';
+        btnConvert.disabled = false;
+        showError(err.message || 'Conversion failed. Please try again.');
+      }
+    });
   </script>
-</body></html>
+
+</body>
+</html>
