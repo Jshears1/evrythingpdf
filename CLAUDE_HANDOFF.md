@@ -2,7 +2,10 @@
 
 _Written 2026-07-06 by the Cowork session. Repo: `~/evrythingpdf` (github.com/Jshears1/evrythingpdf), branch `main`, GitHub Pages behind Cloudflare, CNAME evrythingpdf.com._
 
-## 0. DO THIS FIRST — push + purge (you have the terminal + gh auth; the Cowork session did not)
+> **⏩ CURRENT STATE (2026-07-06, updated by Claude Code) — read [§6](#6-session-update--2026-07-06-claude-code) FIRST.**
+> Everything through Phase 3 (OCR) and most of Phase 4 (flatten redaction + PII auto-redact) is **shipped and live**. HEAD ≈ `f0fb0a5`. **Sections 0's "push the 3 commits" is DONE — ignore it.** Next task: Phase 4 remaining (pdf.js text-layer select/copy, then edit-existing-text) — spec in §6. Deploy/testing gotchas in §6 too.
+
+## 0. DO THIS FIRST — push + purge (you have the terminal + gh auth; the Cowork session did not) — ✅ DONE, historical only
 
 There are **3 unpushed commits** on `main`, already made locally in this clone:
 
@@ -105,7 +108,7 @@ Privacy branding ("no upload, no size cap, no watermark, no limits"), installabl
 - Phase 1 ✅
 - Phase 2 ✅
 - Phase 3 ✅ shipped + live (OCR)
-- Phase 4 🔶 in progress — true redaction/flatten done + live; remaining below
+- Phase 4 🔶 in progress — flatten redaction ✅ live, PII auto-redact ✅ live; 2 features remaining (text-layer select/copy, edit-existing-text) — see below
 
 ---
 
@@ -123,11 +126,17 @@ Privacy branding ("no upload, no size cap, no watermark, no limits"), installabl
 - Verified in-browser: a PDF with extractable "SECRET" → flattened output has **0 extractable text items**, page count + pt dims preserved.
 - The misleading `redact` SEO keyword is now legitimate (real redaction shipped) — kept as-is.
 
+### Phase 4 — PII auto-redact ✅ live
+
+- **`Scan for PII` button** (`id="scanPiiBtn"`) in `#actions` of BOTH editor pages, wired to `scanPII()` in `editor.js`.
+- `scanPII()` walks the pdf.js text layer across ALL pages, regex-matches via `PII_PATTERNS` (SSN `\d{3}-\d{2}-\d{4}`, email, card `13–16 digits`), and drops a black whiteout box over each match. Sub-span within a text item is positioned by `perChar = it.width / str.length` (approximate, tighter than whole-item). Boxes are review-able suggestions; combine with `Flatten & redact` on save for true removal. Warns and points to OCR when the doc has no text layer (`totalChars < 5`).
+- Verified in-browser: SSN+email+card PDF → exactly 3 boxes on the right lines; a plain-text line skipped. (Card-digit guard: 13–16 digits only.)
+- Known limits: item-level positions from `getTextContent` are approximate (per-char width assumption); over/under-cover possible on proportional fonts — user reviews. No `luhn` check on cards (intentional, wider net for suggestions).
+
 ### Phase 4 — REMAINING (approved order, not yet built)
 
-1. **pdf.js text-layer select/copy** of the original PDF text (overlay text layer on the canvas).
-2. **One-click "edit existing text"**: reuse `sampleFontAt()` eyedropper (P2) + auto-whiteout the original glyph box + drop a matched text box. Combines existing pieces.
-3. **PII auto-redact**: regex the pdf.js text layer / OCR output for SSNs, emails, card numbers → auto-suggest whiteout+flatten boxes. Cheapest standout; do first.
+1. **pdf.js text-layer select/copy** of the original PDF text — DO NEXT. Render a pdf.js text layer (`renderTextLayer` or manual absolutely-positioned spans) over `#pdfCanvas`/`#overlay` so users can select+copy the original text. Watch: it must not intercept the annotation pointer events (z-index/pointer-events juggling with `#overlay`), and it re-lays out on every `renderPage()`/zoom. pdf.js 3.11 ships `pdfjsLib.renderTextLayer({textContentSource, container, viewport})`.
+2. **One-click "edit existing text"**: reuse `sampleFontAt()` eyedropper (P2, already in `editor.js`) + auto-whiteout the clicked glyph's item box (coords like `scanPII` uses: `e, H-f-sz*0.85, it.width, sz*1.15`) + drop a matched text box pre-filled with the item's `str`. Pure recombination of shipped pieces — lowest new-code cost.
 
 ### ⚠️ Non-obvious gotchas (hard-won — not derivable from the repo)
 
