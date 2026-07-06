@@ -25,6 +25,8 @@ let clipboard = null;
 let nudgeSnapped = false;
 let nextId = 1;
 let rendering = false, renderQueued = false;
+let pageText = {};      // per-page pdf.js text content (font eyedropper)
+let curPageObj = null;  // pdf.js page object for the current page
 
 const $ = id => document.getElementById(id);
 const canvas = $('pdfCanvas'), ctx = canvas.getContext('2d'), overlay = $('overlay');
@@ -33,7 +35,16 @@ const k = () => baseScale * zoom;
 const FONT_CSS = {
   Helvetica: 'Helvetica, Arial, sans-serif',
   TimesRoman: '"Times New Roman", Times, serif',
-  Courier: '"Courier New", Courier, monospace'
+  Courier: '"Courier New", Courier, monospace',
+  Carlito: 'Carlito, Calibri, sans-serif',
+  Lato: 'Lato, "Segoe UI", sans-serif',
+  Poppins: 'Poppins, sans-serif'
+};
+// Self-hosted real fonts embedded on save (subset). Keys mirror the dropdown.
+const CUSTOM_FONTS = {
+  Carlito: { files: { r: 'fonts/Carlito-Regular.ttf', b: 'fonts/Carlito-Bold.ttf', i: 'fonts/Carlito-Italic.ttf', bi: 'fonts/Carlito-BoldItalic.ttf' } },
+  Lato:    { files: { r: 'fonts/Lato-Regular.ttf', b: 'fonts/Lato-Bold.ttf', i: 'fonts/Lato-Italic.ttf', bi: 'fonts/Lato-BoldItalic.ttf' } },
+  Poppins: { files: { r: 'fonts/Poppins-Regular.ttf', b: 'fonts/Poppins-Bold.ttf', i: 'fonts/Poppins-Italic.ttf', bi: 'fonts/Poppins-BoldItalic.ttf' } }
 };
 const STD_FONTS = {
   'Helvetica':        { n: 'Helvetica',            b: 'HelveticaBold',        i: 'HelveticaOblique',    bi: 'HelveticaBoldOblique' },
@@ -136,6 +147,7 @@ async function renderPage() {
   rendering = true;
   try {
     const page = await pdfjsDoc.getPage(pageNum);
+    curPageObj = page;
     const vp1 = page.getViewport({ scale: 1 });
     pageDims[pageNum] = { w: vp1.width, h: vp1.height };
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -168,12 +180,14 @@ function setMode(m) {
   $('toolText').classList.toggle('active', m === 'text');
   $('toolWhiteout').classList.toggle('active', m === 'whiteout');
   $('toolFuzz').classList.toggle('active', m === 'fuzz');
+  $('toolMatch').classList.toggle('active', m === 'match');
   if (m !== 'select') { selected = null; renderAnnots(); }
 }
 $('toolSelect').addEventListener('click', () => setMode('select'));
 $('toolText').addEventListener('click', () => setMode('text'));
 $('toolWhiteout').addEventListener('click', () => setMode('whiteout'));
 $('toolFuzz').addEventListener('click', () => setMode('fuzz'));
+$('toolMatch').addEventListener('click', () => setMode('match'));
 
 let woAutoMatch = true;
 $('woAuto').addEventListener('click', () => {
@@ -253,8 +267,81 @@ function sampleSurroundingColor(px, py, pw, ph) {
   return rgbToHex(Math.round(best.r / best.n), Math.round(best.g / best.n), Math.round(best.b / best.n));
 }
 
+/* ---------- font-match eyedropper ---------- */
+async function ensurePageText() {
+  if (pageText[pageNum] || !curPageObj) return;
+  try { pageText[pageNum] = await curPageObj.getTextContent(); }
+  catch (_) { pageText[pageNum] = { items: [], styles: {} }; }
+}
+function mapFont(fontName, tc) {
+  let name = '';
+  try { const o = curPageObj && curPageObj.commonObjs.get(fontName); if (o && o.name) name = o.name; } catch (_) {}
+  if (!name && tc && tc.styles && tc.styles[fontName]) name = tc.styles[fontName].fontFamily || '';
+  name = (name || '').toLowerCase();
+  const bold = /bold|black|heavy|semibold|-bd|extrab/.test(name);
+  const italic = /italic|oblique/.test(name);
+  let fam = 'Helvetica';
+  if (/calibri|carlito/.test(name)) fam = 'Carlito';
+  else if (/poppins/.test(name)) fam = 'Poppins';
+  else if (/lato/.test(name)) fam = 'Lato';
+  else if (/courier|mono|consol/.test(name)) fam = 'Courier';
+  else if (/times|georgia|garamond|roman|minion|serif|antiqua|cambria/.test(name)) fam = 'TimesRoman';
+  return { fam, bold, italic };
+}
+function sampleTextColor(px, py) {
+  const dpr = canvas.width / canvas.clientWidth;
+  const R = Math.max(6, Math.round(8 * dpr));
+  const x0 = Math.max(0, Math.round(px * dpr) - R), y0 = Math.max(0, Math.round(py * dpr) - R);
+  const w = Math.min(canvas.width - x0, R * 2), h = Math.min(canvas.height - y0, R * 2);
+  let data; try { data = ctx.getImageData(x0, y0, w, h).data; } catch (_) { return $('textColor').value; }
+  let best = null, bestL = 1e9;
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] < 128) continue;
+    const r = data[i], g = data[i + 1], b = data[i + 2];
+    const L = 0.299 * r + 0.587 * g + 0.114 * b;
+    if (L < bestL) { bestL = L; best = [r, g, b]; }
+  }
+  return best ? rgbToHex(best[0], best[1], best[2]) : $('textColor').value;
+}
+async function sampleFontAt(p) {
+  await ensurePageText();
+  const s = k();
+  const pdfX = p.x / s;
+  const Hpt = pageDims[pageNum] ? pageDims[pageNum].h : 0;
+  const pdfY = Hpt - p.y / s;
+  const tc = pageText[pageNum];
+  let hit = null;
+  if (tc) for (const it of tc.items) {
+    if (!it.str || !it.str.trim()) continue;
+    const tr = it.transform; const ix = tr[4], iy = tr[5];
+    const sz = Math.hypot(tr[2], tr[3]) || Math.abs(tr[3]) || it.height || 10;
+    const w = it.width || sz * it.str.length * 0.5;
+    if (pdfX >= ix - 1 && pdfX <= ix + w + 1 && pdfY >= iy - sz * 0.35 && pdfY <= iy + sz * 0.95) { hit = { it, sz }; break; }
+  }
+  const color = sampleTextColor(p.x, p.y);
+  if (hit) {
+    const m = mapFont(hit.it.fontName, tc);
+    const size = Math.max(6, Math.min(144, Math.round(hit.sz)));
+    $('fontFamily').value = m.fam;
+    $('fontSize').value = size;
+    $('textColor').value = color;
+    $('boldBtn').classList.toggle('active', m.bold);
+    $('italicBtn').classList.toggle('active', m.italic);
+    setMode('text');
+    toast('Matched ' + m.fam.replace('TimesRoman', 'Times') + (m.bold ? ' Bold' : '') + (m.italic ? ' Italic' : '') + ' ~' + size + 'pt — click to place text', 'success');
+  } else {
+    $('textColor').value = color;
+    toast('No selectable text there — sampled the color (' + color + ')');
+  }
+}
+
 /* ---------- fuzz (light blur, one layer per pass) ---------- */
 const imgCache = new Map(); // annot id -> loaded Image (survives undo snapshots)
+const fontBytesCache = {};
+async function loadFontBytes(url) {
+  if (!fontBytesCache[url]) fontBytesCache[url] = await fetch(url).then(r => { if (!r.ok) throw new Error('font ' + r.status); return r.arrayBuffer(); });
+  return fontBytesCache[url];
+}
 
 function makeFuzzSnapshot(px, py, pw, ph) {
   // Composite the rendered page region plus any overlapping whiteout/fuzz
@@ -402,6 +489,8 @@ overlay.addEventListener('pointerdown', e => {
     overlay.setPointerCapture(e.pointerId);
     return;
   }
+
+  if (mode === 'match') { sampleFontAt(p); return; }
 
   if (mode === 'text') {
     if (annEl) { setMode('select'); selectAndMaybeDrag(annEl, p, e); return; }
@@ -583,6 +672,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 't' || e.key === 'T') setMode('text');
   if (e.key === 'w' || e.key === 'W') setMode('whiteout');
   if (e.key === 'f' || e.key === 'F') setMode('fuzz');
+  if (e.key === 'e' || e.key === 'E') setMode('match');
   if (e.key === 'Escape') { selected = null; setMode('select'); renderAnnots(); }
 });
 document.addEventListener('keyup', e => { if (e.key.startsWith('Arrow')) nudgeSnapped = false; });
@@ -598,15 +688,28 @@ async function save() {
   $('progressLabel').textContent = 'Applying your edits…';
   try {
     const doc = await PDFDocument.load(originalBytes, { ignoreEncryption: true });
+    try { if (window.fontkit) doc.registerFontkit(window.fontkit); } catch (_) {}
     const pages = doc.getPages();
     // embed only fonts actually used
     const fontCache = {};
     async function getFont(fam, bold, italic) {
       const key = fam + (bold ? 'B' : '') + (italic ? 'I' : '');
-      if (!fontCache[key]) {
+      if (fontCache[key]) return fontCache[key];
+      if (STD_FONTS[fam]) {
         const v = STD_FONTS[fam];
         const name = bold && italic ? v.bi : bold ? v.b : italic ? v.i : v.n;
         fontCache[key] = await doc.embedFont(StandardFonts[name]);
+      } else if (CUSTOM_FONTS[fam]) {
+        const f = CUSTOM_FONTS[fam].files;
+        const url = bold && italic ? f.bi : bold ? f.b : italic ? f.i : f.r;
+        try {
+          const bytes = await loadFontBytes(url);
+          fontCache[key] = await doc.embedFont(bytes, { subset: true });
+        } catch (_) {
+          fontCache[key] = await getFont('Helvetica', bold, italic);
+        }
+      } else {
+        fontCache[key] = await getFont('Helvetica', bold, italic);
       }
       return fontCache[key];
     }
