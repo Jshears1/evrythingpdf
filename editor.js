@@ -677,6 +677,62 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('keyup', e => { if (e.key.startsWith('Arrow')) nudgeSnapped = false; });
 
+/* ---------- true redaction / flatten ----------
+   Rasterize every page with its annotations baked in, then rebuild the PDF
+   as full-page images. Destroys all underlying text/vectors — whiteout stops
+   being a cover-up and becomes real redaction. Output is not text-selectable. */
+function loadImg(src) {
+  return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; });
+}
+async function renderFlatPage(pn, scale) {
+  const page = await pdfjsDoc.getPage(pn);
+  const vp = page.getViewport({ scale });
+  const cv = document.createElement('canvas');
+  cv.width = Math.round(vp.width); cv.height = Math.round(vp.height);
+  const c = cv.getContext('2d');
+  await page.render({ canvasContext: c, viewport: vp }).promise;
+  for (const a of (annots[pn] || [])) {
+    const x = a.x * scale, y = a.y * scale;
+    if (a.type === 'wo') {
+      c.fillStyle = a.fill;
+      c.fillRect(x, y, a.w * scale, a.h * scale);
+    } else if (a.type === 'fuzz') {
+      let im = imgCache.get(a.id);
+      if (!im || !im.complete) { try { im = await loadImg(a.img); } catch (_) { im = null; } }
+      if (im) c.drawImage(im, x, y, a.w * scale, a.h * scale);
+    } else if (a.text && a.text.trim()) {
+      const px = a.size * scale;
+      c.font = (a.italic ? 'italic ' : '') + (a.bold ? '700 ' : '400 ') + px + 'px ' + FONT_CSS[a.font];
+      c.textBaseline = 'alphabetic';
+      const lineH = a.size * 1.2 * scale;
+      a.text.split('\n').forEach((line, i) => {
+        if (!line) return;
+        const topY = y + i * lineH;
+        if (a.bg) { c.fillStyle = a.bg; c.fillRect(x, topY, c.measureText(line).width, lineH); }
+        c.fillStyle = a.color;
+        c.fillText(line, x, topY + a.size * 0.92 * scale); // baseline matches the vector save path
+      });
+    }
+  }
+  return cv;
+}
+async function saveFlattened() {
+  const doc = await PDFDocument.create();
+  const SCALE = 2; // raster density for redacted output
+  for (let pn = 1; pn <= pageCount; pn++) {
+    $('progressLabel').textContent = 'Rasterizing page ' + pn + ' of ' + pageCount + '…';
+    $('progressFill').style.width = (15 + 70 * (pn - 1) / pageCount) + '%';
+    const vp1 = (await pdfjsDoc.getPage(pn)).getViewport({ scale: 1 });
+    const cv = await renderFlatPage(pn, SCALE);
+    const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
+    const img = await doc.embedJpg(await blob.arrayBuffer());
+    const page = doc.addPage([vp1.width, vp1.height]);
+    page.drawImage(img, { x: 0, y: 0, width: vp1.width, height: vp1.height });
+    cv.width = cv.height = 0; // free memory
+  }
+  return doc.save();
+}
+
 /* ---------- save ---------- */
 $('saveBtn').addEventListener('click', save);
 async function save() {
@@ -687,6 +743,11 @@ async function save() {
   $('progressFill').style.width = '15%';
   $('progressLabel').textContent = 'Applying your edits…';
   try {
+    const flatten = !!($('flattenToggle') && $('flattenToggle').checked);
+    let out;
+    if (flatten) {
+      out = await saveFlattened();
+    } else {
     const doc = await PDFDocument.load(originalBytes, { ignoreEncryption: true });
     try { if (window.fontkit) doc.registerFontkit(window.fontkit); } catch (_) {}
     const pages = doc.getPages();
@@ -758,12 +819,13 @@ async function save() {
       }
     }
     $('progressLabel').textContent = 'Building PDF…';
-    const out = await doc.save();
+    out = await doc.save();
+    }
     $('progressFill').style.width = '100%';
     const blob = new Blob([out], { type: 'application/pdf' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = fileName.replace(/\.pdf$/i, '') + '-edited.pdf';
+    a.download = fileName.replace(/\.pdf$/i, '') + (flatten ? '-redacted.pdf' : '-edited.pdf');
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 5000);
     toast('Saved! Your edited PDF is downloading.', 'success');
