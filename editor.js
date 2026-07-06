@@ -677,6 +677,74 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('keyup', e => { if (e.key.startsWith('Arrow')) nudgeSnapped = false; });
 
+/* ---------- PII auto-detect (suggest redaction boxes) ----------
+   Scan the pdf.js text layer for SSNs, emails, and card numbers, then drop a
+   black whiteout box over each match. Boxes are suggestions — the user reviews
+   them and (optionally) ticks "Flatten & redact" on save for true removal.
+   Only works on PDFs with a real text layer; scanned/image PDFs need OCR first. */
+const PII_PATTERNS = [
+  { name: 'SSN',   re: /\b\d{3}-\d{2}-\d{4}\b/g },
+  { name: 'email', re: /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g },
+  { name: 'card',  re: /\b(?:\d[ -]?){13,16}\b/g }
+];
+async function scanPII() {
+  if (!pdfjsDoc) return;
+  const btn = $('scanPiiBtn'); if (btn) btn.disabled = true;
+  try {
+    const hits = []; // {pn, a}
+    let totalChars = 0, firstPage = null;
+    for (let pn = 1; pn <= pageCount; pn++) {
+      const page = await pdfjsDoc.getPage(pn);
+      const H = page.getViewport({ scale: 1 }).height;
+      const tc = await page.getTextContent();
+      for (const it of tc.items) {
+        const str = it.str;
+        if (!str || !str.trim()) continue;
+        totalChars += str.trim().length;
+        const tr = it.transform, e = tr[4], f = tr[5];
+        const sz = Math.hypot(tr[2], tr[3]) || Math.abs(tr[3]) || it.height || 10;
+        const iw = it.width || sz * str.length * 0.5;
+        const perChar = iw / str.length;
+        for (const { name, re } of PII_PATTERNS) {
+          re.lastIndex = 0;
+          let m;
+          while ((m = re.exec(str))) {
+            if (name === 'card') {
+              const digits = m[0].replace(/\D/g, '').length;
+              if (digits < 13 || digits > 16) continue; // real cards are 13–16 digits
+            }
+            const start = m.index, len = m[0].length;
+            hits.push({ pn, a: {
+              id: nextId++, type: 'wo',
+              x: e + start * perChar,
+              y: H - f - sz * 0.85,
+              w: Math.max(perChar, len * perChar),
+              h: sz * 1.15,
+              fill: '#000000'
+            } });
+            if (firstPage === null) firstPage = pn;
+          }
+        }
+      }
+    }
+    if (!hits.length) {
+      if (totalChars < 5) toast('This PDF has no selectable text — looks scanned. Run the OCR tool first, then redact.', 'error');
+      else toast('No SSNs, emails, or card numbers found in the text.');
+      return;
+    }
+    snapshot();
+    for (const h of hits) (annots[h.pn] || (annots[h.pn] = [])).push(h.a);
+    if (firstPage && firstPage !== pageNum) { pageNum = firstPage; selected = null; await renderPage(); }
+    else renderAnnots();
+    toast('Found ' + hits.length + ' possible PII item' + (hits.length > 1 ? 's' : '') + ' — review the boxes, then Save. Tick "Flatten & redact" to remove permanently.', 'success');
+  } catch (err) {
+    console.error(err);
+    toast('PII scan failed: ' + (err.message || err), 'error');
+  } finally {
+    const b = $('scanPiiBtn'); if (b) b.disabled = false;
+  }
+}
+
 /* ---------- true redaction / flatten ----------
    Rasterize every page with its annotations baked in, then rebuild the PDF
    as full-page images. Destroys all underlying text/vectors — whiteout stops
@@ -734,6 +802,7 @@ async function saveFlattened() {
 }
 
 /* ---------- save ---------- */
+const _scanBtn = $('scanPiiBtn'); if (_scanBtn) _scanBtn.addEventListener('click', scanPII);
 $('saveBtn').addEventListener('click', save);
 async function save() {
   if (!originalBytes) return;
