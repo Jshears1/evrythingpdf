@@ -62,13 +62,19 @@
   </div>
   <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
   <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script>
+  /* pdf.js worker: load as same-origin blob — browsers block cross-origin Workers (SecurityError) */
+  const WORKER_URL='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+  pdfjsLib.GlobalWorkerOptions.workerSrc=WORKER_URL;
+  const workerReady=fetch(WORKER_URL).then(r=>r.text()).then(t=>{pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));}).catch(()=>{});
+  </script>
   <script src="app.js"></script>
   <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
     let pdfDoc=null, curPage=1, curScale=1.0, pdfFile=null;
     initDropZone('dropZone','fileInput',async function(files){
       pdfFile=files[0];
       const bytes=await files[0].arrayBuffer();
+      await workerReady;
       pdfDoc=await pdfjsLib.getDocument({data:bytes}).promise;
       curPage=1; curScale=1.0;
       document.getElementById('viewerContainer').style.display='block';

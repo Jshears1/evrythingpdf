@@ -139,6 +139,12 @@
   <script src="app.js"></script>
   <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
   <script>
+  /* pdf.js worker: load as same-origin blob — browsers block cross-origin Workers (SecurityError) */
+  const WORKER_URL='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+  pdfjsLib.GlobalWorkerOptions.workerSrc=WORKER_URL;
+  const workerReady=fetch(WORKER_URL).then(r=>r.text()).then(t=>{pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));}).catch(()=>{});
+  </script>
+  <script>
     let pdfFile = null;
     let signatureDataURL = null;
     let sigPosition = null;
@@ -216,7 +222,7 @@
       signatureDataURL = sigCanvas.toDataURL('image/png');
       // Render first page of PDF
       const bytes = await pdfFile.arrayBuffer();
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+      await workerReady;
       pdfDoc = await pdfjsLib.getDocument({data: bytes}).promise;
       pdfPage = await pdfDoc.getPage(1);
       const viewport = pdfPage.getViewport({scale:1});

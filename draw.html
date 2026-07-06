@@ -17,7 +17,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>  <style>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script>
+  /* pdf.js worker: load as same-origin blob — browsers block cross-origin Workers (SecurityError) */
+  const WORKER_URL='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+  pdfjsLib.GlobalWorkerOptions.workerSrc=WORKER_URL;
+  const workerReady=fetch(WORKER_URL).then(r=>r.text()).then(t=>{pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));}).catch(()=>{});
+  </script>  <style>
     #drawContainer{position:relative;display:inline-block}
     #pdfCanvas,#drawCanvas{display:block;position:absolute;top:0;left:0}
     #pdfCanvas{position:relative}
@@ -69,12 +75,12 @@
   <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
   <script src="app.js"></script>
   <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
     let pdfFile=null, pdfDoc=null, curPage=1, scale=1.5, drawing=false, paths=[], curPath=[];
     const dc=document.getElementById('drawCanvas'), dctx=dc.getContext('2d');
     initDropZone('dropZone','fileInput',async function(files){
       pdfFile=files[0];
       const bytes=await files[0].arrayBuffer();
+      await workerReady;
       pdfDoc=await pdfjsLib.getDocument({data:bytes}).promise;
       document.getElementById('dropZone').style.display='none';
       document.getElementById('toolbar').style.display='block';
