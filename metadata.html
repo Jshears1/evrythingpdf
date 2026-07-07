@@ -67,10 +67,11 @@
           <div class="meta-field"><label for="mSubject">Subject</label><input id="mSubject" type="text" placeholder="(none)"></div>
           <div class="meta-field full"><label for="mKeywords">Keywords <span style="font-weight:400;color:var(--text-muted)">(comma-separated)</span></label><input id="mKeywords" type="text" placeholder="invoice, 2026, finance"></div>
           <div class="meta-field"><label for="mCreator">Creator <span style="font-weight:400;color:var(--text-muted)">(authoring app)</span></label><input id="mCreator" type="text" placeholder="(none)"></div>
+          <div class="meta-field"><label for="mProducer">Producer <span style="font-weight:400;color:var(--text-muted)">(PDF engine)</span></label><input id="mProducer" type="text" placeholder="(none)"></div>
           <div class="meta-field"><label for="mCreated">Creation date</label><input id="mCreated" type="datetime-local"></div>
+          <div class="meta-field"><label for="mModified">Modification date</label><input id="mModified" type="datetime-local"></div>
         </div>
-        <p class="meta-note">Tip: <b>Strip all metadata</b> blanks every field above — useful before sharing a document publicly so it carries no author name, software fingerprints or timestamps.</p>
-        <p class="meta-note"><b>Note:</b> the <b>Producer</b> and <b>Modification date</b> are re-written by the PDF engine when the file is saved, so they always reflect this tool and the save time — shown above for reference.</p>
+        <p class="meta-note">Tip: <b>Strip all metadata</b> blanks every field above — useful before sharing a document publicly so it carries no author name, software fingerprints or timestamps. Every field, including Producer and Modification date, is written exactly as you set it.</p>
       </div>
       <div class="action-bar">
         <button class="btn-primary" onclick="saveMeta()">💾 Save &amp; Download</button>
@@ -107,8 +108,9 @@
       document.getElementById('mSubject').value = g('getSubject') || '';
       document.getElementById('mKeywords').value = g('getKeywords') || '';
       document.getElementById('mCreator').value = g('getCreator') || '';
+      document.getElementById('mProducer').value = g('getProducer') || '';
       document.getElementById('mCreated').value = toLocalInput(g('getCreationDate'));
-      const producer = g('getProducer'), modDate = g('getModificationDate');
+      document.getElementById('mModified').value = toLocalInput(g('getModificationDate'));
       let pages = 0; try { pages = pdfDoc.getPageCount(); } catch (_) {}
       const enc = pdfDoc.isEncrypted;
       const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -116,46 +118,112 @@
         '<span><b>File:</b> ' + esc(pdfFile.name) + '</span>' +
         '<span><b>Size:</b> ' + fmtSize(pdfFile.size) + '</span>' +
         '<span><b>Pages:</b> ' + (pages || '—') + '</span>' +
-        (producer ? '<span><b>Producer:</b> ' + esc(producer) + '</span>' : '') +
-        (modDate && !isNaN(modDate) ? '<span><b>Modified:</b> ' + modDate.toLocaleString() + '</span>' : '') +
         (enc ? '<span><b>⚠ Encrypted</b> — saving removes the password</span>' : '');
       document.getElementById('metaOptions').style.display = 'block';
       document.getElementById('resultBox').style.display = 'none';
       showToast('Metadata loaded — edit any field, then save.', 'success');
     });
 
-    function applyFields(doc, blank) {
-      const v = id => blank ? '' : document.getElementById(id).value;
-      doc.setTitle(v('mTitle'));
-      doc.setAuthor(v('mAuthor'));
-      doc.setSubject(v('mSubject'));
+    // Collect the form fields into a plain object. Empty => omitted entirely.
+    function collectFields(blank) {
+      const v = id => blank ? '' : (document.getElementById(id).value || '').trim();
       const kw = v('mKeywords');
-      doc.setKeywords(kw ? kw.split(',').map(s => s.trim()).filter(Boolean) : []);
-      doc.setCreator(v('mCreator'));
-      // Producer + Modification date are re-stamped by pdf-lib on save; not user-set.
-      const cd = blank ? '' : document.getElementById('mCreated').value;
-      if (cd) { const d = new Date(cd); if (!isNaN(d)) doc.setCreationDate(d); }
-      else if (blank) { try { doc.setCreationDate(new Date(0)); } catch (_) {} }
+      const parseDate = id => { const s = blank ? '' : document.getElementById(id).value; if (!s) return null; const d = new Date(s); return isNaN(d) ? null : d; };
+      return {
+        title: v('mTitle'), author: v('mAuthor'), subject: v('mSubject'),
+        keywords: kw ? kw.split(',').map(s => s.trim()).filter(Boolean).join(', ') : '',
+        creator: v('mCreator'), producer: v('mProducer'),
+        creationDate: parseDate('mCreated'), modDate: parseDate('mModified')
+      };
+    }
+
+    // Blank the base Info dict so no old values linger in the file's earlier
+    // revision (matters for a genuine "strip"). The authoritative values are
+    // written by the incremental pass below.
+    function clearBaseInfo(doc) {
+      try { doc.setTitle(''); doc.setAuthor(''); doc.setSubject(''); doc.setKeywords([]); doc.setCreator(''); doc.setProducer(''); } catch (_) {}
+    }
+
+    // ----- Tier-2 incremental metadata update -----
+    // pdf-lib re-stamps Producer + ModDate on save via an internal path we can't
+    // intercept. So we take its clean (classic-xref) output and append a proper
+    // PDF incremental-update section: one new Info object with our exact values,
+    // a tiny xref delta, and a trailer whose /Info points at it. This gives full
+    // control of every field — including omitting Producer/ModDate for a true strip.
+    function pdfDateStr(d) {
+      const p = n => String(n).padStart(2, '0');
+      const tz = -d.getTimezoneOffset(), sign = tz >= 0 ? '+' : '-';
+      const th = p(Math.floor(Math.abs(tz) / 60)), tm = p(Math.abs(tz) % 60);
+      return 'D:' + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()) + sign + th + "'" + tm + "'";
+    }
+    function utf16beHex(str) {
+      let hex = 'FEFF';
+      for (const ch of str) {
+        let c = ch.codePointAt(0);
+        if (c > 0xFFFF) { c -= 0x10000; const hi = 0xD800 + (c >> 10), lo = 0xDC00 + (c & 0x3FF); hex += hi.toString(16).padStart(4, '0') + lo.toString(16).padStart(4, '0'); }
+        else hex += c.toString(16).padStart(4, '0');
+      }
+      return '<' + hex.toUpperCase() + '>';
+    }
+    function applyInfoIncremental(bytes, f) {
+      const txt = new TextDecoder('latin1').decode(bytes); // 1 byte = 1 char, so char index = byte offset
+      const sx = [...txt.matchAll(/startxref\s+(\d+)/g)];
+      const trIdx = txt.lastIndexOf('trailer');
+      if (!sx.length || trIdx < 0) throw new Error('unexpected PDF structure (no classic xref)');
+      const prevStartxref = parseInt(sx[sx.length - 1][1], 10);
+      const seg = txt.slice(trIdx, trIdx + 1200);
+      const rm = seg.match(/\/Root\s+(\d+)\s+(\d+)\s+R/);
+      const sm = seg.match(/\/Size\s+(\d+)/);
+      if (!rm || !sm) throw new Error('could not read trailer Root/Size');
+      const root = rm[1] + ' ' + rm[2] + ' R';
+      const num = parseInt(sm[1], 10); // next free object number
+
+      let dict = '<<';
+      const add = (k, val) => { if (val != null && val !== '') dict += ' /' + k + ' ' + utf16beHex(String(val)); };
+      add('Title', f.title); add('Author', f.author); add('Subject', f.subject);
+      add('Keywords', f.keywords); add('Creator', f.creator); add('Producer', f.producer);
+      if (f.creationDate) dict += ' /CreationDate (' + pdfDateStr(f.creationDate) + ')';
+      if (f.modDate) dict += ' /ModDate (' + pdfDateStr(f.modDate) + ')';
+      dict += ' >>';
+
+      const prefix = bytes[bytes.length - 1] === 0x0a ? '' : '\n';
+      const objOffset = bytes.length + prefix.length;
+      const objStr = prefix + num + ' 0 obj\n' + dict + '\nendobj\n';
+      const xrefOffset = bytes.length + objStr.length;
+      const pad10 = n => String(n).padStart(10, '0');
+      const xrefStr = 'xref\n' + num + ' 1\n' + pad10(objOffset) + ' 00000 n \n' +
+        'trailer\n<< /Size ' + (num + 1) + ' /Root ' + root + ' /Info ' + num + ' 0 R /Prev ' + prevStartxref + ' >>\n' +
+        'startxref\n' + xrefOffset + '\n%%EOF\n';
+
+      const enc = new TextEncoder();
+      const objBytes = enc.encode(objStr), xrefBytes = enc.encode(xrefStr);
+      const out = new Uint8Array(bytes.length + objBytes.length + xrefBytes.length);
+      out.set(bytes, 0); out.set(objBytes, bytes.length); out.set(xrefBytes, bytes.length + objBytes.length);
+      return out;
     }
 
     async function buildOutput(blank) {
       if (!pdfDoc) return;
       document.getElementById('progressWrapper').style.display = 'block';
-      const fill = document.getElementById('progressFill'); fill.style.width = '40%';
+      const fill = document.getElementById('progressFill'); fill.style.width = '35%';
       try {
-        applyFields(pdfDoc, blank);
-        fill.style.width = '80%';
-        outBytes = await pdfDoc.save();
+        const fields = collectFields(blank);
+        clearBaseInfo(pdfDoc);
+        fill.style.width = '65%';
+        // Classic xref (no object streams) so the incremental append is spec-clean.
+        const base = await pdfDoc.save({ useObjectStreams: false });
+        fill.style.width = '85%';
+        outBytes = applyInfoIncremental(base, fields);
         fill.style.width = '100%';
         document.getElementById('resultBox').style.display = 'block';
         showToast(blank ? 'All metadata stripped.' : 'Metadata updated!', 'success');
         if (typeof gtag === 'function') gtag('event', 'pdf_metadata_save', { stripped: !!blank });
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      } catch (e) { console.error(e); showToast('Error: ' + e.message, 'error'); }
       finally { setTimeout(() => { document.getElementById('progressWrapper').style.display = 'none'; fill.style.width = '0%'; }, 700); }
     }
     function saveMeta() { buildOutput(false); }
     function stripMeta() {
-      ['mTitle','mAuthor','mSubject','mKeywords','mCreator','mCreated'].forEach(id => document.getElementById(id).value = '');
+      ['mTitle','mAuthor','mSubject','mKeywords','mCreator','mProducer','mCreated','mModified'].forEach(id => document.getElementById(id).value = '');
       buildOutput(true);
     }
     function downloadMeta() {
