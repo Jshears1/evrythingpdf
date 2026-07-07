@@ -2,7 +2,7 @@
    HTML: network-first (so deploys aren't stale). Static assets, self-hosted
    fonts and the unpkg PDF libraries: cache-first with runtime update. */
 const V = 'epdf-v1';
-const CORE = ['/', '/edit-text.html', '/add-text.html', '/editor.js', '/style.css', '/manifest.webmanifest', '/icon.svg'];
+const CORE = ['/', '/edit-text.html', '/add-text.html', '/metadata.html', '/editor.js', '/style.css', '/manifest.webmanifest', '/icon.svg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(CORE)).catch(() => {}));

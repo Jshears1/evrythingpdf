@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WY6LCLDYFN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WY6LCLDYFN');
+  </script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit PDF Metadata Free Online – View, Change &amp; Remove Properties | EvrythingPDF</title>
+  <meta name="description" content="View, edit and remove PDF metadata online for free — title, author, subject, keywords, creator, producer and dates. Strip all metadata in one click. No upload, no signup.">
+  <meta name="keywords" content="edit pdf metadata, view pdf metadata, remove pdf metadata, pdf properties editor, change pdf author, strip pdf metadata online">
+  <link rel="canonical" href="https://evrythingpdf.com/metadata">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#e53935">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7338860226113687" crossorigin="anonymous"></script>
+  <!-- Open Graph -->
+  <meta property="og:title" content="Edit PDF Metadata Online Free – EvrythingPDF">
+  <meta property="og:description" content="View, edit and remove PDF metadata — title, author, keywords, dates and more. Strip all properties in one click. Free, private, in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://evrythingpdf.com/metadata">
+  <meta property="og:image" content="https://evrythingpdf.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Edit PDF Metadata Online Free – EvrythingPDF">
+  <meta name="twitter:description" content="View, edit and remove PDF metadata in your browser. Free, private, no signup.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I view a PDF's metadata?","acceptedAnswer":{"@type":"Answer","text":"Open your PDF here and the tool instantly reads its title, author, subject, keywords, creator, producer and creation/modification dates."}},{"@type":"Question","name":"How do I remove metadata from a PDF?","acceptedAnswer":{"@type":"Answer","text":"Click Strip all metadata to blank every field, then download. This removes personal and software details from the file."}},{"@type":"Question","name":"Is my PDF uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser — the file never leaves your device."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Edit PDF Metadata Online Free","description":"View, edit and remove PDF metadata online for free. No signup.","url":"https://evrythingpdf.com/metadata","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <style>
+    .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
+    @media(max-width:640px){.meta-grid{grid-template-columns:1fr}}
+    .meta-field{display:flex;flex-direction:column;gap:5px}
+    .meta-field.full{grid-column:1 / -1}
+    .meta-field label{font-size:.8rem;font-weight:700;color:var(--text-secondary)}
+    .meta-field input{width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:9px 11px;font-family:inherit;font-size:.9rem}
+    .meta-field input:focus{border-color:var(--primary);outline:none}
+    .meta-info{display:flex;flex-wrap:wrap;gap:8px 18px;margin:4px 0 18px;font-size:.85rem;color:var(--text-muted)}
+    .meta-info b{color:var(--text-secondary)}
+    .meta-note{font-size:.8rem;color:var(--text-muted);margin-top:6px}
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a><a href="merge.html" class="nav-link">Merge</a></nav></div></header>
+  <section class="tool-hero">
+    <h1 class="tool-hero-title">Edit PDF Metadata</h1>
+    <p class="tool-hero-desc">View and change your PDF's title, author, subject, keywords, creator, producer and dates — or strip all metadata in one click for privacy. 100% in your browser, no upload.</p>
+  </section>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div>
+      <h3>Drop your PDF here</h3>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+    </div>
+
+    <div id="metaOptions" style="display:none">
+      <div class="options-panel">
+        <h4>Document Properties</h4>
+        <div class="meta-info" id="metaInfo"></div>
+        <div class="meta-grid">
+          <div class="meta-field full"><label for="mTitle">Title</label><input id="mTitle" type="text" placeholder="(none)"></div>
+          <div class="meta-field"><label for="mAuthor">Author</label><input id="mAuthor" type="text" placeholder="(none)"></div>
+          <div class="meta-field"><label for="mSubject">Subject</label><input id="mSubject" type="text" placeholder="(none)"></div>
+          <div class="meta-field full"><label for="mKeywords">Keywords <span style="font-weight:400;color:var(--text-muted)">(comma-separated)</span></label><input id="mKeywords" type="text" placeholder="invoice, 2026, finance"></div>
+          <div class="meta-field"><label for="mCreator">Creator <span style="font-weight:400;color:var(--text-muted)">(authoring app)</span></label><input id="mCreator" type="text" placeholder="(none)"></div>
+          <div class="meta-field"><label for="mCreated">Creation date</label><input id="mCreated" type="datetime-local"></div>
+        </div>
+        <p class="meta-note">Tip: <b>Strip all metadata</b> blanks every field above — useful before sharing a document publicly so it carries no author name, software fingerprints or timestamps.</p>
+        <p class="meta-note"><b>Note:</b> the <b>Producer</b> and <b>Modification date</b> are re-written by the PDF engine when the file is saved, so they always reflect this tool and the save time — shown above for reference.</p>
+      </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="saveMeta()">💾 Save &amp; Download</button>
+        <button class="btn-secondary" onclick="stripMeta()">🧹 Strip all metadata</button>
+        <button class="btn-secondary" onclick="resetMeta()">Change File</button>
+      </div>
+    </div>
+
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Processing...</p></div>
+    <div class="result-box" id="resultBox"><h3>✅ Metadata Saved!</h3><p>Your updated PDF is ready.</p>
+      <button class="btn-primary" onclick="downloadMeta()">⬇ Download PDF</button></div>
+  </div>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com — All processing happens in your browser. We never see your files.</p></div></div></footer>
+  <script src="app.js"></script>
+  <script>
+    let pdfFile = null, pdfDoc = null, outBytes = null;
+
+    function toLocalInput(d) {
+      if (!d || isNaN(d)) return '';
+      const p = n => String(n).padStart(2, '0');
+      return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes());
+    }
+    function fmtSize(b) { return b < 1024 ? b + ' B' : b < 1048576 ? (b / 1024).toFixed(1) + ' KB' : (b / 1048576).toFixed(2) + ' MB'; }
+
+    initDropZone('dropZone', 'fileInput', async function (files) {
+      pdfFile = files[0];
+      try {
+        const bytes = await pdfFile.arrayBuffer();
+        pdfDoc = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+      } catch (e) { showToast('Could not open this PDF: ' + e.message, 'error'); return; }
+      const g = (fn) => { try { return pdfDoc[fn](); } catch (_) { return undefined; } };
+      document.getElementById('mTitle').value = g('getTitle') || '';
+      document.getElementById('mAuthor').value = g('getAuthor') || '';
+      document.getElementById('mSubject').value = g('getSubject') || '';
+      document.getElementById('mKeywords').value = g('getKeywords') || '';
+      document.getElementById('mCreator').value = g('getCreator') || '';
+      document.getElementById('mCreated').value = toLocalInput(g('getCreationDate'));
+      const producer = g('getProducer'), modDate = g('getModificationDate');
+      let pages = 0; try { pages = pdfDoc.getPageCount(); } catch (_) {}
+      const enc = pdfDoc.isEncrypted;
+      const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+      document.getElementById('metaInfo').innerHTML =
+        '<span><b>File:</b> ' + esc(pdfFile.name) + '</span>' +
+        '<span><b>Size:</b> ' + fmtSize(pdfFile.size) + '</span>' +
+        '<span><b>Pages:</b> ' + (pages || '—') + '</span>' +
+        (producer ? '<span><b>Producer:</b> ' + esc(producer) + '</span>' : '') +
+        (modDate && !isNaN(modDate) ? '<span><b>Modified:</b> ' + modDate.toLocaleString() + '</span>' : '') +
+        (enc ? '<span><b>⚠ Encrypted</b> — saving removes the password</span>' : '');
+      document.getElementById('metaOptions').style.display = 'block';
+      document.getElementById('resultBox').style.display = 'none';
+      showToast('Metadata loaded — edit any field, then save.', 'success');
+    });
+
+    function applyFields(doc, blank) {
+      const v = id => blank ? '' : document.getElementById(id).value;
+      doc.setTitle(v('mTitle'));
+      doc.setAuthor(v('mAuthor'));
+      doc.setSubject(v('mSubject'));
+      const kw = v('mKeywords');
+      doc.setKeywords(kw ? kw.split(',').map(s => s.trim()).filter(Boolean) : []);
+      doc.setCreator(v('mCreator'));
+      // Producer + Modification date are re-stamped by pdf-lib on save; not user-set.
+      const cd = blank ? '' : document.getElementById('mCreated').value;
+      if (cd) { const d = new Date(cd); if (!isNaN(d)) doc.setCreationDate(d); }
+      else if (blank) { try { doc.setCreationDate(new Date(0)); } catch (_) {} }
+    }
+
+    async function buildOutput(blank) {
+      if (!pdfDoc) return;
+      document.getElementById('progressWrapper').style.display = 'block';
+      const fill = document.getElementById('progressFill'); fill.style.width = '40%';
+      try {
+        applyFields(pdfDoc, blank);
+        fill.style.width = '80%';
+        outBytes = await pdfDoc.save();
+        fill.style.width = '100%';
+        document.getElementById('resultBox').style.display = 'block';
+        showToast(blank ? 'All metadata stripped.' : 'Metadata updated!', 'success');
+        if (typeof gtag === 'function') gtag('event', 'pdf_metadata_save', { stripped: !!blank });
+      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      finally { setTimeout(() => { document.getElementById('progressWrapper').style.display = 'none'; fill.style.width = '0%'; }, 700); }
+    }
+    function saveMeta() { buildOutput(false); }
+    function stripMeta() {
+      ['mTitle','mAuthor','mSubject','mKeywords','mCreator','mCreated'].forEach(id => document.getElementById(id).value = '');
+      buildOutput(true);
+    }
+    function downloadMeta() {
+      if (!outBytes) return;
+      const blob = new Blob([outBytes], { type: 'application/pdf' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (pdfFile.name || 'document.pdf').replace(/\.pdf$/i, '') + '-metadata.pdf';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    }
+    function resetMeta() {
+      pdfFile = null; pdfDoc = null; outBytes = null;
+      document.getElementById('metaOptions').style.display = 'none';
+      document.getElementById('resultBox').style.display = 'none';
+      document.getElementById('fileInput').value = '';
+    }
+  </script>
+</body></html>
