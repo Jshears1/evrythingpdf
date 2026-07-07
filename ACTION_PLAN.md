@@ -65,3 +65,14 @@ Curated from audit. Pick the highest-ROI; each is small on top of the engine.
 
 ## Progress log (append as we go)
 - 2026-07-07: plan created.
+- 2026-07-07: **M1–M6 built + preview-verified in one pass.** Shipped:
+  - M1 Fuzz overhaul: strength slider 1–10 + Blur/Pixelate toggle, live re-blur of selected box, strength/mode stored per annotation. Pixelate@high + Flatten = redaction-grade.
+  - M2 Freehand erase brush (`paint` annotation type, raster-backed, auto color-match, brush-size slider).
+  - M3 Full font bar: +6 self-hosted families (PT Sans, Fira Sans, PT Serif, IBM Plex Serif, Crimson Text, IBM Plex Mono) → 12 total, optgrouped dropdown, quick color swatches; eyedropper maps the new families.
+  - M4 Text-layer select/copy (pdf.js text layer, `Copy` tool + "Copy page text").
+  - M5 One-click edit-existing-text (`Edit` tool: whiteout + matched prefilled box).
+  - M6 Shapes (rect/ellipse/line/arrow/check/cross — vector on save, canvas on flatten), privacy trust bar, installable PWA (manifest + service worker + icon), share button.
+  - Contextual toolbar (each tool's options show only when active/selected).
+  - Verified: all 5 new annotation types render; vector save reopens clean; flatten save = **0 text items (true redaction)**; edit-text adds wo+text; copy extracts page text; 12 fonts load; no console errors.
+- **DEFERRED (not built this pass):** M6 in-editor page rotate/delete/insert — reindexing annotations across page mutations is risky and `rotate.html`/`reorder.html`/`split.html` already cover it. Also skipped: image/logo stamp in-editor (`add-image.html` exists), dedicated highlighter (text-bg highlight + shape-fill cover it).
+- M7 QA/SEO: hero copy + meta advertise new powers; index tool cards updated. Deploy pending.

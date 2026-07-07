@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#e53935">
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script>
 <title>Add Text to PDF Online Free – Fonts, Sizes &amp; Colors | EvrythingPDF</title>
 <meta name="description" content="Add text to any PDF online for free. Full control over font, size, style and color — plus whiteout and fuzz tools to erase or blur anything. No signup.">
 <meta name="keywords" content="add text to pdf, pdf text annotation, insert text into pdf free online, pdf font editor, whiteout pdf, blur pdf">
@@ -61,6 +64,30 @@
 @font-face{font-family:'Poppins';src:url('fonts/Poppins-Bold.ttf');font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:'Poppins';src:url('fonts/Poppins-Italic.ttf');font-weight:400;font-style:italic;font-display:swap}
 @font-face{font-family:'Poppins';src:url('fonts/Poppins-BoldItalic.ttf');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'PT Sans';src:url('fonts/PTSans-Regular.ttf');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'PT Sans';src:url('fonts/PTSans-Bold.ttf');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'PT Sans';src:url('fonts/PTSans-Italic.ttf');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'PT Sans';src:url('fonts/PTSans-BoldItalic.ttf');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'Fira Sans';src:url('fonts/FiraSans-Regular.ttf');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Fira Sans';src:url('fonts/FiraSans-Bold.ttf');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Fira Sans';src:url('fonts/FiraSans-Italic.ttf');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Fira Sans';src:url('fonts/FiraSans-BoldItalic.ttf');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'PT Serif';src:url('fonts/PTSerif-Regular.ttf');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'PT Serif';src:url('fonts/PTSerif-Bold.ttf');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'PT Serif';src:url('fonts/PTSerif-Italic.ttf');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'PT Serif';src:url('fonts/PTSerif-BoldItalic.ttf');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'IBM Plex Serif';src:url('fonts/IBMPlexSerif-Regular.ttf');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Serif';src:url('fonts/IBMPlexSerif-Bold.ttf');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Serif';src:url('fonts/IBMPlexSerif-Italic.ttf');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'IBM Plex Serif';src:url('fonts/IBMPlexSerif-BoldItalic.ttf');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'Crimson Text';src:url('fonts/CrimsonText-Regular.ttf');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Crimson Text';src:url('fonts/CrimsonText-Bold.ttf');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Crimson Text';src:url('fonts/CrimsonText-Italic.ttf');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Crimson Text';src:url('fonts/CrimsonText-BoldItalic.ttf');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('fonts/IBMPlexMono-Regular.ttf');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('fonts/IBMPlexMono-Bold.ttf');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('fonts/IBMPlexMono-Italic.ttf');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('fonts/IBMPlexMono-BoldItalic.ttf');font-weight:700;font-style:italic;font-display:swap}
 .ann-fuzz{display:block}
 .mode-select .ann-fuzz{cursor:pointer}
 .ann-fuzz.selected{outline:2px dashed var(--primary);outline-offset:1px}
@@ -82,7 +109,26 @@
 .page-info{font-size:.9rem;font-weight:600;color:var(--text-secondary)}
 .editor-actions{display:none;justify-content:center;gap:16px;margin-top:24px;flex-wrap:wrap}
 .kbd{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:.75rem;font-family:monospace}
-@media(max-width:768px){.tb-group{border-right:none;padding:0 4px}.editor-toolbar{top:0}}
+.tb-range{width:110px;accent-color:var(--primary);cursor:pointer}
+.swatches{display:inline-flex;gap:4px;align-items:center}
+.swatch{width:20px;height:20px;border:1.5px solid var(--border);border-radius:4px;cursor:pointer;padding:0}
+.swatch:hover{transform:scale(1.12);border-color:var(--primary)}
+#textLayer{position:absolute;left:0;top:0;overflow:hidden;line-height:1;z-index:1;opacity:1}
+#textLayer span,#textLayer br{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0}
+#textLayer.mode-textsel{cursor:text}
+#textLayer ::selection{background:rgba(30,102,208,.35)}
+#overlay{z-index:2}
+.ann-shape{background:transparent}
+.mode-select .ann-shape{cursor:move}
+.ann-shape.selected{outline:1.5px dashed var(--primary);outline-offset:2px}
+.shape-preview{background:transparent!important;border:1.5px dashed var(--primary)!important}
+#overlay.mode-erase{cursor:crosshair}
+#overlay.mode-shape{cursor:crosshair}
+#overlay.mode-editxt{cursor:pointer}
+.trust-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;max-width:1100px;margin:0 auto 4px;padding:0 24px;font-size:.8rem;color:var(--text-muted)}
+.trust-bar span{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.trust-bar span::before{content:"✓";color:var(--primary);font-weight:800}
+@media(max-width:768px){.tb-group{border-right:none;padding:0 4px}.editor-toolbar{top:0}.tb-range{width:80px}}
 </style>
 </head>
 <body>
@@ -106,8 +152,16 @@
 
 <section class="tool-hero">
   <h1 class="tool-hero-title">Add Text to PDF</h1>
-  <p class="tool-hero-desc">Click anywhere to add text with full control over font, size, style and color — plus whiteout and fuzz tools to erase or blur existing content. 100% in your browser.</p>
+  <p class="tool-hero-desc">Click anywhere to type in 12 real fonts with full size, style and color control — plus edit existing text, whiteout, freehand erase, a 1–10 blur/pixelate slider, shapes and arrows, and copy the original text. No upload, no size limit, no watermark, no signup.</p>
 </section>
+
+<div class="trust-bar">
+  <span>No upload — files stay on your device</span>
+  <span>No size limit</span>
+  <span>No watermark</span>
+  <span>No signup</span>
+  <span>Works offline</span>
+</div>
 
 <div class="editor-shell">
 
@@ -123,30 +177,80 @@
     <div class="tb-group">
       <button class="tb-btn active" id="toolSelect" title="Select & move (V)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3l7 17 2.5-7.5L21 10 4 3z"/></svg>Select</button>
       <button class="tb-btn" id="toolText" title="Add text (T)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6V4h16v2M12 4v16m-3 0h6"/></svg>Text</button>
-      <button class="tb-btn" id="toolWhiteout" title="Whiteout — drag over content to erase (W)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="8" rx="1"/><path d="M7 8v8M17 8v8" opacity=".4"/></svg>Whiteout</button>
-      <button class="tb-btn" id="toolFuzz" title="Fuzz — drag to lightly blur an area; repeat to blur more (F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="13" cy="8" r="1.2" fill="currentColor" stroke="none" opacity=".7"/><circle cx="16" cy="13" r="1.2" fill="currentColor" stroke="none" opacity=".5"/><circle cx="10" cy="15" r="1.2" fill="currentColor" stroke="none" opacity=".6"/><rect x="3" y="4" width="18" height="16" rx="2" opacity=".5"/></svg>Fuzz</button>
+      <button class="tb-btn" id="toolEdit" title="Edit existing text — click a word to white it out and retype in a matched font">✏️ Edit</button>
+      <button class="tb-btn" id="toolWhiteout" title="Whiteout box — drag over content to cover it (W)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="8" rx="1"/><path d="M7 8v8M17 8v8" opacity=".4"/></svg>Whiteout</button>
+      <button class="tb-btn" id="toolErase" title="Freehand erase — paint whiteout with a brush (X)">🩹 Erase</button>
+      <button class="tb-btn" id="toolFuzz" title="Blur / pixelate an area — adjustable strength 1–10 (F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="13" cy="8" r="1.2" fill="currentColor" stroke="none" opacity=".7"/><circle cx="16" cy="13" r="1.2" fill="currentColor" stroke="none" opacity=".5"/><circle cx="10" cy="15" r="1.2" fill="currentColor" stroke="none" opacity=".6"/><rect x="3" y="4" width="18" height="16" rx="2" opacity=".5"/></svg>Fuzz</button>
+      <button class="tb-btn" id="toolShape" title="Shapes — box, ellipse, line, arrow, check, cross (S)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="8" height="6"/><path d="M14 7h7M17 4l4 3-4 3"/></svg>Shape</button>
+      <button class="tb-btn" id="toolTextsel" title="Select & copy the original PDF text (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4h9a2 2 0 012 2v10M6 8h9a2 2 0 012 2v9a1 1 0 01-1 1H6a1 1 0 01-1-1V9a1 1 0 011-1z"/></svg>Copy</button>
       <button class="tb-btn" id="toolMatch" title="Font match — click text to copy its font, size & color (E)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 22l4-1 10-10-3-3L3 18l-1 4z"/><path d="M14 6l4 4"/><circle cx="18" cy="6" r="2.2"/></svg>Match</button>
     </div>
-    <div class="tb-group">
+    <div class="tb-group" id="textOpts" style="display:none">
       <select class="tb-select" id="fontFamily" title="Font">
-        <option value="Helvetica">Helvetica / Arial</option>
-        <option value="TimesRoman">Times New Roman</option>
-        <option value="Courier">Courier</option>
-        <option value="Carlito">Carlito (Calibri match)</option>
-        <option value="Lato">Lato</option>
-        <option value="Poppins">Poppins</option>
+        <optgroup label="Sans-serif">
+          <option value="Helvetica">Helvetica / Arial</option>
+          <option value="Carlito">Carlito (Calibri match)</option>
+          <option value="Lato">Lato</option>
+          <option value="Poppins">Poppins</option>
+          <option value="PTSans">PT Sans</option>
+          <option value="FiraSans">Fira Sans</option>
+        </optgroup>
+        <optgroup label="Serif">
+          <option value="TimesRoman">Times New Roman</option>
+          <option value="PTSerif">PT Serif</option>
+          <option value="IBMPlexSerif">IBM Plex Serif</option>
+          <option value="CrimsonText">Crimson Text</option>
+        </optgroup>
+        <optgroup label="Monospace">
+          <option value="Courier">Courier</option>
+          <option value="IBMPlexMono">IBM Plex Mono</option>
+        </optgroup>
       </select>
       <input type="number" class="tb-num" id="fontSize" value="16" min="6" max="144" step="1" title="Font size (pt)">
       <button class="tb-btn tb-toggle" id="boldBtn" title="Bold"><b>B</b></button>
       <button class="tb-btn tb-toggle" id="italicBtn" title="Italic"><i style="font-family:serif">I</i></button>
       <input type="color" class="tb-color" id="textColor" value="#111111" title="Text color">
+      <span class="swatches" id="swatches">
+        <button type="button" class="swatch" data-color="#000000" style="background:#000" title="Black"></button>
+        <button type="button" class="swatch" data-color="#e53935" style="background:#e53935" title="Red"></button>
+        <button type="button" class="swatch" data-color="#1e66d0" style="background:#1e66d0" title="Blue"></button>
+        <button type="button" class="swatch" data-color="#1b8a3a" style="background:#1b8a3a" title="Green"></button>
+        <button type="button" class="swatch" data-color="#ffffff" style="background:#fff" title="White"></button>
+      </span>
       <button class="tb-btn tb-toggle" id="bgToggle" title="Text highlight / background">▧</button>
       <input type="color" class="tb-color" id="textBg" value="#ffff00" title="Highlight / background color">
     </div>
-    <div class="tb-group">
+    <div class="tb-group" id="fillOpts" style="display:none">
       <span class="tb-label">Fill</span>
       <button class="tb-btn active" id="woAuto" title="Automatically match the surrounding page color">Auto match</button>
-      <input type="color" class="tb-color" id="woColor" value="#ffffff" title="Manual whiteout color">
+      <input type="color" class="tb-color" id="woColor" value="#ffffff" title="Manual color">
+    </div>
+    <div class="tb-group" id="eraseOpts" style="display:none">
+      <span class="tb-label">Brush</span>
+      <input type="range" class="tb-range" id="brushSize" min="6" max="80" value="22" title="Brush size">
+    </div>
+    <div class="tb-group" id="fuzzOpts" style="display:none">
+      <span class="tb-label">Strength</span>
+      <input type="range" class="tb-range" id="fuzzStrength" min="1" max="10" value="5" title="Fuzz strength 1–10">
+      <span class="tb-label" id="fuzzStrengthVal" style="min-width:1.3em;text-align:center">5</span>
+      <button class="tb-btn" id="fuzzMode" title="Switch between soft blur and hard pixelate (redaction-grade at high strength)">Blur</button>
+    </div>
+    <div class="tb-group" id="shapeOpts" style="display:none">
+      <select class="tb-select" id="shapeType" title="Shape">
+        <option value="rect">▭ Box</option>
+        <option value="ellipse">◯ Ellipse</option>
+        <option value="line">— Line</option>
+        <option value="arrow">→ Arrow</option>
+        <option value="check">✓ Check</option>
+        <option value="x">✕ Cross</option>
+      </select>
+      <input type="range" class="tb-range" id="shapeWidth" min="1" max="12" value="2" title="Line thickness">
+      <input type="color" class="tb-color" id="shapeStroke" value="#e53935" title="Line color">
+      <button class="tb-btn tb-toggle" id="shapeFillOn" title="Fill the shape">▧</button>
+      <input type="color" class="tb-color" id="shapeFill" value="#ffff00" title="Fill color">
+    </div>
+    <div class="tb-group" id="textselOpts" style="display:none">
+      <button class="tb-btn" id="copyTextBtn" title="Copy all selectable text on this page">📋 Copy page text</button>
     </div>
     <div class="tb-group">
       <button class="tb-btn tb-toggle" id="undoBtn" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></svg></button>
@@ -167,11 +271,12 @@
   <div class="editor-stage" id="stage">
     <div id="pdfWrap">
       <canvas id="pdfCanvas"></canvas>
+      <div id="textLayer"></div>
       <div id="overlay" class="mode-select"></div>
     </div>
   </div>
 
-  <p class="editor-hint" id="hint">Tip: <span class="kbd">T</span> text · <span class="kbd">W</span> whiteout · <span class="kbd">F</span> fuzz (repeat a pass to blur more) · <span class="kbd">V</span> select · <span class="kbd">Del</span> remove · <span class="kbd">Ctrl+Z</span> undo · double-click text to edit</p>
+  <p class="editor-hint" id="hint">Tip: <span class="kbd">T</span> text · <span class="kbd">E</span> match font · <span class="kbd">W</span> whiteout · <span class="kbd">X</span> erase · <span class="kbd">F</span> fuzz · <span class="kbd">S</span> shape · <span class="kbd">C</span> copy text · <span class="kbd">V</span> select · <span class="kbd">Del</span> remove · <span class="kbd">Ctrl+Z</span> undo · double-click text to edit</p>
 
   <div class="editor-nav" id="pageNav">
     <button class="btn-secondary" id="prevPage">← Prev</button>
@@ -185,6 +290,7 @@
       <input type="checkbox" id="flattenToggle"> Flatten &amp; redact — permanently remove hidden text (output not selectable)
     </label>
     <button class="btn-secondary" id="newFileBtn">Start over with another PDF</button>
+    <button class="btn-secondary" id="shareBtn" title="Tell a friend about this free editor">🔗 Share this tool</button>
   </div>
 
   <div class="progress-wrapper" id="progressWrap">
