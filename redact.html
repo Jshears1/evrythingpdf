@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WY6LCLDYFN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-WY6LCLDYFN');</script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redact PDF Online Free – Black Out &amp; Remove Text by Keyword | EvrythingPDF</title>
+  <meta name="description" content="Redact a PDF online for free. Type any word, name or number and black out every match — then flatten so the text is truly removed, not just hidden. No upload, no signup.">
+  <meta name="keywords" content="redact pdf online free, black out text pdf, remove text from pdf, redact pdf keyword, permanently redact pdf">
+  <link rel="canonical" href="https://evrythingpdf.com/redact">
+  <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#e53935">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7338860226113687" crossorigin="anonymous"></script>
+  <meta property="og:title" content="Redact PDF Online Free – EvrythingPDF"><meta property="og:description" content="Type a word and black out every match, then flatten so the text is truly removed. Free, private, in your browser."><meta property="og:type" content="website"><meta property="og:url" content="https://evrythingpdf.com/redact"><meta property="og:image" content="https://evrythingpdf.com/og-image.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this really remove the text?","acceptedAnswer":{"@type":"Answer","text":"Yes. Redact & download rasterizes each page with the black boxes baked in, so the underlying text is destroyed — not just covered. The output is not text-selectable."}},{"@type":"Question","name":"Is my PDF uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser; the file never leaves your device."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Redact PDF Online Free","url":"https://evrythingpdf.com/redact","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <style>
+    .rd-stage{display:none;text-align:center;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:18px;overflow:auto;max-height:66vh}
+    #rdWrap{position:relative;display:inline-block;box-shadow:var(--shadow)}#rdCanvas{display:block;background:#fff}
+    #rdOverlay{position:absolute;inset:0;pointer-events:none}
+    .rd-box{position:absolute;background:#000}
+    .rd-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin:6px 0 12px}
+    .rd-controls input[type=text]{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px;font-family:inherit;font-size:.9rem;min-width:200px}
+    .rd-controls label{font-size:.85rem;color:var(--text-secondary);display:inline-flex;align-items:center;gap:5px}
+    .rd-nav{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:10px}
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a><a href="edit-text.html" class="nav-link">Edit</a></nav></div></header>
+  <section class="tool-hero"><h1 class="tool-hero-title">Redact PDF</h1><p class="tool-hero-desc">Type any word, name or number and black out every match across the document — then flatten so the text is <b>truly removed</b>, not just hidden. 100% in your browser.</p></section>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 10h6"/></svg></div>
+      <h3>Drop your PDF here</h3>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+    </div>
+    <div id="rdOptions" style="display:none">
+      <div class="rd-controls">
+        <input type="text" id="rdTerm" placeholder="Word, name or number to redact" onkeydown="if(event.key==='Enter')findTerm()">
+        <label><input type="checkbox" id="rdCase"> Match case</label>
+        <label><input type="checkbox" id="rdWhole"> Whole word</label>
+        <button class="btn-primary" onclick="findTerm()">🔍 Find &amp; mark</button>
+        <span id="rdCount" style="font-size:.85rem;color:var(--text-muted)"></span>
+      </div>
+      <div class="rd-stage" id="stage"><div id="rdWrap"><canvas id="rdCanvas"></canvas><div id="rdOverlay"></div></div></div>
+      <div class="rd-nav"><button class="btn-secondary" id="prevPg">← Prev</button><span id="pgInfo" style="font-weight:600">Page 1</span><button class="btn-secondary" id="nextPg">Next →</button></div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="redactDownload()">⬛ Redact &amp; Download</button>
+        <button class="btn-secondary" onclick="clearMarks()">Clear marks</button>
+        <button class="btn-secondary" onclick="location.reload()">Change File</button>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-muted);text-align:center;margin-top:8px">Redact &amp; Download rasterizes each page with the boxes baked in — the underlying text is destroyed and the output is not selectable.</p>
+    </div>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Processing...</p></div>
+  </div>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com — All processing happens in your browser. We never see your files.</p></div></div></footer>
+  <script src="app.js"></script>
+  <script>
+    const WU='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc=WU;
+    fetch(WU).then(r=>r.text()).then(t=>{pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));}).catch(()=>{});
+    let pdfBytes=null, jdoc=null, total=0, cur=1, scale=1;
+    let marks={}; // pageNum -> [{x,y,w,h} in PDF points, top-left origin]
+    let dims={};  // pageNum -> {w,h} pt
+
+    initDropZone('dropZone','fileInput', async function(files){
+      pdfBytes=new Uint8Array(await files[0].arrayBuffer());
+      try{
+        jdoc=await pdfjsLib.getDocument({data:pdfBytes.slice()}).promise;
+        total=jdoc.numPages; cur=1; marks={};
+        document.getElementById('rdOptions').style.display='block';
+        await renderPage();
+      }catch(e){ showToast('Could not open PDF: '+e.message,'error'); }
+    });
+    document.getElementById('prevPg').onclick=()=>{ if(cur>1){cur--;renderPage();} };
+    document.getElementById('nextPg').onclick=()=>{ if(cur<total){cur++;renderPage();} };
+
+    async function renderPage(){
+      const p=await jdoc.getPage(cur);
+      const vp1=p.getViewport({scale:1}); dims[cur]={w:vp1.width,h:vp1.height};
+      const avail=Math.min(880, window.innerWidth-80); scale=Math.min(1.6, avail/vp1.width);
+      const vp=p.getViewport({scale});
+      const c=document.getElementById('rdCanvas'); c.width=vp.width; c.height=vp.height;
+      await p.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+      document.getElementById('pgInfo').textContent='Page '+cur+' / '+total;
+      document.getElementById('prevPg').disabled=cur<=1; document.getElementById('nextPg').disabled=cur>=total;
+      drawMarks();
+    }
+    function drawMarks(){
+      const ov=document.getElementById('rdOverlay'); ov.innerHTML='';
+      (marks[cur]||[]).forEach(m=>{ const d=document.createElement('div'); d.className='rd-box';
+        d.style.left=m.x*scale+'px'; d.style.top=m.y*scale+'px'; d.style.width=m.w*scale+'px'; d.style.height=m.h*scale+'px'; ov.appendChild(d); });
+    }
+    function clearMarks(){ marks={}; drawMarks(); document.getElementById('rdCount').textContent=''; }
+
+    async function findTerm(){
+      const term=document.getElementById('rdTerm').value.trim();
+      if(!term) return showToast('Type a word to redact first.','error');
+      const cs=document.getElementById('rdCase').checked, whole=document.getElementById('rdWhole').checked;
+      const esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      const re=new RegExp(whole?('\\b'+esc+'\\b'):esc, 'g'+(cs?'':'i'));
+      marks={}; let count=0, firstPage=null;
+      for(let pn=1;pn<=total;pn++){
+        const p=await jdoc.getPage(pn); const H=p.getViewport({scale:1}).height; dims[pn]={w:p.getViewport({scale:1}).width,h:H};
+        const tc=await p.getTextContent();
+        for(const it of tc.items){
+          const s=it.str; if(!s) continue; re.lastIndex=0; let m;
+          const tr=it.transform, e=tr[4], f=tr[5];
+          const sz=Math.hypot(tr[2],tr[3])||Math.abs(tr[3])||it.height||10;
+          const iw=it.width||sz*s.length*0.5; const per=iw/Math.max(1,s.length);
+          while((m=re.exec(s))){
+            const x=e+m.index*per, w=Math.max(per,m[0].length*per);
+            (marks[pn]||(marks[pn]=[])).push({x, y:H-f-sz*0.9, w, h:sz*1.3});
+            count++; if(firstPage===null) firstPage=pn;
+            if(m[0].length===0) re.lastIndex++;
+          }
+        }
+      }
+      document.getElementById('rdCount').textContent=count?(count+' match'+(count>1?'es':'')+' marked'):'No matches found';
+      if(count && firstPage){ cur=firstPage; await renderPage(); } else drawMarks();
+      if(count) showToast('Marked '+count+' match'+(count>1?'es':'')+'. Review, then Redact & Download.','success');
+    }
+
+    function loadImg(src){ return new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src=src;}); }
+    async function redactDownload(){
+      const totalMarks=Object.values(marks).reduce((n,a)=>n+a.length,0);
+      if(!totalMarks) return showToast('Nothing marked yet — Find & mark a term first.','error');
+      document.getElementById('progressWrapper').style.display='block';
+      const fill=document.getElementById('progressFill');
+      try{
+        const {PDFDocument}=PDFLib; const out=await PDFDocument.create(); const SCALE=2;
+        for(let pn=1;pn<=total;pn++){
+          fill.style.width=(10+80*(pn-1)/total)+'%';
+          const p=await jdoc.getPage(pn); const vp1=p.getViewport({scale:1}); const vp=p.getViewport({scale:SCALE});
+          const c=document.createElement('canvas'); c.width=Math.round(vp.width); c.height=Math.round(vp.height); const cx=c.getContext('2d');
+          await p.render({canvasContext:cx,viewport:vp}).promise;
+          cx.fillStyle='#000'; (marks[pn]||[]).forEach(m=>cx.fillRect(m.x*SCALE,m.y*SCALE,m.w*SCALE,m.h*SCALE));
+          const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.9));
+          const img=await out.embedJpg(await blob.arrayBuffer());
+          const pg=out.addPage([vp1.width,vp1.height]); pg.drawImage(img,{x:0,y:0,width:vp1.width,height:vp1.height});
+          c.width=c.height=0;
+        }
+        fill.style.width='95%';
+        const bytes=await out.save(); fill.style.width='100%';
+        const b=new Blob([bytes],{type:'application/pdf'}); const a=document.createElement('a');
+        a.href=URL.createObjectURL(b); a.download='redacted.pdf'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+        showToast('Redacted! Text destroyed, downloading.','success');
+        if(typeof gtag==='function') gtag('event','pdf_redact',{marks:totalMarks});
+      }catch(e){ showToast('Error: '+e.message,'error'); }
+      finally{ setTimeout(()=>{document.getElementById('progressWrapper').style.display='none';fill.style.width='0%';},800); }
+    }
+  </script>
+</body></html>
