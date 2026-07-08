@@ -75,4 +75,18 @@ Curated from audit. Pick the highest-ROI; each is small on top of the engine.
   - Contextual toolbar (each tool's options show only when active/selected).
   - Verified: all 5 new annotation types render; vector save reopens clean; flatten save = **0 text items (true redaction)**; edit-text adds wo+text; copy extracts page text; 12 fonts load; no console errors.
 - **DEFERRED (not built this pass):** M6 in-editor page rotate/delete/insert — reindexing annotations across page mutations is risky and `rotate.html`/`reorder.html`/`split.html` already cover it. Also skipped: image/logo stamp in-editor (`add-image.html` exists), dedicated highlighter (text-bg highlight + shape-fill cover it).
-- M7 QA/SEO: hero copy + meta advertise new powers; index tool cards updated. Deploy pending.
+- M7 QA/SEO: hero copy + meta advertise new powers; index tool cards updated. Deployed + verified live.
+- 2026-07-07: **Metadata tool** (`metadata.html`) — view/edit/strip Title, Author, Subject, Keywords, Creator, Producer, dates + page count/size/encrypted. Live.
+- 2026-07-07: **Metadata Tier 2** — pdf-lib re-stamps Producer/ModDate on save via an internal path (not interceptable in the minified build). Fixed with a spec-compliant PDF incremental-update append (`applyInfoIncremental`): new Info object + xref delta + trailer `/Info`→it with `/Prev`. Every field now written exactly (incl. Producer/ModDate); strip truly omits all. Verified with pdf.js (spec parser real viewers use). Live.
+- 2026-07-07: **4 new standalone tools** (per multi-domain plan: separate pages on .com; hybrid planned for .org; single-page for .online):
+  - `crop.html` — visual drag-box margin trim, setCropBox/MediaBox per page (proportional; verified on mixed page sizes).
+  - `organize.html` — thumbnail select → delete or extract pages (pdf-lib copyPages).
+  - `redact.html` — keyword find (case/whole-word) → black-box marks → flatten raster = true removal (0 text items). Render serialized to avoid canvas-collision.
+  - `fill-form.html` — AcroForm text/checkbox/dropdown/radio fill + optional flatten. Radio groups verified.
+  - All: homepage cards, PWA precache, per-page SEO meta + JSON-LD. Live.
+- 2026-07-07: **Loose-end hardening** — verified radio groups, whole-word/multipage redact, mixed-size crop; fixed redact render-collision (serialized render chain); this plan doc updated.
+
+## Still open (opt-in, not started)
+- Future tools: extract images, Bates numbering, bookmarks/TOC editor, N-up/booklet.
+- `.org` hybrid unified workspace; `.online` single-page build.
+- In-editor page rotate/delete/insert (deferred; standalone tools cover it).

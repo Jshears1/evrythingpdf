@@ -79,7 +79,11 @@
     document.getElementById('prevPg').onclick=()=>{ if(cur>1){cur--;renderPage();} };
     document.getElementById('nextPg').onclick=()=>{ if(cur<total){cur++;renderPage();} };
 
-    async function renderPage(){
+    // Serialize renders so a new page/preview never collides with an in-flight
+    // render on the shared canvas ("Cannot use the same canvas..." error).
+    let renderChain=Promise.resolve();
+    function renderPage(){ renderChain=renderChain.then(_renderPage).catch(()=>{}); return renderChain; }
+    async function _renderPage(){
       const p=await jdoc.getPage(cur);
       const vp1=p.getViewport({scale:1}); dims[cur]={w:vp1.width,h:vp1.height};
       const avail=Math.min(880, window.innerWidth-80); scale=Math.min(1.6, avail/vp1.width);
