@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WY6LCLDYFN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-WY6LCLDYFN');</script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fill PDF Forms Free Online – Complete &amp; Flatten AcroForms | EvrythingPDF</title>
+  <meta name="description" content="Fill out PDF forms online for free. Complete text fields, checkboxes and dropdowns, then flatten so the answers can't be changed. No upload, no signup.">
+  <meta name="keywords" content="fill pdf form online free, complete pdf form, fillable pdf, flatten pdf form, pdf form filler">
+  <link rel="canonical" href="https://evrythingpdf.com/fill-form">
+  <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#e53935">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7338860226113687" crossorigin="anonymous"></script>
+  <meta property="og:title" content="Fill PDF Forms Free Online – EvrythingPDF"><meta property="og:description" content="Complete PDF form fields, checkboxes and dropdowns, then flatten. Free, private, in your browser."><meta property="og:type" content="website"><meta property="og:url" content="https://evrythingpdf.com/fill-form"><meta property="og:image" content="https://evrythingpdf.com/og-image.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Fill PDF Forms Free Online","url":"https://evrythingpdf.com/fill-form","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <style>
+    .ff-list{display:flex;flex-direction:column;gap:12px;margin-top:6px;text-align:left}
+    .ff-field{display:flex;flex-direction:column;gap:5px}
+    .ff-field.row{flex-direction:row;align-items:center;gap:10px}
+    .ff-field label{font-size:.85rem;font-weight:700;color:var(--text-secondary)}
+    .ff-field input[type=text],.ff-field select{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:9px 11px;font-family:inherit;font-size:.9rem;width:100%;box-sizing:border-box}
+    .ff-field input[type=checkbox]{width:18px;height:18px;accent-color:var(--primary)}
+    .ff-type{font-size:.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+    .ff-empty{color:var(--text-muted);font-size:.95rem;padding:20px}
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a><a href="sign.html" class="nav-link">Sign</a></nav></div></header>
+  <section class="tool-hero"><h1 class="tool-hero-title">Fill PDF Forms</h1><p class="tool-hero-desc">Complete the form fields, checkboxes and dropdowns in any fillable PDF, then optionally flatten so the answers are locked in. 100% in your browser — no upload.</p></section>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></div>
+      <h3>Drop your fillable PDF here</h3>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+    </div>
+    <div id="ffOptions" style="display:none">
+      <div class="options-panel"><h4 id="ffHead">Form Fields</h4><div class="ff-list" id="ffList"></div></div>
+      <div class="action-bar" id="ffActions">
+        <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text-secondary)"><input type="checkbox" id="ffFlatten" checked> Flatten (lock answers, not editable)</label>
+        <button class="btn-primary" onclick="fillSave()">💾 Save &amp; Download</button>
+        <button class="btn-secondary" onclick="location.reload()">Change File</button>
+      </div>
+    </div>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Processing...</p></div>
+  </div>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com — All processing happens in your browser. We never see your files.</p></div></div></footer>
+  <script src="app.js"></script>
+  <script>
+    let pdfBytes=null, fieldDefs=[];
+    const T=PDFLib;
+
+    initDropZone('dropZone','fileInput', async function(files){
+      pdfBytes=new Uint8Array(await files[0].arrayBuffer());
+      try{
+        const doc=await T.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+        const form=doc.getForm(); const fields=form.getFields();
+        const list=document.getElementById('ffList'); list.innerHTML=''; fieldDefs=[];
+        document.getElementById('ffOptions').style.display='block';
+        if(!fields.length){
+          list.innerHTML='<p class="ff-empty">This PDF has no fillable form fields. To add text anywhere, use the <a href="add-text.html">Add Text</a> tool.</p>';
+          document.getElementById('ffActions').style.display='none';
+          document.getElementById('ffHead').textContent='No form fields found'; return;
+        }
+        document.getElementById('ffActions').style.display='flex';
+        document.getElementById('ffHead').textContent=fields.length+' form field'+(fields.length>1?'s':'');
+        fields.forEach((f,i)=>{
+          const name=f.getName(); const kind=f.constructor.name; const id='ff_'+i;
+          const wrap=document.createElement('div'); wrap.className='ff-field';
+          let ctrl;
+          if(f instanceof T.PDFCheckBox){
+            wrap.className='ff-field row';
+            ctrl=`<input type="checkbox" id="${id}" ${f.isChecked()?'checked':''}><label for="${id}">${esc(name)}</label>`;
+            fieldDefs.push({i,name,kind:'check'});
+          }else if(f instanceof T.PDFDropdown || f instanceof T.PDFOptionList){
+            const opts=f.getOptions(); const sel=(f.getSelected&&f.getSelected())||[];
+            ctrl=`<label>${esc(name)} <span class="ff-type">list</span></label><select id="${id}"><option value="">— choose —</option>`+
+              opts.map(o=>`<option ${sel.includes(o)?'selected':''} value="${esc(o)}">${esc(o)}</option>`).join('')+`</select>`;
+            fieldDefs.push({i,name,kind:'choice'});
+          }else if(f instanceof T.PDFRadioGroup){
+            const opts=f.getOptions(); const sel=f.getSelected();
+            ctrl=`<label>${esc(name)} <span class="ff-type">radio</span></label><select id="${id}"><option value="">— choose —</option>`+
+              opts.map(o=>`<option ${o===sel?'selected':''} value="${esc(o)}">${esc(o)}</option>`).join('')+`</select>`;
+            fieldDefs.push({i,name,kind:'choice'});
+          }else{ // text (default)
+            let val=''; try{ val=f.getText()||''; }catch(_){}
+            ctrl=`<label for="${id}">${esc(name)} <span class="ff-type">text</span></label><input type="text" id="${id}" value="${esc(val)}">`;
+            fieldDefs.push({i,name,kind:'text'});
+          }
+          wrap.innerHTML=ctrl; wrap.querySelector('[id^=ff_]').id=id; list.appendChild(wrap);
+        });
+      }catch(e){ showToast('Could not read the form: '+e.message,'error'); }
+    });
+    function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+    async function fillSave(){
+      if(!pdfBytes) return;
+      document.getElementById('progressWrapper').style.display='block';
+      const fill=document.getElementById('progressFill'); fill.style.width='35%';
+      try{
+        const doc=await T.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+        const form=doc.getForm(); const fields=form.getFields();
+        fieldDefs.forEach(d=>{
+          const el=document.getElementById('ff_'+d.i); const f=fields[d.i]; if(!el||!f) return;
+          try{
+            if(d.kind==='check'){ el.checked?f.check():f.uncheck(); }
+            else if(d.kind==='text'){ f.setText(el.value); }
+            else if(d.kind==='choice'){ if(el.value) f.select(el.value); }
+          }catch(_){}
+        });
+        fill.style.width='70%';
+        if(document.getElementById('ffFlatten').checked){ try{ form.flatten(); }catch(_){} }
+        const bytes=await doc.save(); fill.style.width='100%';
+        const b=new Blob([bytes],{type:'application/pdf'}); const a=document.createElement('a');
+        a.href=URL.createObjectURL(b); a.download='filled.pdf'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+        showToast('Form filled! Downloading.','success');
+        if(typeof gtag==='function') gtag('event','pdf_fill_form',{fields:fieldDefs.length});
+      }catch(e){ showToast('Error: '+e.message,'error'); }
+      finally{ setTimeout(()=>{document.getElementById('progressWrapper').style.display='none';fill.style.width='0%';},700); }
+    }
+  </script>
+</body></html>
