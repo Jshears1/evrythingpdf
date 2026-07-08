@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WY6LCLDYFN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-WY6LCLDYFN');</script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete or Extract PDF Pages Free Online – Organize PDF | EvrythingPDF</title>
+  <meta name="description" content="Delete pages from a PDF or extract the pages you want, free online. Click the pages, then remove or save them as a new PDF. No upload, no signup.">
+  <meta name="keywords" content="delete pdf pages, extract pdf pages, remove pages from pdf, organize pdf, separate pdf pages online free">
+  <link rel="canonical" href="https://evrythingpdf.com/organize">
+  <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#e53935">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7338860226113687" crossorigin="anonymous"></script>
+  <meta property="og:title" content="Delete or Extract PDF Pages Free – EvrythingPDF"><meta property="og:description" content="Click pages to delete them or extract them into a new PDF. Free, private, in your browser."><meta property="og:type" content="website"><meta property="og:url" content="https://evrythingpdf.com/organize"><meta property="og:image" content="https://evrythingpdf.com/og-image.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Delete or Extract PDF Pages Free Online","url":"https://evrythingpdf.com/organize","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <style>
+    .pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;margin-top:8px}
+    .pg-thumb{position:relative;border:2px solid var(--border);border-radius:var(--radius-sm);background:#fff;cursor:pointer;overflow:hidden;transition:all var(--transition)}
+    .pg-thumb canvas{display:block;width:100%;height:auto}
+    .pg-thumb.sel{border-color:var(--primary);box-shadow:0 0 0 3px rgba(229,57,53,.18)}
+    .pg-thumb.sel::after{content:"✓";position:absolute;top:6px;right:6px;width:22px;height:22px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+    .pg-num{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.6);color:#fff;font-size:.72rem;font-weight:700;padding:1px 7px;border-radius:10px}
+    .org-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin:6px 0 14px;font-size:.9rem;color:var(--text-secondary)}
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a><a href="merge.html" class="nav-link">Merge</a></nav></div></header>
+  <section class="tool-hero"><h1 class="tool-hero-title">Delete or Extract PDF Pages</h1><p class="tool-hero-desc">Click the pages you want, then delete them or save just those pages as a new PDF. 100% in your browser — no upload.</p></section>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="12" height="16" rx="1"/><path d="M8 21h12V7"/></svg></div>
+      <h3>Drop your PDF here</h3>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+    </div>
+    <div id="orgOptions" style="display:none">
+      <div class="org-bar">
+        <span id="selCount">0 selected</span> ·
+        <button class="btn-secondary" onclick="selectAll(true)">Select all</button>
+        <button class="btn-secondary" onclick="selectAll(false)">Clear</button>
+      </div>
+      <div class="pg-grid" id="pgGrid"></div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="doExtract()">⬇ Extract selected</button>
+        <button class="btn-secondary" onclick="doDelete()">🗑 Delete selected</button>
+        <button class="btn-secondary" onclick="location.reload()">Change File</button>
+      </div>
+    </div>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Processing...</p></div>
+  </div>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com — All processing happens in your browser. We never see your files.</p></div></div></footer>
+  <script src="app.js"></script>
+  <script>
+    const WU='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc=WU;
+    fetch(WU).then(r=>r.text()).then(t=>{pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));}).catch(()=>{});
+    let pdfBytes=null, total=0; const selected=new Set();
+
+    initDropZone('dropZone','fileInput', async function(files){
+      pdfBytes=new Uint8Array(await files[0].arrayBuffer());
+      try{
+        const doc=await pdfjsLib.getDocument({data:pdfBytes.slice()}).promise;
+        total=doc.numPages; selected.clear();
+        const grid=document.getElementById('pgGrid'); grid.innerHTML='';
+        document.getElementById('orgOptions').style.display='block';
+        for(let i=1;i<=total;i++){
+          const p=await doc.getPage(i);
+          const vp=p.getViewport({scale:1}); const s=150/vp.width; const v=p.getViewport({scale:s});
+          const c=document.createElement('canvas'); c.width=v.width; c.height=v.height;
+          await p.render({canvasContext:c.getContext('2d'),viewport:v}).promise;
+          const d=document.createElement('div'); d.className='pg-thumb'; d.dataset.n=i;
+          d.appendChild(c); const num=document.createElement('span'); num.className='pg-num'; num.textContent=i; d.appendChild(num);
+          d.addEventListener('click',()=>{ if(selected.has(i)){selected.delete(i);d.classList.remove('sel');}else{selected.add(i);d.classList.add('sel');} updCount(); });
+          grid.appendChild(d);
+        }
+        updCount();
+      }catch(e){ showToast('Could not open PDF: '+e.message,'error'); }
+    });
+    function updCount(){ document.getElementById('selCount').textContent=selected.size+' selected'; }
+    function selectAll(on){ selected.clear(); document.querySelectorAll('.pg-thumb').forEach(d=>{ const n=+d.dataset.n; if(on){selected.add(n);d.classList.add('sel');}else d.classList.remove('sel'); }); updCount(); }
+
+    async function build(keepPages, name){
+      document.getElementById('progressWrapper').style.display='block';
+      const fill=document.getElementById('progressFill'); fill.style.width='40%';
+      try{
+        const {PDFDocument}=PDFLib;
+        const src=await PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+        const out=await PDFDocument.create();
+        const idx=keepPages.map(n=>n-1);
+        const copied=await out.copyPages(src, idx);
+        copied.forEach(p=>out.addPage(p));
+        fill.style.width='85%';
+        const bytes=await out.save(); fill.style.width='100%';
+        const blob=new Blob([bytes],{type:'application/pdf'}); const a=document.createElement('a');
+        a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+        showToast('Done! Downloading.','success');
+      }catch(e){ showToast('Error: '+e.message,'error'); }
+      finally{ setTimeout(()=>{document.getElementById('progressWrapper').style.display='none';fill.style.width='0%';},700); }
+    }
+    function doExtract(){
+      if(!selected.size) return showToast('Select at least one page first.','error');
+      const keep=[...selected].sort((a,b)=>a-b);
+      build(keep,'extracted.pdf'); if(typeof gtag==='function') gtag('event','pdf_extract_pages',{pages:keep.length});
+    }
+    function doDelete(){
+      if(!selected.size) return showToast('Select the pages to delete first.','error');
+      if(selected.size>=total) return showToast('That would delete every page.','error');
+      const keep=[]; for(let i=1;i<=total;i++) if(!selected.has(i)) keep.push(i);
+      build(keep,'pages-removed.pdf'); if(typeof gtag==='function') gtag('event','pdf_delete_pages',{pages:selected.size});
+    }
+  </script>
+</body></html>
