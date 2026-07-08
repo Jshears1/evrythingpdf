@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WY6LCLDYFN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-WY6LCLDYFN');</script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crop PDF Online Free – Trim Margins &amp; Whitespace | EvrythingPDF</title>
+  <meta name="description" content="Crop PDF pages online for free. Drag to trim margins and whitespace, then apply to every page. No upload, no signup, 100% in your browser.">
+  <meta name="keywords" content="crop pdf, crop pdf online free, trim pdf margins, cut pdf whitespace, resize pdf page">
+  <link rel="canonical" href="https://evrythingpdf.com/crop">
+  <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#e53935">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7338860226113687" crossorigin="anonymous"></script>
+  <meta property="og:title" content="Crop PDF Online Free – EvrythingPDF"><meta property="og:description" content="Drag to trim PDF margins and apply to every page. Free, private, in your browser."><meta property="og:type" content="website"><meta property="og:url" content="https://evrythingpdf.com/crop"><meta property="og:image" content="https://evrythingpdf.com/og-image.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Crop PDF Online Free","url":"https://evrythingpdf.com/crop","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <style>
+    .crop-stage{display:none;text-align:center;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:20px;overflow:auto;max-height:72vh}
+    #cropWrap{position:relative;display:inline-block;box-shadow:var(--shadow)}
+    #cropCanvas{display:block;background:#fff}
+    #cropBox{position:absolute;border:2px dashed var(--primary);background:rgba(229,57,53,.10);cursor:move;box-sizing:border-box}
+    .ch{position:absolute;width:14px;height:14px;background:#fff;border:2px solid var(--primary);border-radius:3px}
+    .ch-tl{left:-8px;top:-8px;cursor:nwse-resize}.ch-br{right:-8px;bottom:-8px;cursor:nwse-resize}
+    #cropMask{position:absolute;inset:0;pointer-events:none;box-shadow:0 0 0 9999px rgba(0,0,0,.28)}
+    .crop-note{font-size:.85rem;color:var(--text-muted);margin-top:10px}
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a><a href="merge.html" class="nav-link">Merge</a></nav></div></header>
+  <section class="tool-hero"><h1 class="tool-hero-title">Crop PDF</h1><p class="tool-hero-desc">Drag the box to trim margins and whitespace, then apply the crop to every page. 100% in your browser — no upload.</p></section>
+  <div class="tool-workspace">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2v14a2 2 0 002 2h14M2 6h14a2 2 0 012 2v14"/></svg></div>
+      <h3>Drop your PDF here</h3>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+    </div>
+    <div id="cropOptions" style="display:none">
+      <div class="crop-stage" id="stage"><div id="cropWrap"><canvas id="cropCanvas"></canvas><div id="cropMask"></div><div id="cropBox"><div class="ch ch-tl"></div><div class="ch ch-br"></div></div></div></div>
+      <p class="crop-note" id="cropNote">Drag to move · drag a corner to resize · crop applies to all pages.</p>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="applyCrop()">✂ Crop &amp; Download</button>
+        <button class="btn-secondary" onclick="resetCropBox()">Reset box</button>
+        <button class="btn-secondary" onclick="location.reload()">Change File</button>
+      </div>
+    </div>
+    <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Processing...</p></div>
+  </div>
+  <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com — All processing happens in your browser. We never see your files.</p></div></div></footer>
+  <script src="app.js"></script>
+  <script>
+    const WU='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc=WU;
+    fetch(WU).then(r=>r.text()).then(t=>{pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));}).catch(()=>{});
+    let pdfBytes=null, scale=1, pageW=0, pageH=0;
+    const box=()=>document.getElementById('cropBox'), cv=()=>document.getElementById('cropCanvas');
+
+    initDropZone('dropZone','fileInput', async function(files){
+      pdfBytes=new Uint8Array(await files[0].arrayBuffer());
+      try{
+        const doc=await pdfjsLib.getDocument({data:pdfBytes.slice()}).promise;
+        const p=await doc.getPage(1);
+        const vp1=p.getViewport({scale:1}); pageW=vp1.width; pageH=vp1.height;
+        const avail=Math.min(900, window.innerWidth-80);
+        scale=Math.min(1.6, avail/pageW);
+        const vp=p.getViewport({scale});
+        const c=cv(); c.width=vp.width; c.height=vp.height;
+        await p.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+        document.getElementById('cropOptions').style.display='block';
+        resetCropBox();
+      }catch(e){ showToast('Could not open PDF: '+e.message,'error'); }
+    });
+
+    function resetCropBox(){
+      const c=cv(); const inset=Math.round(Math.min(c.width,c.height)*0.06);
+      setBox(inset,inset,c.width-inset*2,c.height-inset*2);
+    }
+    function setBox(x,y,w,h){
+      const c=cv();
+      x=Math.max(0,Math.min(x,c.width-20)); y=Math.max(0,Math.min(y,c.height-20));
+      w=Math.max(20,Math.min(w,c.width-x)); h=Math.max(20,Math.min(h,c.height-y));
+      const b=box(); b.style.left=x+'px'; b.style.top=y+'px'; b.style.width=w+'px'; b.style.height=h+'px';
+      const m=document.getElementById('cropMask'); m.style.clipPath=`polygon(0 0,100% 0,100% 100%,0 100%,0 ${y}px,${x}px ${y}px,${x}px ${y+h}px,${x+w}px ${y+h}px,${x+w}px ${y}px,0 ${y}px)`;
+    }
+    // pointer drag: move + two corner handles
+    let drag=null;
+    document.addEventListener('pointerdown', e=>{
+      const b=box(); if(!b||document.getElementById('cropOptions').style.display==='none') return;
+      const r=cv().getBoundingClientRect();
+      const bx=parseFloat(b.style.left), by=parseFloat(b.style.top), bw=parseFloat(b.style.width), bh=parseFloat(b.style.height);
+      if(e.target.classList.contains('ch-tl')) drag={k:'tl'};
+      else if(e.target.classList.contains('ch-br')) drag={k:'br'};
+      else if(e.target===b) drag={k:'move', ox:e.clientX-r.left-bx, oy:e.clientY-r.top-by};
+      else return;
+      Object.assign(drag,{bx,by,bw,bh,r}); e.preventDefault();
+    });
+    document.addEventListener('pointermove', e=>{
+      if(!drag) return; const r=drag.r; const px=e.clientX-r.left, py=e.clientY-r.top;
+      if(drag.k==='move') setBox(px-drag.ox, py-drag.oy, drag.bw, drag.bh);
+      else if(drag.k==='br') setBox(drag.bx, drag.by, px-drag.bx, py-drag.by);
+      else if(drag.k==='tl') setBox(px, py, drag.bx+drag.bw-px, drag.by+drag.bh-py);
+    });
+    document.addEventListener('pointerup', ()=>drag=null);
+
+    async function applyCrop(){
+      if(!pdfBytes) return;
+      const b=box(); const bx=parseFloat(b.style.left)/scale, by=parseFloat(b.style.top)/scale, bw=parseFloat(b.style.width)/scale, bh=parseFloat(b.style.height)/scale;
+      document.getElementById('progressWrapper').style.display='block';
+      const fill=document.getElementById('progressFill'); fill.style.width='40%';
+      try{
+        const {PDFDocument}=PDFLib;
+        const doc=await PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+        doc.getPages().forEach(pg=>{
+          const {width,height}=pg.getSize();
+          // scale the page-1 crop rect proportionally to each page, top-left -> bottom-left origin
+          const sx=width/pageW, sy=height/pageH;
+          const x=bx*sx, w=bw*sx, h=bh*sy;
+          const yTop=by*sy; const y=height-yTop-h;
+          pg.setCropBox(x,y,w,h); pg.setMediaBox(x,y,w,h);
+        });
+        fill.style.width='85%';
+        const out=await doc.save(); fill.style.width='100%';
+        const blob=new Blob([out],{type:'application/pdf'}); const a=document.createElement('a');
+        a.href=URL.createObjectURL(blob); a.download='cropped.pdf'; a.click();
+        setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+        showToast('Cropped! Downloading.','success');
+        if(typeof gtag==='function') gtag('event','pdf_crop');
+      }catch(e){ showToast('Error: '+e.message,'error'); }
+      finally{ setTimeout(()=>{document.getElementById('progressWrapper').style.display='none';fill.style.width='0%';},700); }
+    }
+  </script>
+</body></html>
