@@ -26,6 +26,18 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+[[headers]]
+  for = "/ads.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# ads.txt must stay readable to Google's crawler and refresh quickly when edited
+[[headers]]
+  for = "/ads.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
 # Canonical domain: redirect www → non-www
 [[redirects]]
   from = "https://www.evrythingpdf.com/*"

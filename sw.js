@@ -1,7 +1,7 @@
 /* EvrythingPDF service worker — offline app shell.
    HTML: network-first (so deploys aren't stale). Static assets, self-hosted
    fonts and the unpkg PDF libraries: cache-first with runtime update. */
-const V = 'epdf-v1';
+const V = 'epdf-v2';
 const CORE = ['/', '/edit-text.html', '/add-text.html', '/metadata.html', '/fill-form.html', '/redact.html', '/crop.html', '/organize.html', '/editor.js', '/style.css', '/manifest.webmanifest', '/icon.svg'];
 
 self.addEventListener('install', e => {

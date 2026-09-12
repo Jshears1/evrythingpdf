@@ -36,6 +36,9 @@
     <h1 class="tool-hero-title">Word to PDF</h1>
     <p class="tool-hero-desc">Convert your Word documents (DOCX, DOC) into professional PDF files. Maintain perfect formatting. Free, fast, no signup.</p>
   </section>
+  <!-- Ad: top banner -->
+  <div class="ad-slot" data-ad="tool-top"></div>
+
   <div class="tool-workspace">
     <div style="background:#dbeafe;border:1px solid #93c5fd;border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:.9rem">
       <strong>Tip:</strong> For the best Word-to-PDF conversion, use Microsoft Word's built-in "Save as PDF" or Google Docs' "Download as PDF" feature. Alternatively, use <a href="https://www.ilovepdf.com/word_to_pdf" target="_blank" rel="noopener">iLovePDF</a> or <a href="https://smallpdf.com/word-to-pdf" target="_blank" rel="noopener">SmallPDF</a> (both free tier).
@@ -56,6 +59,9 @@
     <div class="result-box" id="resultBox"><h3>✅ PDF Created!</h3><p>Your Word document has been converted to PDF.</p>
       <button class="btn-primary" onclick="downloadPdf()">⬇ Download PDF</button></div>
   </div>
+  <!-- Ad: bottom banner -->
+  <div class="ad-slot" data-ad="tool-bottom"></div>
+
   <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
   <script src="app.js"></script>
   <script src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js"></script>
@@ -106,4 +112,5 @@
       const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=wordFile.name.replace(/\.docx?$/,'')+'.pdf'; a.click();
     }
   </script>
+  <script src="/ads.js" defer></script>
 </body></html>

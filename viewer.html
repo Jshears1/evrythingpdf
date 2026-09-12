@@ -40,6 +40,9 @@
     <h1 class="tool-hero-title">PDF Viewer</h1>
     <p class="tool-hero-desc">Open and view any PDF directly in your browser. Navigate pages, zoom in/out, and more. No download needed.</p>
   </section>
+  <!-- Ad: top banner -->
+  <div class="ad-slot" data-ad="tool-top"></div>
+
   <div class="tool-workspace">
     <div class="drop-zone" id="dropZone">
       <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
@@ -60,6 +63,9 @@
       <div style="text-align:center"><canvas id="pdfCanvas"></canvas></div>
     </div>
   </div>
+  <!-- Ad: bottom banner -->
+  <div class="ad-slot" data-ad="tool-bottom"></div>
+
   <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
   <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
   <script>
@@ -104,4 +110,5 @@
       const a=document.createElement('a'); a.href=URL.createObjectURL(pdfFile); a.download=pdfFile.name; a.click();
     }
   </script>
+  <script src="/ads.js" defer></script>
 </body></html>
