@@ -117,6 +117,24 @@ img { max-width: 100%; height: auto; }
 .ad-container { background: var(--bg-secondary); padding: 12px 24px; text-align: center; }
 .ad-banner { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
+/* Placeholders written by ads.js. Space is reserved only once a slot is live, so an
+   unconfigured placement (removed from the DOM) costs nothing. */
+.ad-slot { display: block; margin: 0 auto; }
+.ad-slot.is-live {
+  max-width: 970px; padding: 8px 24px 24px;
+  min-height: 130px; overflow: hidden;
+}
+.ad-slot.is-live .adsbygoogle { display: block; width: 100%; }
+.ad-label {
+  display: block; margin-bottom: 6px;
+  font-size: .7rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--text-muted); text-align: center;
+}
+.ad-slot--article.is-live { max-width: 100%; padding: 8px 0 24px; }
+@media (max-width: 768px) {
+  .ad-slot.is-live { min-height: 110px; padding: 8px 16px 20px; }
+}
+
 /* ===== TOOLS SECTION ===== */
 .tools-section { padding: 72px 0; background: var(--bg); }
 .section-title {

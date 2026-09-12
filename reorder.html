@@ -53,6 +53,9 @@
     <h1 class="tool-hero-title">Reorder PDF Pages</h1>
     <p class="tool-hero-desc">Drag and drop to rearrange the pages of your PDF. Preview thumbnails of each page before saving. Free and instant.</p>
   </section>
+  <!-- Ad: top banner -->
+  <div class="ad-slot" data-ad="tool-top"></div>
+
   <div class="tool-workspace">
     <div class="drop-zone" id="dropZone">
       <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="9" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
@@ -71,6 +74,9 @@
     <div class="result-box" id="resultBox"><h3>✅ Pages Reordered!</h3><p>Your PDF has been saved with the new page order.</p>
       <button class="btn-primary" onclick="downloadReordered()">⬇ Download PDF</button></div>
   </div>
+  <!-- Ad: bottom banner -->
+  <div class="ad-slot" data-ad="tool-bottom"></div>
+
   <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com</p></div></div></footer>
   <script src="app.js"></script>
   <script>
@@ -133,4 +139,5 @@
     }
     function resetReorder(){pdfFile=null;document.getElementById('reorderUI').style.display='none';document.getElementById('dropZone').style.display='block';document.getElementById('resultBox').style.display='none';}
   </script>
+  <script src="/ads.js" defer></script>
 </body></html>

@@ -31,6 +31,9 @@
 <body>
   <header class="header"><div class="header-inner"><a href="/" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#e53935"/><path d="M8 8h10l6 6v10H8V8z" fill="white" opacity="0.15"/><path d="M8 8h10l6 6v10H8V8z" stroke="white" stroke-width="1.5" fill="none"/><path d="M18 8v6h6" stroke="white" stroke-width="1.5" fill="none"/><text x="10" y="22" font-family="Arial" font-size="7" font-weight="bold" fill="white">PDF</text></svg><span class="logo-text">EvrythingPDF</span></a><nav class="nav"><a href="/" class="nav-link">Home</a><a href="edit-text.html" class="nav-link">Edit</a></nav></div></header>
   <section class="tool-hero"><h1 class="tool-hero-title">Redact PDF</h1><p class="tool-hero-desc">Type any word, name or number and black out every match across the document — then flatten so the text is <b>truly removed</b>, not just hidden. 100% in your browser.</p></section>
+  <!-- Ad: top banner -->
+  <div class="ad-slot" data-ad="tool-top"></div>
+
   <div class="tool-workspace">
     <div class="drop-zone" id="dropZone">
       <div class="drop-zone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 10h6"/></svg></div>
@@ -57,6 +60,9 @@
     </div>
     <div class="progress-wrapper" id="progressWrapper"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><p class="progress-label" id="progressLabel">Processing...</p></div>
   </div>
+  <!-- Ad: bottom banner -->
+  <div class="ad-slot" data-ad="tool-bottom"></div>
+
   <footer class="footer"><div class="container"><div style="text-align:center;padding:32px 0"><a href="/" style="color:white;font-weight:700">← All Tools</a></div><div class="footer-bottom"><p>&copy; 2026 EvrythingPDF.com — All processing happens in your browser. We never see your files.</p></div></div></footer>
   <script src="app.js"></script>
   <script>
@@ -158,4 +164,5 @@
       finally{ setTimeout(()=>{document.getElementById('progressWrapper').style.display='none';fill.style.width='0%';},800); }
     }
   </script>
+  <script src="/ads.js" defer></script>
 </body></html>
